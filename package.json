@@ -26,11 +26,11 @@
         "request-promise-native": "^1.0.7"
     },
     "devDependencies": {
-        "@types/request": "^2.48.1",
-        "@types/request-promise-native": "^1.0.15",
         "@types/chai": "^4.1.7",
         "@types/mocha": "^5.2.5",
         "@types/node": "^11.11.4",
+        "@types/request": "^2.48.1",
+        "@types/request-promise-native": "^1.0.15",
         "@types/sinon": "^7.0.10",
         "chai": "^4.2.0",
         "mocha": "^6.0.2",
@@ -41,6 +41,9 @@
         "tslint": "^5.14.0",
         "typedoc": "^0.14.2",
         "typescript": "^3.3.4000"
+    },
+    "peerDependencies": {
+        "@donmahallem/trapeze-api-types": "^0.0.1"
     },
     "nyc": {
         "include": [
