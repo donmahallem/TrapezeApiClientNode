@@ -22,7 +22,7 @@
     },
     "dependencies": {
         "request": "^2.87.0",
-        "request-promise-native": "^1.0.5"
+        "request-promise-native": "^1.0.7"
     },
     "devDependencies": {
         "@types/request": "^2.47.0",
