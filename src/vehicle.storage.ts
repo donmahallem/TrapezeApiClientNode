@@ -18,6 +18,7 @@ export interface IBaseStatus {
 
 export interface IErrorStatus {
     status: Status.ERROR;
+    error: any;
 }
 
 export interface ISuccessStatus {
@@ -46,7 +47,7 @@ export class VehicleStorage {
         }
         this.lock.locked = true;
         return this.trapezeClient.getVehicleLocations()
-            .then((result: IVehicleLocationList): Promise<LoadStatus> => {
+            .then((result: IVehicleLocationList): ISuccessStatus => {
                 const loadStatus: ISuccessStatus = {
                     status: Status.SUCCESS,
                     storage: new Map(),
@@ -64,12 +65,17 @@ export class VehicleStorage {
                     loadStatus.tripStorage.set(vehicleLocation.tripId, vehicleLocation);
                 }
                 this.lastUpdate = Date.now();
-                this.lock.locked = false;
                 this.currentStatus = loadStatus;
-                return Promise.resolve(this.currentStatus);
-            }, (err: any) => {
                 this.lock.locked = false;
-                throw err;
+                return loadStatus;
+            }, (err: any): IErrorStatus => {
+                const errorStatus: IErrorStatus = {
+                    status: Status.ERROR,
+                    error: err
+                }
+                this.currentStatus = errorStatus;
+                this.lock.locked = false;
+                return errorStatus;
             });
     }
 
@@ -83,7 +89,7 @@ export class VehicleStorage {
                         return Promise.reject(null);
                     }
                 } else {
-                    throw new Error("");
+                    throw status.error;
                 }
             });
     }
@@ -96,7 +102,7 @@ export class VehicleStorage {
                     }
                     throw new Error("not found");
                 }
-                throw new Error();
+                throw status.error;
             });
     }
 
@@ -117,7 +123,7 @@ export class VehicleStorage {
                     }
                     return vehicleList;
                 }
-                throw new Error();
+                throw status.error;
             });
     }
 
