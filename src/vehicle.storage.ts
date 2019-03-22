@@ -1,16 +1,9 @@
 import { TrapezeApiClient } from "./trapeze-api-client";
-
-export interface IVehicleLocation {
-    category: string;
-    id: string;
-    latitude: number;
-    longitude: number;
-    name: string;
-    shortName: string;
-}
+import { IVehicleLocationList, IVehicleLocation, VehicleLocations, IDeletedVehicleLocation } from "@donmahallem/trapeze-api-types";
 
 export class VehicleStorage {
 
+    private isRequesting: boolean = false;
     private lastUpdate: number = -1;
     private storage: Map<string, IVehicleLocation> = new Map();
     private tripStorage: Map<string, IVehicleLocation> = new Map();
@@ -18,23 +11,56 @@ export class VehicleStorage {
 
     }
 
-    public potentialUpdate(): Promise<boolean> {
-        if (this.lastUpdate + this.updateDelay > Date.now()) {
-            return Promise.resolve(true);
+    public fetch(): Promise<boolean> {
+        if (this.isRequesting) {
+            return Promise.resolve(false);
         }
+        if (this.lastUpdate + this.updateDelay > Date.now()) {
+            return Promise.resolve(false);
+        }
+        this.isRequesting = true;
         return this.trapezeClient.getVehicleLocations()
-            .then((result) => {
+            .then((result: IVehicleLocationList): Promise<boolean> => {
                 this.tripStorage.clear();
                 this.storage.clear();
                 for (const entry of result.vehicles) {
                     if (entry === null) {
                         continue;
                     }
-                    if (entry.isDeleted === true) {
+                    if (entry['isDeleted'] === true) {
                         continue;
                     }
-                    this.storage.set(entry.id, entry);
-                    this.tripStorage.set(entry.tripId, entry);
+                    const vehicleLocation: IVehicleLocation = <IVehicleLocation>entry;
+                    this.storage.set(vehicleLocation.id, vehicleLocation);
+                    this.tripStorage.set(vehicleLocation.tripId, vehicleLocation);
+                }
+                this.lastUpdate = Date.now();
+                this.isRequesting = false;
+                return Promise.resolve(true);
+            }, (err: any) => {
+                this.isRequesting = false;
+                throw err;
+            });
+    }
+
+    public potentialUpdate(): Promise<boolean> {
+        if (this.lastUpdate + this.updateDelay > Date.now()) {
+            return Promise.resolve(true);
+        }
+        return this.trapezeClient.getVehicleLocations()
+            .then((result: IVehicleLocationList) => {
+                this.tripStorage.clear();
+                this.storage.clear();
+                for (const entry of result.vehicles) {
+                    if (entry === null) {
+                        continue;
+                    }
+                    if (entry['isDeleted'] === true) {
+                        continue;
+                    }
+                    const vehicleLocation: IVehicleLocation = <IVehicleLocation>entry;
+                    this.storage.set(vehicleLocation.id, vehicleLocation);
+                    this.tripStorage.set(vehicleLocation.tripId, vehicleLocation);
                 }
                 this.lastUpdate = Date.now();
                 return Promise.resolve(true);

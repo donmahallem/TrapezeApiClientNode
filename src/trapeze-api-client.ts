@@ -1,6 +1,6 @@
 import * as req from "request";
 import * as reqp from "request-promise-native";
-import { IVehicleLocationList } from "@donmahallem/trapeze-api-types";
+import { IVehicleLocationList, IVehiclePathInfo, ITripPassages } from "@donmahallem/trapeze-api-types";
 
 export class TrapezeApiClient {
     private httpClient: req.RequestAPI<reqp.RequestPromise<any>, reqp.RequestPromiseOptions, req.UrlOptions>;
@@ -24,7 +24,7 @@ export class TrapezeApiClient {
         return this.httpClient
             .get(options);
     }
-    public getRouteByTripId(vehicleId: string): reqp.RequestPromise<any> {
+    public getRouteByTripId(vehicleId: string): reqp.RequestPromise<IVehiclePathInfo> {
         const options: req.OptionsWithUrl = {
             qs: {
                 id: vehicleId,
@@ -34,7 +34,7 @@ export class TrapezeApiClient {
         return this.httpClient
             .post(options);
     }
-    public getRouteByVehicleId(vehicleId: string): reqp.RequestPromise<any> {
+    public getRouteByVehicleId(vehicleId: string): reqp.RequestPromise<IVehiclePathInfo> {
         const options: req.OptionsWithUrl = {
             qs: {
                 id: vehicleId,
@@ -45,7 +45,7 @@ export class TrapezeApiClient {
             .post(options);
     }
 
-    public getTripPassages(tripId: string, mode: string) {
+    public getTripPassages(tripId: string, mode: string): reqp.RequestPromise<ITripPassages> {
         const options: req.OptionsWithUrl = {
             form: {
                 mode,

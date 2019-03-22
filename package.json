@@ -22,7 +22,6 @@
         "test:docs": "npm run docs"
     },
     "dependencies": {
-        "@donmahallem/trapeze-api-types": "0.0.2",
         "request": "^2.88.0",
         "request-promise-native": "^1.0.7"
     },
@@ -44,7 +43,7 @@
         "typescript": "^3.3.4000"
     },
     "peerDependencies": {
-        "@donmahallem/trapeze-api-types": "^0.0.2"
+        "@donmahallem/trapeze-api-types": "^0.1.0"
     },
     "nyc": {
         "include": [
