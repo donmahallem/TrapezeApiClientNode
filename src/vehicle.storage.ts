@@ -1,5 +1,6 @@
-import { getVehicleLocations } from "./api";
-export interface VehicleLocation {
+import { TrapezeApiClient } from "./trapeze-api-client";
+
+export interface IVehicleLocation {
     category: string;
     id: string;
     latitude: number;
@@ -11,9 +12,9 @@ export interface VehicleLocation {
 export class VehicleStorage {
 
     private lastUpdate: number = -1;
-    private storage: Map<string, VehicleLocation> = new Map();
-    private tripStorage: Map<string, VehicleLocation> = new Map();
-    constructor(private updateDelay: number = 10000) {
+    private storage: Map<string, IVehicleLocation> = new Map();
+    private tripStorage: Map<string, IVehicleLocation> = new Map();
+    constructor(private trapezeClient: TrapezeApiClient, private updateDelay: number = 10000) {
 
     }
 
@@ -21,16 +22,16 @@ export class VehicleStorage {
         if (this.lastUpdate + this.updateDelay > Date.now()) {
             return Promise.resolve(true);
         }
-        return getVehicleLocations()
-            .then(result => {
+        return this.trapezeClient.getVehicleLocations()
+            .then((result) => {
                 this.tripStorage.clear();
                 this.storage.clear();
-                for (let entry of result.vehicles) {
-                    if (entry == null) {
+                for (const entry of result.vehicles) {
+                    if (entry === null) {
                         continue;
                     }
-                    if (entry.isDeleted == true) {
-                        continue
+                    if (entry.isDeleted === true) {
+                        continue;
                     }
                     this.storage.set(entry.id, entry);
                     this.tripStorage.set(entry.tripId, entry);
@@ -39,43 +40,38 @@ export class VehicleStorage {
                 return Promise.resolve(true);
             });
     }
-    public getVehicleByTripId(id: string): Promise<VehicleLocation> {
+    public getVehicleByTripId(id: string): Promise<IVehicleLocation> {
         return this.potentialUpdate()
             .then((success: boolean) => {
                 if (this.tripStorage.has(id)) {
                     return Promise.resolve(this.tripStorage.get(id));
                 } else {
-                    return Promise.reject(null)
+                    return Promise.reject(null);
                 }
             });
     }
-    public getVehicle(id: string): Promise<VehicleLocation> {
+    public getVehicle(id: string): Promise<IVehicleLocation> {
         return this.potentialUpdate()
             .then((success: boolean) => {
                 if (this.storage.has(id)) {
                     return Promise.resolve(this.storage.get(id));
                 } else {
-                    return Promise.reject(null)
+                    return Promise.reject(null);
                 }
             });
     }
 
-    public getVehicles(left: number, right: number, top: number, bottom: number): Promise<VehicleLocation[]> {
+    public getVehicles(left: number, right: number, top: number, bottom: number): Promise<IVehicleLocation[]> {
         return this.potentialUpdate()
             .then((value) => {
-                const vehicleList: VehicleLocation[] = new Array();
-                for (let key of Array.from(this.storage.keys())) {
-                    let vehicle: VehicleLocation = this.storage.get(key);
-                    //console.log("test", key, vehicle.longitude, left, right)
+                const vehicleList: IVehicleLocation[] = new Array();
+                for (const key of Array.from(this.storage.keys())) {
+                    const vehicle: IVehicleLocation = this.storage.get(key);
                     if (vehicle.longitude < left || vehicle.longitude > right) {
-                        //console.log("longitude out")
                         continue;
                     } else if (vehicle.latitude > top || vehicle.latitude < bottom) {
-                        //console.log("latitude out", top, vehicle.latitude, bottom);
-                        //console.log("test lat", key, vehicle.latitude, vehicle.latitude < top, vehicle.latitude > bottom)
                         continue;
                     } else {
-                        //console.log("inside");
                         vehicleList.push(vehicle);
                     }
                 }

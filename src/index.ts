@@ -1,2 +1,2 @@
-export * from './trapeze-api-client';
-export * from './vehicle.storage';
+export * from "./trapeze-api-client";
+export * from "./vehicle.storage";
