@@ -22,15 +22,15 @@ export class LockHandler {
         this.mLocked = l === true;
     }
 
+    public get locked(): boolean {
+        return this.mLocked;
+    }
+
     public releaseLocks(): void {
         for (const l of this.lockListeners) {
             l();
         }
         this.lockListeners = [];
-    }
-
-    public get locked(): boolean {
-        return this.mLocked;
     }
 
     public promise(): Promise<void> {

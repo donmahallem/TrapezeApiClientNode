@@ -1,6 +1,6 @@
+import { ITripPassages, IVehicleLocationList, IVehiclePathInfo } from "@donmahallem/trapeze-api-types";
 import * as req from "request";
 import * as reqp from "request-promise-native";
-import { IVehicleLocationList, IVehiclePathInfo, ITripPassages } from "@donmahallem/trapeze-api-types";
 
 export class TrapezeApiClient {
     private httpClient: req.RequestAPI<reqp.RequestPromise<any>, reqp.RequestPromiseOptions, req.UrlOptions>;
