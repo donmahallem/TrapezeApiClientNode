@@ -1,5 +1,6 @@
 import * as req from "request";
 import * as reqp from "request-promise-native";
+import { IVehicleLocationList } from "@donmahallem/trapeze-api-types";
 
 export class TrapezeApiClient {
     private httpClient: req.RequestAPI<reqp.RequestPromise<any>, reqp.RequestPromiseOptions, req.UrlOptions>;
@@ -12,7 +13,7 @@ export class TrapezeApiClient {
         });
     }
 
-    public getVehicleLocations(): reqp.RequestPromise<any> {
+    public getVehicleLocations(): reqp.RequestPromise<IVehicleLocationList> {
         const options: req.OptionsWithUrl = {
             qs: {
                 colorType: "ROUTE",
