@@ -25,7 +25,7 @@ cache:
   directories:
   - node_modules
   - "$(npm config get prefix)/node_modules"
-after_install:
+before_script:
 - npm install --no-save @donmahallem/trapeze-api-types
 script:
 - npm run test:$TEST_SUITE
