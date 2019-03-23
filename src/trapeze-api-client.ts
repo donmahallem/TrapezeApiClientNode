@@ -1,3 +1,4 @@
+import { ITripPassages, IVehicleLocationList, IVehiclePathInfo } from "@donmahallem/trapeze-api-types";
 import * as req from "request";
 import * as reqp from "request-promise-native";
 
@@ -12,7 +13,7 @@ export class TrapezeApiClient {
         });
     }
 
-    public getVehicleLocations(): reqp.RequestPromise<any> {
+    public getVehicleLocations(): reqp.RequestPromise<IVehicleLocationList> {
         const options: req.OptionsWithUrl = {
             qs: {
                 colorType: "ROUTE",
@@ -23,7 +24,7 @@ export class TrapezeApiClient {
         return this.httpClient
             .get(options);
     }
-    public getRouteByTripId(vehicleId: string): reqp.RequestPromise<any> {
+    public getRouteByTripId(vehicleId: string): reqp.RequestPromise<IVehiclePathInfo> {
         const options: req.OptionsWithUrl = {
             qs: {
                 id: vehicleId,
@@ -33,7 +34,7 @@ export class TrapezeApiClient {
         return this.httpClient
             .post(options);
     }
-    public getRouteByVehicleId(vehicleId: string): reqp.RequestPromise<any> {
+    public getRouteByVehicleId(vehicleId: string): reqp.RequestPromise<IVehiclePathInfo> {
         const options: req.OptionsWithUrl = {
             qs: {
                 id: vehicleId,
@@ -44,7 +45,7 @@ export class TrapezeApiClient {
             .post(options);
     }
 
-    public getTripPassages(tripId: string, mode: string) {
+    public getTripPassages(tripId: string, mode: string): reqp.RequestPromise<ITripPassages> {
         const options: req.OptionsWithUrl = {
             form: {
                 mode,

@@ -56,5 +56,43 @@ describe('trapeze-api-client.ts', () => {
                     });
             });
         });
+        describe('getRouteByTripId(vehicleId: string)', () => {
+            ['testId1', 'testId2'].forEach((testId: string): void => {
+                it('should query the correct endpoint with id "' + testId + '"', () => {
+                    postStub.resolves(testValue);
+                    return instance.getRouteByTripId(testId)
+                        .then((result) => {
+                            expect(result).to.deep.equal(testValue);
+                            expect(postStub.callCount).to.equal(1);
+                            const callArgs: any[] = postStub.getCall(0).args;
+                            expect(callArgs).to.deep.equal([{
+                                qs: {
+                                    id: testId,
+                                },
+                                url: testUrl + "/internetservice/geoserviceDispatcher/services/pathinfo/trip",
+                            }]);
+                        });
+                });
+            });
+        });
+        describe('getRouteByVehicleId(vehicleId: string)', () => {
+            ['testId1', 'testId2'].forEach((testId: string): void => {
+                it('should query the correct endpoint with id "' + testId + '"', () => {
+                    postStub.resolves(testValue);
+                    return instance.getRouteByVehicleId(testId)
+                        .then((result) => {
+                            expect(result).to.deep.equal(testValue);
+                            expect(postStub.callCount).to.equal(1);
+                            const callArgs: any[] = postStub.getCall(0).args;
+                            expect(callArgs).to.deep.equal([{
+                                qs: {
+                                    id: testId,
+                                },
+                                url: testUrl + "/internetservice/geoserviceDispatcher/services/pathinfo/vehicle",
+                            }]);
+                        });
+                });
+            });
+        });
     });
 });
