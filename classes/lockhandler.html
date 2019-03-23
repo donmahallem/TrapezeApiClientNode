@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>TrapezeApiClient | @donmahallem/trapeze-api-client</title>
+	<title>LockHandler | @donmahallem/trapeze-api-client</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="trapezeapiclient.html">TrapezeApiClient</a>
+					<a href="lockhandler.html">LockHandler</a>
 				</li>
 			</ul>
-			<h1>Class TrapezeApiClient</h1>
+			<h1>Class LockHandler</h1>
 		</div>
 	</div>
 </header>
@@ -70,7 +70,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">TrapezeApiClient</span>
+						<span class="target">LockHandler</span>
 					</li>
 				</ul>
 			</section>
@@ -81,23 +81,28 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="trapezeapiclient.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="lockhandler.html#constructor" class="tsd-kind-icon">constructor</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
+							<h3>Properties</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="lockhandler.html#locklisteners" class="tsd-kind-icon">lock<wbr>Listeners</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="lockhandler.html#mlocked" class="tsd-kind-icon">m<wbr>Locked</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
-							<h3>Properties</h3>
+							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="trapezeapiclient.html#endpoint" class="tsd-kind-icon">endpoint</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="trapezeapiclient.html#httpclient" class="tsd-kind-icon">http<wbr>Client</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="lockhandler.html#locked" class="tsd-kind-icon">locked</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="trapezeapiclient.html#getroutebytripid" class="tsd-kind-icon">get<wbr>Route<wbr>ByTrip<wbr>Id</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="trapezeapiclient.html#getroutebyvehicleid" class="tsd-kind-icon">get<wbr>Route<wbr>ByVehicle<wbr>Id</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="trapezeapiclient.html#gettrippassages" class="tsd-kind-icon">get<wbr>Trip<wbr>Passages</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="trapezeapiclient.html#getvehiclelocations" class="tsd-kind-icon">get<wbr>Vehicle<wbr>Locations</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lockhandler.html#addlistener" class="tsd-kind-icon">add<wbr>Listener</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lockhandler.html#promise" class="tsd-kind-icon">promise</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="lockhandler.html#releaselocks" class="tsd-kind-icon">release<wbr>Locks</a></li>
 							</ul>
 						</section>
 					</div>
@@ -109,137 +114,140 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Trapeze<wbr>Api<wbr>Client<span class="tsd-signature-symbol">(</span>endpoint<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="trapezeapiclient.html" class="tsd-signature-type">TrapezeApiClient</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Lock<wbr>Handler<span class="tsd-signature-symbol">(</span>mLocked<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="lockhandler.html" class="tsd-signature-type">LockHandler</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/ea4bd09/src/trapeze-api-client.ts#L6">trapeze-api-client.ts:6</a></li>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/ea4bd09/src/lock-handler.ts#L4">lock-handler.ts:4</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>endpoint: <span class="tsd-signature-type">string</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> mLocked: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="trapezeapiclient.html" class="tsd-signature-type">TrapezeApiClient</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="lockhandler.html" class="tsd-signature-type">LockHandler</a></h4>
 						</li>
 					</ul>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="endpoint" class="tsd-anchor"></a>
-					<h3>endpoint</h3>
-					<div class="tsd-signature tsd-kind-icon">endpoint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="locklisteners" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> lock<wbr>Listeners</h3>
+					<div class="tsd-signature tsd-kind-icon">lock<wbr>Listeners<span class="tsd-signature-symbol">:</span> <a href="../globals.html#locklistener" class="tsd-signature-type">LockListener</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> =&nbsp;[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/ea4bd09/src/trapeze-api-client.ts#L7">trapeze-api-client.ts:7</a></li>
+							<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/ea4bd09/src/lock-handler.ts#L4">lock-handler.ts:4</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="httpclient" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> http<wbr>Client</h3>
-					<div class="tsd-signature tsd-kind-icon">http<wbr>Client<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">req.RequestAPI</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">reqp.RequestPromiseOptions</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">req.UrlOptions</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<a name="mlocked" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> m<wbr>Locked</h3>
+					<div class="tsd-signature tsd-kind-icon">m<wbr>Locked<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/ea4bd09/src/trapeze-api-client.ts#L6">trapeze-api-client.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/ea4bd09/src/lock-handler.ts#L6">lock-handler.ts:6</a></li>
 						</ul>
 					</aside>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+					<a name="locked" class="tsd-anchor"></a>
+					<h3>locked</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> locked<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> locked<span class="tsd-signature-symbol">(</span>l<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/ea4bd09/src/lock-handler.ts#L25">lock-handler.ts:25</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/ea4bd09/src/lock-handler.ts#L18">lock-handler.ts:18</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>l: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getroutebytripid" class="tsd-anchor"></a>
-					<h3>get<wbr>Route<wbr>ByTrip<wbr>Id</h3>
+					<a name="addlistener" class="tsd-anchor"></a>
+					<h3>add<wbr>Listener</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Route<wbr>ByTrip<wbr>Id<span class="tsd-signature-symbol">(</span>vehicleId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehiclePathInfo</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Listener<span class="tsd-signature-symbol">(</span>lockListener<span class="tsd-signature-symbol">: </span><a href="../globals.html#locklistener" class="tsd-signature-type">LockListener</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/ea4bd09/src/trapeze-api-client.ts#L27">trapeze-api-client.ts:27</a></li>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/ea4bd09/src/lock-handler.ts#L10">lock-handler.ts:10</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vehicleId: <span class="tsd-signature-type">string</span></h5>
+									<h5>lockListener: <a href="../globals.html#locklistener" class="tsd-signature-type">LockListener</a></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehiclePathInfo</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getroutebyvehicleid" class="tsd-anchor"></a>
-					<h3>get<wbr>Route<wbr>ByVehicle<wbr>Id</h3>
+					<a name="promise" class="tsd-anchor"></a>
+					<h3>promise</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Route<wbr>ByVehicle<wbr>Id<span class="tsd-signature-symbol">(</span>vehicleId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehiclePathInfo</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">promise<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/ea4bd09/src/trapeze-api-client.ts#L37">trapeze-api-client.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/ea4bd09/src/lock-handler.ts#L36">lock-handler.ts:36</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>vehicleId: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehiclePathInfo</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="gettrippassages" class="tsd-anchor"></a>
-					<h3>get<wbr>Trip<wbr>Passages</h3>
+					<a name="releaselocks" class="tsd-anchor"></a>
+					<h3>release<wbr>Locks</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Trip<wbr>Passages<span class="tsd-signature-symbol">(</span>tripId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, mode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ITripPassages</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">release<wbr>Locks<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/ea4bd09/src/trapeze-api-client.ts#L48">trapeze-api-client.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/ea4bd09/src/lock-handler.ts#L29">lock-handler.ts:29</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>tripId: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>mode: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ITripPassages</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getvehiclelocations" class="tsd-anchor"></a>
-					<h3>get<wbr>Vehicle<wbr>Locations</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Vehicle<wbr>Locations<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehicleLocationList</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/ea4bd09/src/trapeze-api-client.ts#L16">trapeze-api-client.ts:16</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehicleLocationList</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -258,39 +266,39 @@
 					<li class=" tsd-kind-enum">
 						<a href="../enums/status.html" class="tsd-kind-icon">Status</a>
 					</li>
-					<li class=" tsd-kind-class">
-						<a href="lockhandler.html" class="tsd-kind-icon">Lock<wbr>Handler</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="trapezeapiclient.html" class="tsd-kind-icon">Trapeze<wbr>Api<wbr>Client</a>
+						<a href="lockhandler.html" class="tsd-kind-icon">Lock<wbr>Handler</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="trapezeapiclient.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="trapezeapiclient.html#endpoint" class="tsd-kind-icon">endpoint</a>
+								<a href="lockhandler.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="trapezeapiclient.html#httpclient" class="tsd-kind-icon">http<wbr>Client</a>
+								<a href="lockhandler.html#locklisteners" class="tsd-kind-icon">lock<wbr>Listeners</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="lockhandler.html#mlocked" class="tsd-kind-icon">m<wbr>Locked</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+								<a href="lockhandler.html#locked" class="tsd-kind-icon">locked</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="trapezeapiclient.html#getroutebytripid" class="tsd-kind-icon">get<wbr>Route<wbr>ByTrip<wbr>Id</a>
+								<a href="lockhandler.html#addlistener" class="tsd-kind-icon">add<wbr>Listener</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="trapezeapiclient.html#getroutebyvehicleid" class="tsd-kind-icon">get<wbr>Route<wbr>ByVehicle<wbr>Id</a>
+								<a href="lockhandler.html#promise" class="tsd-kind-icon">promise</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="trapezeapiclient.html#gettrippassages" class="tsd-kind-icon">get<wbr>Trip<wbr>Passages</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="trapezeapiclient.html#getvehiclelocations" class="tsd-kind-icon">get<wbr>Vehicle<wbr>Locations</a>
+								<a href="lockhandler.html#releaselocks" class="tsd-kind-icon">release<wbr>Locks</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-class">
+						<a href="trapezeapiclient.html" class="tsd-kind-icon">Trapeze<wbr>Api<wbr>Client</a>
+					</li>
 					<li class=" tsd-kind-class">
 						<a href="vehiclestorage.html" class="tsd-kind-icon">Vehicle<wbr>Storage</a>
 					</li>
