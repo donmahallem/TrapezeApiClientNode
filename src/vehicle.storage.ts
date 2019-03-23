@@ -70,9 +70,9 @@ export class VehicleStorage {
                 return loadStatus;
             }, (err: any): IErrorStatus => {
                 const errorStatus: IErrorStatus = {
+                    error: err,
                     status: Status.ERROR,
-                    error: err
-                }
+                };
                 this.currentStatus = errorStatus;
                 this.lock.locked = false;
                 return errorStatus;
