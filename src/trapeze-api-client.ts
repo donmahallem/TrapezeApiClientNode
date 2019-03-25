@@ -78,4 +78,37 @@ export class TrapezeApiClient {
             .post(options);
     }
 
+    public getStopPassages(stopId: string): reqp.RequestPromise<any> {
+        const options: req.OptionsWithUrl = {
+            form: {
+                mode: "departure",
+                stop: stopId,
+            },
+            url: this.endpoint + "/internetservice/services/passageInfo/stopPassages/stop",
+        };
+        return this.httpClient
+            .post(options);
+    }
+    public getStopInfo(stopId: string, mode: string = "departure"): reqp.RequestPromise<any> {
+        const options: req.OptionsWithUrl = {
+            form: {
+                mode,
+                stop: stopId,
+            },
+            url: this.endpoint + "/internetservice/services/stopInfo/stop",
+        };
+        return this.httpClient.post(options);
+    }
+
+    public getStopPointInfo(stopPointId: string, mode: string = "departure"): reqp.RequestPromise<any> {
+        const options = {
+            form: {
+                mode,
+                stopPoint: stopPointId,
+            },
+            url: this.endpoint + "/internetservice/services/stopInfo/stopPoint",
+        };
+        return reqp(options);
+    }
+
 }
