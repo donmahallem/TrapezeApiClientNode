@@ -1,4 +1,8 @@
-import { ITripPassages, IVehicleLocationList, IVehiclePathInfo } from "@donmahallem/trapeze-api-types";
+import {
+    ITripPassages,
+    IVehicleLocationList,
+    IVehiclePathInfo,
+} from "@donmahallem/trapeze-api-types";
 import * as req from "request";
 import * as reqp from "request-promise-native";
 
@@ -43,6 +47,22 @@ export class TrapezeApiClient {
         };
         return this.httpClient
             .post(options);
+    }
+
+    public getStations(top: number = 324000000,
+                       bottom: number = -324000000,
+                       left: number = -648000000,
+                       right: number = 648000000): reqp.RequestPromise<any> {
+        const options: req.OptionsWithUrl = {
+            qs: {
+                bottom,
+                left,
+                right,
+                top,
+            },
+            url: this.endpoint + "/internetservice/geoserviceDispatcher/services/stopinfo/stops",
+        };
+        return this.httpClient.post(options);
     }
 
     public getTripPassages(tripId: string, mode: string): reqp.RequestPromise<ITripPassages> {
