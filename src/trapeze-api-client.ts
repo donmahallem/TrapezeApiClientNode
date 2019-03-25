@@ -50,9 +50,9 @@ export class TrapezeApiClient {
     }
 
     public getStations(top: number = 324000000,
-                       bottom: number = -324000000,
-                       left: number = -648000000,
-                       right: number = 648000000): reqp.RequestPromise<any> {
+        bottom: number = -324000000,
+        left: number = -648000000,
+        right: number = 648000000): reqp.RequestPromise<any> {
         const options: req.OptionsWithUrl = {
             qs: {
                 bottom,
@@ -101,14 +101,14 @@ export class TrapezeApiClient {
     }
 
     public getStopPointInfo(stopPointId: string, mode: string = "departure"): reqp.RequestPromise<any> {
-        const options = {
+        const options: req.OptionsWithUrl = {
             form: {
                 mode,
                 stopPoint: stopPointId,
             },
             url: this.endpoint + "/internetservice/services/stopInfo/stopPoint",
         };
-        return reqp(options);
+        return this.httpClient.post(options);
     }
 
 }
