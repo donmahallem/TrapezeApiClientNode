@@ -50,9 +50,9 @@ export class TrapezeApiClient {
     }
 
     public getStations(top: number = 324000000,
-        bottom: number = -324000000,
-        left: number = -648000000,
-        right: number = 648000000): reqp.RequestPromise<any> {
+                       bottom: number = -324000000,
+                       left: number = -648000000,
+                       right: number = 648000000): reqp.RequestPromise<any> {
         const options: req.OptionsWithUrl = {
             qs: {
                 bottom,
