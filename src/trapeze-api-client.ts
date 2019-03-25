@@ -101,14 +101,14 @@ export class TrapezeApiClient {
     }
 
     public getStopPointInfo(stopPointId: string, mode: string = "departure"): reqp.RequestPromise<any> {
-        const options = {
+        const options: req.OptionsWithUrl = {
             form: {
                 mode,
                 stopPoint: stopPointId,
             },
             url: this.endpoint + "/internetservice/services/stopInfo/stopPoint",
         };
-        return reqp(options);
+        return this.httpClient.post(options);
     }
 
 }
