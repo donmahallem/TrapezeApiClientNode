@@ -1,4 +1,8 @@
-import { ITripPassages, IVehicleLocationList, IVehiclePathInfo } from "@donmahallem/trapeze-api-types";
+import {
+    ITripPassages,
+    IVehicleLocationList,
+    IVehiclePathInfo,
+} from "@donmahallem/trapeze-api-types";
 import * as req from "request";
 import * as reqp from "request-promise-native";
 
@@ -45,6 +49,22 @@ export class TrapezeApiClient {
             .post(options);
     }
 
+    public getStations(top: number = 324000000,
+                       bottom: number = -324000000,
+                       left: number = -648000000,
+                       right: number = 648000000): reqp.RequestPromise<any> {
+        const options: req.OptionsWithUrl = {
+            qs: {
+                bottom,
+                left,
+                right,
+                top,
+            },
+            url: this.endpoint + "/internetservice/geoserviceDispatcher/services/stopinfo/stops",
+        };
+        return this.httpClient.post(options);
+    }
+
     public getTripPassages(tripId: string, mode: string): reqp.RequestPromise<ITripPassages> {
         const options: req.OptionsWithUrl = {
             form: {
@@ -56,6 +76,39 @@ export class TrapezeApiClient {
         };
         return this.httpClient
             .post(options);
+    }
+
+    public getStopPassages(stopId: string): reqp.RequestPromise<any> {
+        const options: req.OptionsWithUrl = {
+            form: {
+                mode: "departure",
+                stop: stopId,
+            },
+            url: this.endpoint + "/internetservice/services/passageInfo/stopPassages/stop",
+        };
+        return this.httpClient
+            .post(options);
+    }
+    public getStopInfo(stopId: string, mode: string = "departure"): reqp.RequestPromise<any> {
+        const options: req.OptionsWithUrl = {
+            form: {
+                mode,
+                stop: stopId,
+            },
+            url: this.endpoint + "/internetservice/services/stopInfo/stop",
+        };
+        return this.httpClient.post(options);
+    }
+
+    public getStopPointInfo(stopPointId: string, mode: string = "departure"): reqp.RequestPromise<any> {
+        const options: req.OptionsWithUrl = {
+            form: {
+                mode,
+                stopPoint: stopPointId,
+            },
+            url: this.endpoint + "/internetservice/services/stopInfo/stopPoint",
+        };
+        return this.httpClient.post(options);
     }
 
 }
