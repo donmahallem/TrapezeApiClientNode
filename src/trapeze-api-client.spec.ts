@@ -1,45 +1,45 @@
-import { expect } from 'chai';
-import { TrapezeApiClient } from './trapeze-api-client';
-import 'mocha';
-import * as sinon from 'sinon';
+import { expect } from "chai";
+import "mocha";
+import * as sinon from "sinon";
+import { TrapezeApiClient } from "./trapeze-api-client";
 
-describe('trapeze-api-client.ts', () => {
-    describe('TrapezeApiClient', () => {
+describe("trapeze-api-client.ts", () => {
+    describe("TrapezeApiClient", () => {
         const testUrl: string = "test.url";
         let instance: TrapezeApiClient;
         let sandbox: sinon.SinonSandbox;
         let getStub: sinon.SinonStub;
         let postStub: sinon.SinonStub;
         const testValue: any = {
+            randomString: "randomString",
             test: 1,
-            randomString: "randomString"
         };
-        before('create Sandbox', () => {
+        before("create Sandbox", () => {
             sandbox = sinon.createSandbox();
             getStub = sandbox.stub();
             postStub = sandbox.stub();
         });
         beforeEach(() => {
             instance = new TrapezeApiClient(testUrl);
-            (<any>instance).httpClient = {
+            (instance as any).httpClient = {
                 get: getStub,
-                post: postStub
+                post: postStub,
             };
         });
 
-        afterEach('clear history', () => {
+        afterEach("clear history", () => {
             sandbox.resetHistory();
         });
         after(() => {
             sandbox.restore();
         });
-        describe('constructor(public readonly endpoint: string)', () => {
-            it('should set the endpoint url correctly', () => {
+        describe("constructor(public readonly endpoint: string)", () => {
+            it("should set the endpoint url correctly", () => {
                 expect(instance.endpoint).to.equal(testUrl);
             });
         });
-        describe('getVehicleLocations()', () => {
-            it('should query the correct endpoint', () => {
+        describe("getVehicleLocations()", () => {
+            it("should query the correct endpoint", () => {
                 getStub.resolves(testValue);
                 return instance.getVehicleLocations()
                     .then((result) => {
@@ -56,8 +56,8 @@ describe('trapeze-api-client.ts', () => {
                     });
             });
         });
-        describe('getRouteByTripId(vehicleId: string)', () => {
-            ['testId1', 'testId2'].forEach((testId: string): void => {
+        describe("getRouteByTripId(vehicleId: string)", () => {
+            ["testId1", "testId2"].forEach((testId: string): void => {
                 it('should query the correct endpoint with id "' + testId + '"', () => {
                     postStub.resolves(testValue);
                     return instance.getRouteByTripId(testId)
@@ -75,8 +75,8 @@ describe('trapeze-api-client.ts', () => {
                 });
             });
         });
-        describe('getRouteByVehicleId(vehicleId: string)', () => {
-            ['testId1', 'testId2'].forEach((testId: string): void => {
+        describe("getRouteByVehicleId(vehicleId: string)", () => {
+            ["testId1", "testId2"].forEach((testId: string): void => {
                 it('should query the correct endpoint with id "' + testId + '"', () => {
                     postStub.resolves(testValue);
                     return instance.getRouteByVehicleId(testId)
