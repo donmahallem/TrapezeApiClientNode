@@ -1,47 +1,47 @@
-import { expect } from 'chai';
-import { LockHandler } from './lock-handler';
-import 'mocha';
-import * as sinon from 'sinon';
+import { expect } from "chai";
+import "mocha";
+import * as sinon from "sinon";
+import { LockHandler } from "./lock-handler";
 
-describe('lock-handler.ts', () => {
-    describe('LockHandler', () => {
+describe("lock-handler.ts", () => {
+    describe("LockHandler", () => {
         const testUrl: string = "test.url";
         let instance: LockHandler;
         let sandbox: sinon.SinonSandbox;
         let getStub: sinon.SinonStub;
         let postStub: sinon.SinonStub;
         const testValue: any = {
+            randomString: "randomString",
             test: 1,
-            randomString: "randomString"
         };
-        before('create Sandbox', () => {
+        before("create Sandbox", () => {
             sandbox = sinon.createSandbox();
             getStub = sandbox.stub();
             postStub = sandbox.stub();
         });
         beforeEach(() => {
             instance = new LockHandler();
-            (<any>instance).httpClient = {
+            (instance as any).httpClient = {
                 get: getStub,
-                post: postStub
+                post: postStub,
             };
         });
 
-        afterEach('clear history', () => {
+        afterEach("clear history", () => {
             sandbox.resetHistory();
         });
         after(() => {
             sandbox.restore();
         });
-        describe('currently the files arent locked', () => {
-            it('should resolve directly if .locked is false', () => {
+        describe("currently the files arent locked", () => {
+            it("should resolve directly if .locked is false", () => {
                 instance.locked = false;
                 return instance.promise()
                     .then(() => {
                         expect(true).to.equal(true);
                     });
             });
-            it('should work with one lock', (done) => {
+            it("should work with one lock", (done) => {
                 instance.locked = true;
                 instance.promise()
                     .then(() => {
@@ -51,7 +51,7 @@ describe('lock-handler.ts', () => {
                     instance.locked = false;
                 }, 500);
             });
-            it('should work with multiple locks', (done) => {
+            it("should work with multiple locks", (done) => {
                 instance.locked = true;
                 Promise.all([instance.promise().then(() => {
                     return Date.now();
