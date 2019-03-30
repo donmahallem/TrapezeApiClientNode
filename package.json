@@ -31,7 +31,7 @@
         "@types/node": "^11.12.2",
         "@types/request": "^2.48.1",
         "@types/request-promise-native": "^1.0.15",
-        "@types/sinon": "^7.0.10",
+        "@types/sinon": "^7.0.11",
         "chai": "^4.2.0",
         "mocha": "^6.0.2",
         "nodemon": "^1.18.0",
