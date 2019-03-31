@@ -5,6 +5,7 @@
     ],
     "jsRules": {},
     "rules": {
+        "only-arrow-functions": true,
         "object-literal-sort-keys": true,
         "trailing-comma": [
             true,
