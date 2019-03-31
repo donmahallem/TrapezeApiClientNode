@@ -1,8 +1,6 @@
 import {
-    IDeletedVehicleLocation,
     IVehicleLocation,
     IVehicleLocationList,
-    VehicleLocations,
 } from "@donmahallem/trapeze-api-types";
 import { LockHandler } from "./lock-handler";
 import { TrapezeApiClient } from "./trapeze-api-client";
@@ -86,7 +84,7 @@ export class VehicleStorage {
                     if (status.tripStorage.has(id)) {
                         return Promise.resolve(status.tripStorage.get(id));
                     } else {
-                        return Promise.reject(null);
+                        return Promise.reject(undefined);
                     }
                 } else {
                     throw status.error;

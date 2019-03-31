@@ -4,6 +4,34 @@
         "tslint:recommended"
     ],
     "jsRules": {},
-    "rules": {},
+    "rules": {
+        "object-literal-sort-keys": true,
+        "trailing-comma": [
+            true,
+            {
+                "multiline": "always",
+                "singleline": "never"
+            }
+        ],
+        "no-consecutive-blank-lines": [
+            true,
+            1
+        ],
+        "ordered-imports": [
+            true,
+            {
+                "import-sources-order": "lowercase-first",
+                "named-imports-order": "lowercase-first"
+            }
+        ],
+        "curly": [
+            true,
+            "ignore-same-line"
+        ],
+        "no-null-keyword": true,
+        "no-string-throw": true,
+        "no-unused-variable": true,
+        "prefer-const": true
+    },
     "rulesDirectory": []
 }
