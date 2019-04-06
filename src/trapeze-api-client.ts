@@ -1,13 +1,24 @@
 import {
+    IStopInfo,
+    IStopLocations,
+    IStopPassage,
     ITripPassages,
     IVehicleLocationList,
     IVehiclePathInfo,
+    StopId,
+    TripId,
+    VehicleId,
 } from "@donmahallem/trapeze-api-types";
 import * as req from "request";
 import * as reqp from "request-promise-native";
 
 export class TrapezeApiClient {
     private httpClient: req.RequestAPI<reqp.RequestPromise<any>, reqp.RequestPromiseOptions, req.UrlOptions>;
+    /**
+     *
+     * @param endpoint
+     * @since 1.0.0
+     */
     public constructor(public readonly endpoint: string) {
         this.httpClient = reqp.defaults({
             headers: {
@@ -17,6 +28,9 @@ export class TrapezeApiClient {
         });
     }
 
+    /**
+     * @since 1.0.0
+     */
     public getVehicleLocations(): reqp.RequestPromise<IVehicleLocationList> {
         const options: req.OptionsWithUrl = {
             qs: {
@@ -28,17 +42,27 @@ export class TrapezeApiClient {
         return this.httpClient
             .get(options);
     }
-    public getRouteByTripId(vehicleId: string): reqp.RequestPromise<IVehiclePathInfo> {
+    /**
+     *
+     * @param tripId
+     * @since 1.0.0
+     */
+    public getRouteByTripId(tripId: TripId): reqp.RequestPromise<IVehiclePathInfo> {
         const options: req.OptionsWithUrl = {
             qs: {
-                id: vehicleId,
+                id: tripId,
             },
             url: this.endpoint + "/internetservice/geoserviceDispatcher/services/pathinfo/trip",
         };
         return this.httpClient
             .post(options);
     }
-    public getRouteByVehicleId(vehicleId: string): reqp.RequestPromise<IVehiclePathInfo> {
+    /**
+     *
+     * @param vehicleId
+     * @since 1.0.0
+     */
+    public getRouteByVehicleId(vehicleId: VehicleId): reqp.RequestPromise<IVehiclePathInfo> {
         const options: req.OptionsWithUrl = {
             qs: {
                 id: vehicleId,
@@ -49,10 +73,18 @@ export class TrapezeApiClient {
             .post(options);
     }
 
-    public getStations(top: number = 324000000,
-                       bottom: number = -324000000,
-                       left: number = -648000000,
-                       right: number = 648000000): reqp.RequestPromise<any> {
+    /**
+     *
+     * @param top
+     * @param bottom
+     * @param left
+     * @param right
+     * @since 1.3.0
+     */
+    public getStationLocations(top: number = 324000000,
+                               bottom: number = -324000000,
+                               left: number = -648000000,
+                               right: number = 648000000): reqp.RequestPromise<IStopLocations> {
         const options: req.OptionsWithUrl = {
             qs: {
                 bottom,
@@ -64,8 +96,13 @@ export class TrapezeApiClient {
         };
         return this.httpClient.post(options);
     }
-
-    public getTripPassages(tripId: string, mode: string): reqp.RequestPromise<ITripPassages> {
+    /**
+     *
+     * @param tripId
+     * @param mode
+     * @since 1.0.0
+     */
+    public getTripPassages(tripId: TripId, mode: string): reqp.RequestPromise<ITripPassages> {
         const options: req.OptionsWithUrl = {
             form: {
                 mode,
@@ -78,7 +115,12 @@ export class TrapezeApiClient {
             .post(options);
     }
 
-    public getStopPassages(stopId: string): reqp.RequestPromise<any> {
+    /**
+     *
+     * @param stopId
+     * @since 1.0.0
+     */
+    public getStopPassages(stopId: StopId): reqp.RequestPromise<IStopPassage> {
         const options: req.OptionsWithUrl = {
             form: {
                 mode: "departure",
@@ -89,7 +131,14 @@ export class TrapezeApiClient {
         return this.httpClient
             .post(options);
     }
-    public getStopInfo(stopId: string, mode: string = "departure"): reqp.RequestPromise<any> {
+
+    /**
+     *
+     * @param stopId
+     * @param mode
+     * @since 1.0.0
+     */
+    public getStopInfo(stopId: StopId, mode: string = "departure"): reqp.RequestPromise<IStopInfo> {
         const options: req.OptionsWithUrl = {
             form: {
                 mode,
@@ -100,6 +149,12 @@ export class TrapezeApiClient {
         return this.httpClient.post(options);
     }
 
+    /**
+     *
+     * @param stopPointId
+     * @param mode
+     * @since 1.0.0
+     */
     public getStopPointInfo(stopPointId: string, mode: string = "departure"): reqp.RequestPromise<any> {
         const options: req.OptionsWithUrl = {
             form: {
