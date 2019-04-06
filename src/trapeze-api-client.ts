@@ -2,6 +2,7 @@ import {
     ITripPassages,
     IVehicleLocationList,
     IVehiclePathInfo,
+    IStopInfo,
 } from "@donmahallem/trapeze-api-types";
 import * as req from "request";
 import * as reqp from "request-promise-native";
@@ -50,9 +51,9 @@ export class TrapezeApiClient {
     }
 
     public getStations(top: number = 324000000,
-                       bottom: number = -324000000,
-                       left: number = -648000000,
-                       right: number = 648000000): reqp.RequestPromise<any> {
+        bottom: number = -324000000,
+        left: number = -648000000,
+        right: number = 648000000): reqp.RequestPromise<any> {
         const options: req.OptionsWithUrl = {
             qs: {
                 bottom,
@@ -78,7 +79,7 @@ export class TrapezeApiClient {
             .post(options);
     }
 
-    public getStopPassages(stopId: string): reqp.RequestPromise<any> {
+    public getStopPassages(stopId: string): reqp.RequestPromise<IStopInfo> {
         const options: req.OptionsWithUrl = {
             form: {
                 mode: "departure",
@@ -89,7 +90,7 @@ export class TrapezeApiClient {
         return this.httpClient
             .post(options);
     }
-    public getStopInfo(stopId: string, mode: string = "departure"): reqp.RequestPromise<any> {
+    public getStopInfo(stopId: string, mode: string = "departure"): reqp.RequestPromise<IStopInfo> {
         const options: req.OptionsWithUrl = {
             form: {
                 mode,
