@@ -1,4 +1,5 @@
 import {
+    ISettings,
     IStopInfo,
     IStopLocations,
     IStopPassage,
@@ -82,9 +83,9 @@ export class TrapezeApiClient {
      * @since 1.3.0
      */
     public getStationLocations(top: number = 324000000,
-                               bottom: number = -324000000,
-                               left: number = -648000000,
-                               right: number = 648000000): reqp.RequestPromise<IStopLocations> {
+        bottom: number = -324000000,
+        left: number = -648000000,
+        right: number = 648000000): reqp.RequestPromise<IStopLocations> {
         const options: req.OptionsWithUrl = {
             qs: {
                 bottom,
@@ -164,6 +165,23 @@ export class TrapezeApiClient {
             url: this.endpoint + "/internetservice/services/stopInfo/stopPoint",
         };
         return this.httpClient.post(options);
+    }
+    /**
+     * @since 1.3.0
+     */
+    public getSettings(): reqp.RequestPromise<ISettings> {
+        const options: reqp.OptionsWithUrl = {
+            transform: (body: string): ISettings => {
+                const bracketStart: number = body.indexOf("{");
+                const bracketEnd: number = body.lastIndexOf("}");
+                if (bracketStart > 0 && bracketEnd > bracketStart) {
+                    return JSON.parse(body.substring(bracketStart, bracketEnd)) as ISettings;
+                }
+                throw new Error("non valid response body");
+            },
+            url: this.endpoint + "/internetservice/settings",
+        };
+        return this.httpClient.get(options);
     }
 
 }

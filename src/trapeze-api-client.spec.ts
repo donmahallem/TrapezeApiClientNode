@@ -94,5 +94,8 @@ describe("trapeze-api-client.ts", () => {
                 });
             });
         });
+        describe("getSettings()", () => {
+            it("still needs tests");
+        });
     });
 });
