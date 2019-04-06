@@ -1,8 +1,8 @@
 import {
+    IStopInfo,
     ITripPassages,
     IVehicleLocationList,
     IVehiclePathInfo,
-    IStopInfo,
 } from "@donmahallem/trapeze-api-types";
 import * as req from "request";
 import * as reqp from "request-promise-native";
@@ -110,6 +110,16 @@ export class TrapezeApiClient {
             url: this.endpoint + "/internetservice/services/stopInfo/stopPoint",
         };
         return this.httpClient.post(options);
+    }
+    public getSettings(): reqp.RequestPromise<ISettings> {
+        const options: req.OptionsWithUrl = {
+            url: this.endpoint + "/internetservice/settings",
+            json: false
+        };
+        return this.httpClient.get(options)
+            .then((body: string): ISettings => {
+                return <ISettings>JSON.parse(body);
+            });
     }
 
 }
