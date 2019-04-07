@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import "mocha";
 import * as sinon from "sinon";
-import { TrapezeApiClient } from "./trapeze-api-client";
+import { SettingsBodyTransformMethod, TrapezeApiClient } from "./trapeze-api-client";
 
 describe("trapeze-api-client.ts", () => {
     describe("TrapezeApiClient", () => {
@@ -95,7 +95,53 @@ describe("trapeze-api-client.ts", () => {
             });
         });
         describe("getSettings()", () => {
-            it("still needs tests");
+            ["testId1", "testId2"].forEach((testId: string): void => {
+                it('should query the correct endpoint and return "' + testId + '"', () => {
+                    getStub.resolves(testValue);
+                    return instance.getSettings()
+                        .then((result) => {
+                            expect(result).to.deep.equal(testValue);
+                            expect(getStub.callCount).to.equal(1);
+                            const callArgs: any[] = getStub.getCall(0).args;
+                            expect(callArgs).to.deep.equal([{
+                                transform: SettingsBodyTransformMethod,
+                                url: testUrl + "/internetservice/settings",
+                            }]);
+                        });
+                });
+            });
+        });
+    });
+    describe("SettingsBodyTransformMethod", () => {
+        const testObjects: any[] = [
+            { test: true },
+            { test: false },
+            { test: "any value" }, {
+                nested: {
+                    value: true,
+                },
+            },
+        ];
+        const prefixes: string[] = [
+            "",
+            "a lot of",
+            "javascript_variable = ",
+        ];
+        const suffixes: string[] = [
+            ";",
+            "",
+        ];
+        testObjects.forEach((testObject: any): void => {
+            describe("used with testObject: " + JSON.stringify(testObject), () => {
+                prefixes.forEach((prefix: string) => {
+                    suffixes.forEach((suffix: string) => {
+                        it('should pass with prefix "' + prefix + '" and suffix "' + suffix + '"', () => {
+                            const testBody: string = prefix + JSON.stringify(testObject) + suffix;
+                            expect(SettingsBodyTransformMethod(testBody)).to.deep.equal(testObject);
+                        });
+                    });
+                });
+            });
         });
     });
 });
