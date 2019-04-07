@@ -5,15 +5,10 @@ import { LockHandler } from "./lock-handler";
 
 describe("lock-handler.ts", () => {
     describe("LockHandler", () => {
-        const testUrl: string = "test.url";
         let instance: LockHandler;
         let sandbox: sinon.SinonSandbox;
         let getStub: sinon.SinonStub;
         let postStub: sinon.SinonStub;
-        const testValue: any = {
-            randomString: "randomString",
-            test: 1,
-        };
         before("create Sandbox", () => {
             sandbox = sinon.createSandbox();
             getStub = sandbox.stub();
