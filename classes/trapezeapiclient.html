@@ -96,7 +96,8 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="trapezeapiclient.html#getroutebytripid" class="tsd-kind-icon">get<wbr>Route<wbr>ByTrip<wbr>Id</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="trapezeapiclient.html#getroutebyvehicleid" class="tsd-kind-icon">get<wbr>Route<wbr>ByVehicle<wbr>Id</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="trapezeapiclient.html#getstations" class="tsd-kind-icon">get<wbr>Stations</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="trapezeapiclient.html#getsettings" class="tsd-kind-icon">get<wbr>Settings</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="trapezeapiclient.html#getstationlocations" class="tsd-kind-icon">get<wbr>Station<wbr>Locations</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="trapezeapiclient.html#getstopinfo" class="tsd-kind-icon">get<wbr>Stop<wbr>Info</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="trapezeapiclient.html#getstoppassages" class="tsd-kind-icon">get<wbr>Stop<wbr>Passages</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="trapezeapiclient.html#getstoppointinfo" class="tsd-kind-icon">get<wbr>Stop<wbr>Point<wbr>Info</a></li>
@@ -119,9 +120,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/c54fadc/src/trapeze-api-client.ts#L10">trapeze-api-client.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/39a3c9f/src/trapeze-api-client.ts#L17">trapeze-api-client.ts:17</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>1.0.0</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -141,7 +149,7 @@
 					<div class="tsd-signature tsd-kind-icon">endpoint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/c54fadc/src/trapeze-api-client.ts#L11">trapeze-api-client.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/39a3c9f/src/trapeze-api-client.ts#L23">trapeze-api-client.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -151,7 +159,7 @@
 					<div class="tsd-signature tsd-kind-icon">http<wbr>Client<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">req.RequestAPI</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">reqp.RequestPromiseOptions</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">req.UrlOptions</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/c54fadc/src/trapeze-api-client.ts#L10">trapeze-api-client.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/39a3c9f/src/trapeze-api-client.ts#L17">trapeze-api-client.ts:17</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -162,19 +170,26 @@
 					<a name="getroutebytripid" class="tsd-anchor"></a>
 					<h3>get<wbr>Route<wbr>ByTrip<wbr>Id</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Route<wbr>ByTrip<wbr>Id<span class="tsd-signature-symbol">(</span>vehicleId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehiclePathInfo</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Route<wbr>ByTrip<wbr>Id<span class="tsd-signature-symbol">(</span>tripId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TripId</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehiclePathInfo</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/c54fadc/src/trapeze-api-client.ts#L31">trapeze-api-client.ts:31</a></li>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/39a3c9f/src/trapeze-api-client.ts#L51">trapeze-api-client.ts:51</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>1.0.0</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vehicleId: <span class="tsd-signature-type">string</span></h5>
+									<h5>tripId: <span class="tsd-signature-type">TripId</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehiclePathInfo</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -185,19 +200,26 @@
 					<a name="getroutebyvehicleid" class="tsd-anchor"></a>
 					<h3>get<wbr>Route<wbr>ByVehicle<wbr>Id</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Route<wbr>ByVehicle<wbr>Id<span class="tsd-signature-symbol">(</span>vehicleId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehiclePathInfo</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Route<wbr>ByVehicle<wbr>Id<span class="tsd-signature-symbol">(</span>vehicleId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">VehicleId</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehiclePathInfo</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/c54fadc/src/trapeze-api-client.ts#L41">trapeze-api-client.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/39a3c9f/src/trapeze-api-client.ts#L66">trapeze-api-client.ts:66</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>1.0.0</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>vehicleId: <span class="tsd-signature-type">string</span></h5>
+									<h5>vehicleId: <span class="tsd-signature-type">VehicleId</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehiclePathInfo</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -205,18 +227,49 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getstations" class="tsd-anchor"></a>
-					<h3>get<wbr>Stations</h3>
+					<a name="getsettings" class="tsd-anchor"></a>
+					<h3>get<wbr>Settings</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Stations<span class="tsd-signature-symbol">(</span>top<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, bottom<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, left<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, right<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Settings<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ISettings</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/c54fadc/src/trapeze-api-client.ts#L52">trapeze-api-client.ts:52</a></li>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/39a3c9f/src/trapeze-api-client.ts#L172">trapeze-api-client.ts:172</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>1.3.0</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ISettings</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getstationlocations" class="tsd-anchor"></a>
+					<h3>get<wbr>Station<wbr>Locations</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Station<wbr>Locations<span class="tsd-signature-symbol">(</span>top<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, bottom<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, left<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, right<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IStopLocations</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/39a3c9f/src/trapeze-api-client.ts#L85">trapeze-api-client.ts:85</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>1.3.0</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -232,7 +285,7 @@
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> right: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;648000000</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IStopLocations</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -240,25 +293,32 @@
 					<a name="getstopinfo" class="tsd-anchor"></a>
 					<h3>get<wbr>Stop<wbr>Info</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Stop<wbr>Info<span class="tsd-signature-symbol">(</span>stopId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, mode<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Stop<wbr>Info<span class="tsd-signature-symbol">(</span>stopId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">StopId</span>, mode<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IStopInfo</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/c54fadc/src/trapeze-api-client.ts#L92">trapeze-api-client.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/39a3c9f/src/trapeze-api-client.ts#L142">trapeze-api-client.ts:142</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>1.0.0</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>stopId: <span class="tsd-signature-type">string</span></h5>
+									<h5>stopId: <span class="tsd-signature-type">StopId</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> mode: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;departure&quot;</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IStopInfo</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -266,22 +326,29 @@
 					<a name="getstoppassages" class="tsd-anchor"></a>
 					<h3>get<wbr>Stop<wbr>Passages</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Stop<wbr>Passages<span class="tsd-signature-symbol">(</span>stopId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Stop<wbr>Passages<span class="tsd-signature-symbol">(</span>stopId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">StopId</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IStopPassage</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/c54fadc/src/trapeze-api-client.ts#L81">trapeze-api-client.ts:81</a></li>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/39a3c9f/src/trapeze-api-client.ts#L124">trapeze-api-client.ts:124</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>1.0.0</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>stopId: <span class="tsd-signature-type">string</span></h5>
+									<h5>stopId: <span class="tsd-signature-type">StopId</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IStopPassage</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -295,9 +362,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/c54fadc/src/trapeze-api-client.ts#L103">trapeze-api-client.ts:103</a></li>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/39a3c9f/src/trapeze-api-client.ts#L159">trapeze-api-client.ts:159</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>1.0.0</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -315,19 +389,26 @@
 					<a name="gettrippassages" class="tsd-anchor"></a>
 					<h3>get<wbr>Trip<wbr>Passages</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Trip<wbr>Passages<span class="tsd-signature-symbol">(</span>tripId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, mode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ITripPassages</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Trip<wbr>Passages<span class="tsd-signature-symbol">(</span>tripId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TripId</span>, mode<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ITripPassages</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/c54fadc/src/trapeze-api-client.ts#L68">trapeze-api-client.ts:68</a></li>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/39a3c9f/src/trapeze-api-client.ts#L106">trapeze-api-client.ts:106</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>1.0.0</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>tripId: <span class="tsd-signature-type">string</span></h5>
+									<h5>tripId: <span class="tsd-signature-type">TripId</span></h5>
 								</li>
 								<li>
 									<h5>mode: <span class="tsd-signature-type">string</span></h5>
@@ -347,9 +428,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/c54fadc/src/trapeze-api-client.ts#L20">trapeze-api-client.ts:20</a></li>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/39a3c9f/src/trapeze-api-client.ts#L35">trapeze-api-client.ts:35</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>1.0.0</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">reqp.RequestPromise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehicleLocationList</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -393,7 +481,10 @@
 								<a href="trapezeapiclient.html#getroutebyvehicleid" class="tsd-kind-icon">get<wbr>Route<wbr>ByVehicle<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="trapezeapiclient.html#getstations" class="tsd-kind-icon">get<wbr>Stations</a>
+								<a href="trapezeapiclient.html#getsettings" class="tsd-kind-icon">get<wbr>Settings</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="trapezeapiclient.html#getstationlocations" class="tsd-kind-icon">get<wbr>Station<wbr>Locations</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="trapezeapiclient.html#getstopinfo" class="tsd-kind-icon">get<wbr>Stop<wbr>Info</a>
@@ -431,6 +522,9 @@
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="../globals.html#locklistener" class="tsd-kind-icon">Lock<wbr>Listener</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#settingsbodytransformmethod" class="tsd-kind-icon">Settings<wbr>Body<wbr>Transform<wbr>Method</a>
 					</li>
 				</ul>
 			</nav>
