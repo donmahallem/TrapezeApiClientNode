@@ -19,7 +19,8 @@
         "test:lint": "npm run lint",
         "test:build": "npm run build",
         "test:unit": "npm run test-ci",
-        "test:docs": "npm run docs"
+        "test:docs": "npm run docs",
+        "prepare": "npm run build"
     },
     "dependencies": {
         "request": "^2.88.0",

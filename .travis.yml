@@ -29,20 +29,14 @@ script:
 - npm run test:$TEST_SUITE
 after_success:
 - ./coveralls_upload.sh
-jobs:
-  include:
-  - stage: npm release
-    node_js: '10'
-    script: npm run build
-    if: tag IS present
-    deploy:
-      provider: npm
-      skip_cleanup: true
-      email: $npm_email
-      api_key: $npm_api_key
-      on:
-        tags: true
-        repo: donmahallem/TrapezeApiClientNode
+deploy:
+  provider: npm
+  skip_cleanup: true
+  email: $npm_email
+  api_key: $npm_api_key
+  on:
+    tags: true
+    repo: donmahallem/TrapezeApiClientNode
   - stage: github pages release
     node_js: '10'
     script: npm run docs
