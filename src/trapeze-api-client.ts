@@ -81,11 +81,26 @@ export class TrapezeApiClient {
      * @param left
      * @param right
      * @since 1.3.0
+     * @deprecated
      */
     public getStationLocations(top: number = 324000000,
                                bottom: number = -324000000,
                                left: number = -648000000,
                                right: number = 648000000): reqp.RequestPromise<IStopLocations> {
+        return this.getStopLocations(top, bottom, left, right);
+    }
+    /**
+     *
+     * @param top
+     * @param bottom
+     * @param left
+     * @param right
+     * @since 1.4.0
+     */
+    public getStopLocations(top: number = 324000000,
+                            bottom: number = -324000000,
+                            left: number = -648000000,
+                            right: number = 648000000): reqp.RequestPromise<IStopLocations> {
         const options: req.OptionsWithUrl = {
             qs: {
                 bottom,
