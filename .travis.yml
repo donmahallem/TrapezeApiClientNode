@@ -37,6 +37,8 @@ deploy:
   on:
     tags: true
     repo: donmahallem/TrapezeApiClientNode
+jobs:
+  include:
   - stage: github pages release
     node_js: '10'
     script: npm run docs
