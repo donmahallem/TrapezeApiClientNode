@@ -29,7 +29,9 @@ jobs:
   include:
   - stage: Deployment
     node_js: '10'
-    script: npm run docs
+    script:
+    - npm install --no-save @donmahallem/trapeze-api-types
+    - npm run docs
     if: branch = master
     deploy:
       - provider: pages
