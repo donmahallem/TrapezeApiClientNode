@@ -19,35 +19,31 @@ matrix:
       env: TEST_SUITE=lint
     - node_js: "9"
       env: TEST_SUITE=docs
-cache:
-  directories:
-  - node_modules
-  - "$(npm config get prefix)/node_modules"
+cache: node
 before_script:
 - npm install --no-save @donmahallem/trapeze-api-types
 script:
 - npm run test:$TEST_SUITE
 after_success:
 - ./coveralls_upload.sh
-deploy:
-  provider: npm
-  skip_cleanup: true
-  email: $npm_email
-  api_key: $npm_api_key
-  on:
-    tags: true
-    repo: donmahallem/TrapezeApiClientNode
 jobs:
   include:
-  - stage: github pages release
+  - stage: Deployment
     node_js: '10'
     script: npm run docs
     if: branch = master
     deploy:
-      provider: pages
-      skip-cleanup: true
-      local-dir: docs
-      github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-      keep-history: true
-      on:
-        branch: master
+      - provider: pages
+        skip-cleanup: true
+        local-dir: docs
+        github-token: $GITHUB_TOKEN
+        keep-history: true
+        on:
+          branch: master
+      - provider: npm
+        skip_cleanup: true
+        email: $npm_email
+        api_key: $npm_api_key
+        on:
+          tags: true
+          repo: donmahallem/TrapezeApiClientNode
