@@ -19,9 +19,10 @@ matrix:
       env: TEST_SUITE=lint
     - node_js: "9"
       env: TEST_SUITE=docs
-cache: npm
-script:
+cache: node
+before_script:
 - npm install --no-save @donmahallem/trapeze-api-types
+script:
 - npm run test:$TEST_SUITE
 after_success:
 - ./coveralls_upload.sh
@@ -29,9 +30,7 @@ jobs:
   include:
   - stage: Deployment
     node_js: '10'
-    script:
-    - npm install --no-save @donmahallem/trapeze-api-types
-    - npm run docs
+    script: npm run docs
     if: branch = master
     deploy:
       - provider: pages
