@@ -31,7 +31,6 @@ jobs:
   - stage: Deployment
     node_js: '10'
     script: npm run docs
-    if: branch = master
     deploy:
     - provider: pages
       skip-cleanup: true
@@ -46,4 +45,5 @@ jobs:
       api_key: $npm_api_key
       on:
         tags: true
+        all_branches: true
         repo: donmahallem/TrapezeApiClientNode
