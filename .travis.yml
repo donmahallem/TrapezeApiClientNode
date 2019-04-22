@@ -19,13 +19,9 @@ matrix:
       env: TEST_SUITE=lint
     - node_js: "9"
       env: TEST_SUITE=docs
-cache:
-  directories:
-  - node_modules
-  - "$(npm config get prefix)/node_modules"
-before_script:
-- npm install --no-save @donmahallem/trapeze-api-types
+cache: npm
 script:
+- npm install --no-save @donmahallem/trapeze-api-types
 - npm run test:$TEST_SUITE
 after_success:
 - ./coveralls_upload.sh
