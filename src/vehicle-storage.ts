@@ -119,23 +119,36 @@ export class VehicleStorage {
                 }
             });
     }
+    /**
+     * Fetches or throws if an error status is provided
+     * @since 2.0.0
+     */
+    public fetchSuccessOrThrow(): Promise<ISuccessStatus> {
+        return this.fetch()
+            .then((value: LoadStatus): ISuccessStatus => {
+                if (value) {
+                    if (value.status === Status.SUCCESS) {
+                        return value;
+                    }
+                    throw value.error;
+                }
+                throw new Error("Unknown error");
+            });
+    }
 
     /**
      * Gets the vehicle or rejects with undefined if not known
      */
     public getVehicle(id: string): Promise<IVehicleLocationResponse> {
-        return this.fetch()
-            .then((status: LoadStatus): IVehicleLocationResponse => {
-                if (status.status === Status.SUCCESS) {
-                    if (status.storage.has(id)) {
-                        return {
-                            lastUpdate: status.lastUpdate,
-                            vehicle: status.storage.get(id),
-                        };
-                    }
-                    throw new NotFoundError("Vehicle not found");
+        return this.fetchSuccessOrThrow()
+            .then((status: ISuccessStatus): IVehicleLocationResponse => {
+                if (status.storage.has(id)) {
+                    return {
+                        lastUpdate: status.lastUpdate,
+                        vehicle: status.storage.get(id),
+                    };
                 }
-                throw status.error;
+                throw new NotFoundError("Vehicle not found");
             });
     }
 

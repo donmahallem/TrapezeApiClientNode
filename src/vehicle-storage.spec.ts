@@ -2,8 +2,9 @@ import { IVehicleLocation, IVehicleLocationList } from "@donmahallem/trapeze-api
 import { expect } from "chai";
 import "mocha";
 import * as sinon from "sinon";
+import { NotFoundError } from "./not-found-error";
 import { TrapezeApiClient } from "./trapeze-api-client";
-import { LoadStatus, VehicleStorage } from "./vehicle-storage";
+import { ISuccessStatus, IVehicleLocationResponse, LoadStatus, Status, VehicleStorage } from "./vehicle-storage";
 
 describe("vehicle-storage.ts", () => {
     describe("VehicleStorage", () => {
@@ -74,6 +75,61 @@ describe("vehicle-storage.ts", () => {
                 for (const item of validItems) {
                     expect(result.tripStorage.get(item.tripId)).to.deep.equal(item);
                 }
+            });
+        });
+        describe("getVehicle(id)", () => {
+            let fetchSuccessStub: sinon.SinonStub;
+            const testError: Error = new Error("Test Error");
+            const testData: ISuccessStatus = {
+                lastUpdate: 235236,
+                status: Status.SUCCESS,
+                storage: new Map(Object.entries({ testId: { id: 1, sum: 2 } as any })),
+                timestamp: 993,
+                tripStorage: new Map(),
+            };
+            beforeEach(() => {
+                fetchSuccessStub = sandbox.stub(instance, "fetchSuccessOrThrow");
+            });
+            describe("fetch throws an error", () => {
+                beforeEach(() => {
+                    fetchSuccessStub.returns(Promise.reject(testError));
+                });
+                it("should pass the error on", () => {
+                    return instance.getVehicle("any id")
+                        .then(() => {
+                            throw new Error("should not be called");
+                        }, (err: any) => {
+                            expect(err).to.deep.equal(testError);
+                        });
+                });
+            });
+            describe("an unknown vehicle id is provided", () => {
+                beforeEach(() => {
+                    fetchSuccessStub.returns(Promise.resolve(testData));
+                });
+                it("should throw an NotFoundError", () => {
+                    return instance.getVehicle("any id")
+                        .then(() => {
+                            throw new Error("should not be called");
+                        }, (err: any | NotFoundError) => {
+                            expect(err).to.instanceOf(NotFoundError);
+                            expect(err.statusCode).to.equal(404);
+                        });
+                });
+            });
+            describe("an known vehicle id is provided", () => {
+                beforeEach(() => {
+                    fetchSuccessStub.returns(Promise.resolve(testData));
+                });
+                it("should return the id", () => {
+                    return instance.getVehicle("testId")
+                        .then((vehicle: IVehicleLocationResponse) => {
+                            expect(vehicle).to.deep.equal({
+                                lastUpdate: testData.lastUpdate,
+                                vehicle: testData.storage.get("testId"),
+                            });
+                        });
+                });
             });
         });
     });
