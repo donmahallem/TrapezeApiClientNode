@@ -83,10 +83,11 @@ export class VehicleStorage {
             lastUpdate: result.lastUpdate,
             status: Status.SUCCESS,
             storage: new Map(),
+            timestamp: Date.now(),
             tripStorage: new Map(),
         };
         for (const entry of result.vehicles) {
-            if (entry === null) {
+            if (entry === null || entry === undefined) {
                 continue;
             }
             if (entry.isDeleted === true) {
