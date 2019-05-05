@@ -4,6 +4,8 @@ import {
 } from "@donmahallem/trapeze-api-types";
 import { LockHandler } from "./lock-handler";
 import { TrapezeApiClient } from "./trapeze-api-client";
+import * as req from "request";
+import * as reqp from "request-promise-native";
 
 export enum Status {
     SUCCESS = 1,
@@ -28,6 +30,18 @@ export interface ISuccessStatus extends IBaseStatus {
 }
 
 export type LoadStatus = ISuccessStatus | IErrorStatus;
+
+export interface IVehicleLocationResponse {
+    lastUpdate: number,
+    vehicle: IVehicleLocation,
+}
+
+export class NotFoundError extends Error {
+    public readonly statusCode: number = 404;
+    public constructor(msg: string) {
+        super(msg);
+    }
+}
 
 export class VehicleStorage {
 
@@ -93,28 +107,40 @@ export class VehicleStorage {
         return loadStatus;
     }
 
-    public getVehicleByTripId(id: string): Promise<IVehicleLocation> {
+    /**
+     * Gets the vehicle or rejects with undefined if not known
+     */
+    public getVehicleByTripId(id: string): Promise<IVehicleLocationResponse> {
         return this.fetch()
-            .then((status: LoadStatus) => {
+            .then((status: LoadStatus): IVehicleLocationResponse => {
                 if (status.status === Status.SUCCESS) {
                     if (status.tripStorage.has(id)) {
-                        return Promise.resolve(status.tripStorage.get(id));
-                    } else {
-                        return Promise.reject(undefined);
+                        return {
+                            lastUpdate: status.lastUpdate,
+                            vehicle: status.tripStorage.get(id),
+                        };
                     }
+                    throw new NotFoundError("Vehicle with tripId '" + id + "' not found");
                 } else {
                     throw status.error;
                 }
             });
     }
-    public getVehicle(id: string): Promise<IVehicleLocation> {
+
+    /**
+     * Gets the vehicle or rejects with undefined if not known
+     */
+    public getVehicle(id: string): Promise<IVehicleLocationResponse> {
         return this.fetch()
-            .then((status: LoadStatus) => {
+            .then((status: LoadStatus): IVehicleLocationResponse => {
                 if (status.status === Status.SUCCESS) {
                     if (status.storage.has(id)) {
-                        return status.storage.get(id);
+                        return {
+                            lastUpdate: status.lastUpdate,
+                            vehicle: status.storage.get(id),
+                        };
                     }
-                    throw new Error("not found");
+                    throw new NotFoundError("Vehicle not found");
                 }
                 throw status.error;
             });
