@@ -104,19 +104,15 @@ export class VehicleStorage {
      * Gets the vehicle or rejects with undefined if not known
      */
     public getVehicleByTripId(id: string): Promise<IVehicleLocationResponse> {
-        return this.fetch()
-            .then((status: LoadStatus): IVehicleLocationResponse => {
-                if (status.status === Status.SUCCESS) {
-                    if (status.tripStorage.has(id)) {
-                        return {
-                            lastUpdate: status.lastUpdate,
-                            vehicle: status.tripStorage.get(id),
-                        };
-                    }
-                    throw new NotFoundError("Vehicle with tripId '" + id + "' not found");
-                } else {
-                    throw status.error;
+        return this.fetchSuccessOrThrow()
+            .then((status: ISuccessStatus): IVehicleLocationResponse => {
+                if (status.tripStorage.has(id)) {
+                    return {
+                        lastUpdate: status.lastUpdate,
+                        vehicle: status.tripStorage.get(id),
+                    };
                 }
+                throw new NotFoundError("Trip not found");
             });
     }
     /**

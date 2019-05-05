@@ -132,5 +132,60 @@ describe("vehicle-storage.ts", () => {
                 });
             });
         });
+        describe("getVehicleByTripId(id)", () => {
+            let fetchSuccessStub: sinon.SinonStub;
+            const testError: Error = new Error("Test Error");
+            const testData: ISuccessStatus = {
+                lastUpdate: 235236,
+                status: Status.SUCCESS,
+                storage: new Map(),
+                timestamp: 993,
+                tripStorage: new Map(Object.entries({ testId: { id: 1, sum: 2 } as any })),
+            };
+            beforeEach(() => {
+                fetchSuccessStub = sandbox.stub(instance, "fetchSuccessOrThrow");
+            });
+            describe("fetch throws an error", () => {
+                beforeEach(() => {
+                    fetchSuccessStub.returns(Promise.reject(testError));
+                });
+                it("should pass the error on", () => {
+                    return instance.getVehicleByTripId("any id")
+                        .then(() => {
+                            throw new Error("should not be called");
+                        }, (err: any) => {
+                            expect(err).to.deep.equal(testError);
+                        });
+                });
+            });
+            describe("an unknown vehicle id is provided", () => {
+                beforeEach(() => {
+                    fetchSuccessStub.returns(Promise.resolve(testData));
+                });
+                it("should throw an NotFoundError", () => {
+                    return instance.getVehicleByTripId("any id")
+                        .then(() => {
+                            throw new Error("should not be called");
+                        }, (err: any | NotFoundError) => {
+                            expect(err).to.instanceOf(NotFoundError);
+                            expect(err.statusCode).to.equal(404);
+                        });
+                });
+            });
+            describe("an known vehicle id is provided", () => {
+                beforeEach(() => {
+                    fetchSuccessStub.returns(Promise.resolve(testData));
+                });
+                it("should return the id", () => {
+                    return instance.getVehicleByTripId("testId")
+                        .then((vehicle: IVehicleLocationResponse) => {
+                            expect(vehicle).to.deep.equal({
+                                lastUpdate: testData.lastUpdate,
+                                vehicle: testData.tripStorage.get("testId"),
+                            });
+                        });
+                });
+            });
+        });
     });
 });
