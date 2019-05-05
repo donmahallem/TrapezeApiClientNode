@@ -3,9 +3,8 @@ import {
     IVehicleLocationList,
 } from "@donmahallem/trapeze-api-types";
 import { LockHandler } from "./lock-handler";
+import { NotFoundError } from "./not-found-error";
 import { TrapezeApiClient } from "./trapeze-api-client";
-import * as req from "request";
-import * as reqp from "request-promise-native";
 
 export enum Status {
     SUCCESS = 1,
@@ -32,15 +31,8 @@ export interface ISuccessStatus extends IBaseStatus {
 export type LoadStatus = ISuccessStatus | IErrorStatus;
 
 export interface IVehicleLocationResponse {
-    lastUpdate: number,
-    vehicle: IVehicleLocation,
-}
-
-export class NotFoundError extends Error {
-    public readonly statusCode: number = 404;
-    public constructor(msg: string) {
-        super(msg);
-    }
+    lastUpdate: number;
+    vehicle: IVehicleLocation;
 }
 
 export class VehicleStorage {
@@ -88,10 +80,10 @@ export class VehicleStorage {
 
     public convertResponse(result: IVehicleLocationList): ISuccessStatus {
         const loadStatus: ISuccessStatus = {
+            lastUpdate: result.lastUpdate,
             status: Status.SUCCESS,
             storage: new Map(),
             tripStorage: new Map(),
-            lastUpdate: result.lastUpdate,
         };
         for (const entry of result.vehicles) {
             if (entry === null) {
@@ -148,18 +140,18 @@ export class VehicleStorage {
 
     /**
      * @since 2.0.0
-     * @param left 
-     * @param right 
-     * @param top 
-     * @param bottom 
+     * @param left
+     * @param right
+     * @param top
+     * @param bottom
      */
     public getVehicles(left: number, right: number, top: number, bottom: number): Promise<IVehicleLocationList> {
         return this.fetch()
             .then((status: LoadStatus): IVehicleLocationList => {
                 if (status.status === Status.SUCCESS) {
                     const vehicleList: IVehicleLocationList = {
-                        vehicles: new Array(),
                         lastUpdate: status.lastUpdate,
+                        vehicles: new Array(),
                     };
                     for (const key of Array.from(status.storage.keys())) {
                         const vehicle: IVehicleLocation = status.storage.get(key);
