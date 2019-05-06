@@ -361,6 +361,25 @@ describe("vehicle-storage.ts", () => {
             });
         });
         describe("fetch()", () => {
+            const statusPrimer: any = {
+                test: "status",
+            };
+            beforeEach(() => {
+                (instance as any).mStatus = statusPrimer;
+            });
+            describe("no update is required", () => {
+                let updateStub: sinon.SinonStub;
+                beforeEach(() => {
+                    updateStub = sandbox.stub(instance, "updateRequired");
+                    updateStub.returns(false);
+                });
+                it("should resolve with the current status", () => {
+                    return instance.fetch()
+                        .then((value: LoadStatus) => {
+                            expect(value).to.deep.equal(statusPrimer);
+                        });
+                });
+            });
             it("needs to be implemented");
         });
         describe("fetchSuccessOrThrow()", () => {

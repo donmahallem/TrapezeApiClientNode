@@ -55,7 +55,7 @@ export class VehicleStorage {
     }
 
     public fetch(): Promise<LoadStatus> {
-        if (this.updateRequired()) {
+        if (!this.updateRequired()) {
             return Promise.resolve(this.status);
         }
         if (this.lock.locked) {
