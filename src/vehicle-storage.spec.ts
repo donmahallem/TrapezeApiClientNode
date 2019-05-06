@@ -264,7 +264,34 @@ describe("vehicle-storage.ts", () => {
             it("needs to be implemented");
         });
         describe("fetchSuccessOrThrow()", () => {
-            it("needs to be implemented");
+            let fetchStub: sinon.SinonStub;
+            const testError: Error = new Error("test error");
+            beforeEach(() => {
+                fetchStub = sinon.stub(instance, "fetch");
+            });
+            it("should throw the error from the status retrieved from fetch()", () => {
+                fetchStub.returns(Promise.resolve({
+                    error: testError,
+                    status: Status.ERROR,
+                }));
+                return instance.fetchSuccessOrThrow()
+                    .then(() => {
+                        throw new Error("should not have been called");
+                    }, (err: any) => {
+                        expect(err).to.deep.equal(testError);
+                    });
+            });
+            it("should resolve with the successful state from fetch()", () => {
+                const successStatus: any = {
+                    error: testError,
+                    status: Status.SUCCESS,
+                };
+                fetchStub.returns(Promise.resolve(successStatus));
+                return instance.fetchSuccessOrThrow()
+                    .then((value) => {
+                        expect(value).to.deep.equal(successStatus);
+                    });
+            });
         });
     });
 });
