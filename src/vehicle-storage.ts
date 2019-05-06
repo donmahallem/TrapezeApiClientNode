@@ -158,6 +158,12 @@ export class VehicleStorage {
      * @param bottom
      */
     public getVehicles(left: number, right: number, top: number, bottom: number): Promise<IVehicleLocationList> {
+        if (left >= right) {
+            return Promise.reject(new Error("left must be smaller than right"));
+        }
+        if (top <= bottom) {
+            return Promise.reject(new Error("top must be greater than bottom"));
+        }
         return this.fetchSuccessOrThrow()
             .then((status: ISuccessStatus): IVehicleLocationList => {
                 const vehicleList: IVehicleLocationList = {

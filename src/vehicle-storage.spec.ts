@@ -189,7 +189,107 @@ describe("vehicle-storage.ts", () => {
             });
         });
         describe("getVehicles(left, right, top, bottom)", () => {
-            it("needs to be implemented");
+            let fetchSuccessStub: sinon.SinonStub;
+            const testError: Error = new Error("Test Error");
+            const testVehicles: any[] = [1, 2, 3, 4]
+                .reduce((acc: Array<[number, number]>, x) => acc.concat([[x, 1], [x, 2], [x, 3], [x, 4]]), [])
+                .map((value: [number, number]) => {
+                    return {
+                        id: "" + value[0] + value[1],
+                        latitude: value[0],
+                        longitude: value[1],
+                    };
+                })
+                .map((value) => {
+                    return [value.id, value];
+                });
+            const testData: ISuccessStatus = {
+                lastUpdate: 235236,
+                status: Status.SUCCESS,
+                storage: new Map(testVehicles),
+                timestamp: 993,
+                tripStorage: new Map(),
+            };
+            beforeEach(() => {
+                fetchSuccessStub = sandbox.stub(instance, "fetchSuccessOrThrow");
+            });
+            describe("fetch throws an error", () => {
+                beforeEach(() => {
+                    fetchSuccessStub.returns(Promise.reject(testError));
+                });
+                it("should pass the error on", () => {
+                    return instance.getVehicles(1, 2, 2, 1)
+                        .then(() => {
+                            throw new Error("should not be called");
+                        }, (err: any) => {
+                            expect(err).to.deep.equal(testError);
+                        });
+                });
+            });
+            describe("invalid parameter are provided", () => {
+                it("should reject if left is not smaller than right", () => {
+                    return instance.getVehicles(1, 1, 1, 2)
+                        .then(() => {
+                            throw new Error("should not be called");
+                        }, (err: any) => {
+                            expect(err).to.be.instanceOf(Error);
+                            expect(err.message).to.equal("left must be smaller than right");
+                        });
+                });
+                it("should reject if bottom is not smaller than top", () => {
+                    return instance.getVehicles(1, 2, 2, 2)
+                        .then(() => {
+                            throw new Error("should not be called");
+                        }, (err: any) => {
+                            expect(err).to.be.instanceOf(Error);
+                            expect(err.message).to.equal("top must be greater than bottom");
+                        });
+                });
+            });
+            describe("vehicles bounds are provided", () => {
+                beforeEach(() => {
+                    fetchSuccessStub.returns(Promise.resolve(testData));
+                });
+                it("should return no vehicle as no vehicle is inside bounds", () => {
+                    return instance.getVehicles(20, 22, 2, 1)
+                        .then((vehicle: IVehicleLocationList) => {
+                            expect(vehicle).to.deep.equal({
+                                lastUpdate: testData.lastUpdate,
+                                vehicles: [],
+                            });
+                        });
+                });
+                it("should return few vehicles", () => {
+                    return instance.getVehicles(1, 2, 2, 1)
+                        .then((vehicle: IVehicleLocationList) => {
+                            expect(vehicle).to.deep.equal({
+                                lastUpdate: testData.lastUpdate,
+                                vehicles: [
+                                    {
+                                        id: "11",
+                                        latitude: 1,
+                                        longitude: 1,
+                                    },
+                                    {
+                                        id: "12",
+                                        latitude: 1,
+                                        longitude: 2,
+                                    },
+                                    {
+                                        id: "21",
+                                        latitude: 2,
+                                        longitude: 1,
+                                    },
+                                    {
+                                        id: "22",
+                                        latitude: 2,
+                                        longitude: 2,
+                                    },
+                                ],
+                            });
+                        });
+                });
+            });
         });
         describe("status", () => {
             describe("getter", () => {
