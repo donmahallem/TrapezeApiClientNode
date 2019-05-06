@@ -192,7 +192,12 @@ describe("vehicle-storage.ts", () => {
         });
         describe("status", () => {
             describe("getter", () => {
-                it("needs to be implemented");
+                [1, 2, 3].forEach((testValue: number): void => {
+                    it("should return the private mStatus with value '" + testValue + "'", () => {
+                        (<any>instance).mStatus = testValue;
+                        expect(instance.status).to.equal(testValue);
+                    });
+                });
             });
         });
         describe("updateRequired()", () => {
