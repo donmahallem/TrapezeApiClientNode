@@ -13,11 +13,12 @@ describe("vehicle-storage.ts", () => {
         let getVehicleLocationsStub: sinon.SinonStub;
         let client: TrapezeApiClient;
         let clock: sinon.SinonFakeTimers;
+        const clockNowTimestamp: number = 123456;
         before("create Sandbox", () => {
             sandbox = sinon.createSandbox();
             getVehicleLocationsStub = sandbox.stub();
             clock = sandbox.useFakeTimers({
-                now: 20,
+                now: clockNowTimestamp,
                 shouldAdvanceTime: false,
             });
         });
@@ -194,14 +195,70 @@ describe("vehicle-storage.ts", () => {
             describe("getter", () => {
                 [1, 2, 3].forEach((testValue: number): void => {
                     it("should return the private mStatus with value '" + testValue + "'", () => {
-                        (<any>instance).mStatus = testValue;
+                        (instance as any).mStatus = testValue;
                         expect(instance.status).to.equal(testValue);
                     });
                 });
             });
         });
         describe("updateRequired()", () => {
-            it("needs to be implemented");
+            const testValues: Array<{ status: any, result: boolean, updateDelay: number }> = [
+                {
+                    result: true,
+                    status: undefined,
+                    updateDelay: 10000,
+                },
+                {
+                    result: true,
+                    // tslint:disable-next-line:no-null-keyword
+                    status: null,
+                    updateDelay: 10000,
+                },
+                {
+                    result: false,
+                    status: {
+                        timestamp: clockNowTimestamp,
+                    },
+                    updateDelay: 10000,
+                },
+                {
+                    result: true,
+                    status: {
+                        timestamp: "asdf",
+                    },
+                    updateDelay: 10000,
+                }];
+            [2000, 4000, 10000].forEach((delay: number): void => {
+                testValues.push({
+                    result: false,
+                    status: {
+                        timestamp: clockNowTimestamp - delay,
+                    },
+                    updateDelay: delay,
+                });
+                testValues.push({
+                    result: false,
+                    status: {
+                        timestamp: clockNowTimestamp - delay + 1,
+                    },
+                    updateDelay: delay,
+                });
+                testValues.push({
+                    result: true,
+                    status: {
+                        timestamp: clockNowTimestamp - delay - 1,
+                    },
+                    updateDelay: delay,
+                });
+            });
+            testValues.forEach((testValue): void => {
+                it("should return " + testValue.result + " for " + JSON.stringify(testValue.status)
+                    + " and delay: " + testValue.updateDelay, () => {
+                        (instance as any).updateDelay = testValue.updateDelay;
+                        (instance as any).mStatus = testValue.status;
+                        expect(instance.updateRequired()).to.equal(testValue.result);
+                    });
+            });
         });
         describe("fetch()", () => {
             it("needs to be implemented");

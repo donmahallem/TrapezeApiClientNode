@@ -43,7 +43,9 @@ export class VehicleStorage {
 
     public updateRequired(): boolean {
         if (this.status) {
-            return this.status.timestamp + this.updateDelay < Date.now();
+            if (!isNaN(this.status.timestamp)) {
+                return this.status.timestamp + this.updateDelay < Date.now();
+            }
         }
         return true;
     }
