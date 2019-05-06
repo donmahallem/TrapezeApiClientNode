@@ -156,26 +156,23 @@ export class VehicleStorage {
      * @param bottom
      */
     public getVehicles(left: number, right: number, top: number, bottom: number): Promise<IVehicleLocationList> {
-        return this.fetch()
-            .then((status: LoadStatus): IVehicleLocationList => {
-                if (status.status === Status.SUCCESS) {
-                    const vehicleList: IVehicleLocationList = {
-                        lastUpdate: status.lastUpdate,
-                        vehicles: new Array(),
-                    };
-                    for (const key of Array.from(status.storage.keys())) {
-                        const vehicle: IVehicleLocation = status.storage.get(key);
-                        if (vehicle.longitude < left || vehicle.longitude > right) {
-                            continue;
-                        } else if (vehicle.latitude > top || vehicle.latitude < bottom) {
-                            continue;
-                        } else {
-                            vehicleList.vehicles.push(vehicle);
-                        }
+        return this.fetchSuccessOrThrow()
+            .then((status: ISuccessStatus): IVehicleLocationList => {
+                const vehicleList: IVehicleLocationList = {
+                    lastUpdate: status.lastUpdate,
+                    vehicles: new Array(),
+                };
+                for (const key of Array.from(status.storage.keys())) {
+                    const vehicle: IVehicleLocation = status.storage.get(key);
+                    if (vehicle.longitude < left || vehicle.longitude > right) {
+                        continue;
+                    } else if (vehicle.latitude > top || vehicle.latitude < bottom) {
+                        continue;
+                    } else {
+                        vehicleList.vehicles.push(vehicle);
                     }
-                    return vehicleList;
                 }
-                throw status.error;
+                return vehicleList;
             });
     }
 

@@ -187,5 +187,8 @@ describe("vehicle-storage.ts", () => {
                 });
             });
         });
+        describe("getVehicles(left, right, top, bottom)", () => {
+            it("needs to be implemented");
+        });
     });
 });
