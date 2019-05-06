@@ -292,6 +292,16 @@ describe("vehicle-storage.ts", () => {
                         expect(value).to.deep.equal(successStatus);
                     });
             });
+            it("should throw error if no value is resolved", () => {
+                fetchStub.returns(Promise.resolve());
+                return instance.fetchSuccessOrThrow()
+                    .then(() => {
+                        throw new Error("should not have been called");
+                    }, (err: any | Error) => {
+                        expect(err).to.be.instanceOf(Error);
+                        expect(err.message).to.equal("No status provided");
+                    });
+            });
         });
     });
 });

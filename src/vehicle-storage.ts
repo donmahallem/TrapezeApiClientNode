@@ -130,7 +130,7 @@ export class VehicleStorage {
                     }
                     throw value.error;
                 }
-                throw new Error("Unknown error");
+                throw new Error("No status provided");
             });
     }
 
