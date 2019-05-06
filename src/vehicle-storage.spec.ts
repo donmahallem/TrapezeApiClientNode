@@ -190,5 +190,19 @@ describe("vehicle-storage.ts", () => {
         describe("getVehicles(left, right, top, bottom)", () => {
             it("needs to be implemented");
         });
+        describe("status", () => {
+            describe("getter", () => {
+                it("needs to be implemented");
+            });
+        });
+        describe("updateRequired()", () => {
+            it("needs to be implemented");
+        });
+        describe("fetch()", () => {
+            it("needs to be implemented");
+        });
+        describe("fetchSuccessOrThrow()", () => {
+            it("needs to be implemented");
+        });
     });
 });
