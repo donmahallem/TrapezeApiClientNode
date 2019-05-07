@@ -364,18 +364,39 @@ describe("vehicle-storage.ts", () => {
             const statusPrimer: any = {
                 test: "status",
             };
+            let updateStub: sinon.SinonStub;
+            let lockedStub: sinon.SinonStub;
             beforeEach(() => {
+                updateStub = sandbox.stub(instance, "updateRequired");
                 (instance as any).mStatus = statusPrimer;
+                lockedStub = sandbox.stub((instance as any).lock, "locked");
             });
             describe("no update is required", () => {
-                let updateStub: sinon.SinonStub;
                 beforeEach(() => {
-                    updateStub = sandbox.stub(instance, "updateRequired");
                     updateStub.returns(false);
                 });
                 it("should resolve with the current status", () => {
                     return instance.fetch()
                         .then((value: LoadStatus) => {
+                            expect(value).to.deep.equal(statusPrimer);
+                            expect(getVehicleLocationsStub.callCount).to.equal(0);
+                        });
+                });
+            });
+            describe("file is locked", () => {
+                let lockPromiseStub: sinon.SinonStub;
+                beforeEach(() => {
+                    updateStub.returns(true);
+                    lockedStub.get(() => true);
+                    lockPromiseStub = sandbox.stub((instance as any).lock, "promise");
+                    lockPromiseStub.returns(Promise.resolve(1));
+                    getVehicleLocationsStub.rejects();
+                });
+                it("should resolve after file is unlocked", () => {
+                    return instance.fetch()
+                        .then((value: LoadStatus) => {
+                            expect(lockPromiseStub.callCount).to.equal(1);
+                            expect(getVehicleLocationsStub.callCount).to.equal(0);
                             expect(value).to.deep.equal(statusPrimer);
                         });
                 });
