@@ -361,7 +361,116 @@ describe("vehicle-storage.ts", () => {
             });
         });
         describe("fetch()", () => {
-            it("needs to be implemented");
+            const statusPrimer: any = {
+                test: "status",
+            };
+            let updateStub: sinon.SinonStub;
+            let lockedStub: sinon.SinonStub;
+            beforeEach(() => {
+                updateStub = sandbox.stub(instance, "updateRequired");
+                (instance as any).mStatus = statusPrimer;
+                lockedStub = sandbox.stub((instance as any).lock, "locked");
+            });
+            describe("no update is required", () => {
+                beforeEach(() => {
+                    updateStub.returns(false);
+                });
+                it("should resolve with the current status", () => {
+                    return instance.fetch()
+                        .then((value: LoadStatus) => {
+                            expect(value).to.deep.equal(statusPrimer);
+                            expect(getVehicleLocationsStub.callCount).to.equal(0);
+                        });
+                });
+            });
+            describe("file is locked", () => {
+                let lockPromiseStub: sinon.SinonStub;
+                beforeEach(() => {
+                    updateStub.returns(true);
+                    lockedStub.get(() => true);
+                    lockPromiseStub = sandbox.stub((instance as any).lock, "promise");
+                    lockPromiseStub.returns(Promise.resolve(1));
+                    getVehicleLocationsStub.rejects();
+                });
+                it("should resolve after file is unlocked", () => {
+                    return instance.fetch()
+                        .then((value: LoadStatus) => {
+                            expect(lockPromiseStub.callCount).to.equal(1);
+                            expect(getVehicleLocationsStub.callCount).to.equal(0);
+                            expect(value).to.deep.equal(statusPrimer);
+                        });
+                });
+            });
+            describe("refresh of data is required", () => {
+                let convertResponseStub: sinon.SinonStub;
+                let lockedSetterSpy: sinon.SinonSpy;
+                const testError = new Error("test error");
+                before(() => {
+                    lockedSetterSpy = sandbox.spy();
+                });
+                beforeEach(() => {
+                    updateStub.returns(true);
+                    lockedStub.get(() => false);
+                    lockedStub.set(lockedSetterSpy);
+                    convertResponseStub = sandbox.stub(instance, "convertResponse");
+                    convertResponseStub.returnsArg(0);
+                });
+                describe("getVehicleLocation resolves", () => {
+                    const testResponse: any = {
+                        data: "any",
+                        test: true,
+                    };
+                    beforeEach(() => {
+                        getVehicleLocationsStub.resolves(testResponse);
+                    });
+                    it("should resolve after file is unlocked", () => {
+                        return instance.fetch()
+                            .then((value: LoadStatus) => {
+                                expect(convertResponseStub.callCount).to.equal(1);
+                                expect(convertResponseStub.getCall(0).args).to.deep.equal([testResponse]);
+                                expect(getVehicleLocationsStub.callCount).to.equal(1);
+                                expect(value).to.deep.equal(testResponse);
+                                expect(lockedSetterSpy.callCount).to.equal(2);
+                                expect(lockedSetterSpy.args).to.deep.equal([[true], [false]]);
+                            });
+                    });
+                    it("should report error thrown inside convertResponse", () => {
+                        convertResponseStub.throws(testError);
+                        return instance.fetch()
+                            .then((value: LoadStatus) => {
+                                expect(convertResponseStub.callCount).to.equal(1);
+                                expect(convertResponseStub.getCall(0).args).to.deep.equal([testResponse]);
+                                expect(getVehicleLocationsStub.callCount).to.equal(1);
+                                expect(value).to.deep.equal({
+                                    error: testError,
+                                    status: Status.ERROR,
+                                    timestamp: clockNowTimestamp,
+                                });
+                                expect(lockedSetterSpy.callCount).to.equal(2);
+                                expect(lockedSetterSpy.args).to.deep.equal([[true], [false]]);
+                            });
+                    });
+                });
+                describe("getVehicleLocation rejects", () => {
+                    beforeEach(() => {
+                        getVehicleLocationsStub.rejects(testError);
+                    });
+                    it("should resolve after file is unlocked", () => {
+                        return instance.fetch()
+                            .then((value: LoadStatus) => {
+                                expect(convertResponseStub.callCount).to.equal(0);
+                                expect(getVehicleLocationsStub.callCount).to.equal(1);
+                                expect(value).to.deep.equal({
+                                    error: testError,
+                                    status: Status.ERROR,
+                                    timestamp: clockNowTimestamp,
+                                });
+                                expect(lockedSetterSpy.callCount).to.equal(2);
+                                expect(lockedSetterSpy.args).to.deep.equal([[true], [false]]);
+                            });
+                    });
+                });
+            });
         });
         describe("fetchSuccessOrThrow()", () => {
             let fetchStub: sinon.SinonStub;

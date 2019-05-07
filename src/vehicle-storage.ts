@@ -55,7 +55,7 @@ export class VehicleStorage {
     }
 
     public fetch(): Promise<LoadStatus> {
-        if (this.updateRequired()) {
+        if (!this.updateRequired()) {
             return Promise.resolve(this.status);
         }
         if (this.lock.locked) {
@@ -65,7 +65,8 @@ export class VehicleStorage {
         return this.trapezeClient.getVehicleLocations()
             .then((result: IVehicleLocationList): ISuccessStatus => {
                 return this.convertResponse(result);
-            }, (err: any): IErrorStatus => {
+            })
+            .catch((err: any): IErrorStatus => {
                 const errorStatus: IErrorStatus = {
                     error: err,
                     status: Status.ERROR,
