@@ -87,20 +87,28 @@
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="vehiclestorage.html#currentstatus" class="tsd-kind-icon">current<wbr>Status</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="vehiclestorage.html#lastupdate" class="tsd-kind-icon">last<wbr>Update</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="vehiclestorage.html#lock" class="tsd-kind-icon">lock</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="vehiclestorage.html#mstatus" class="tsd-kind-icon">m<wbr>Status</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="vehiclestorage.html#trapezeclient" class="tsd-kind-icon">trapeze<wbr>Client</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="vehiclestorage.html#updatedelay" class="tsd-kind-icon">update<wbr>Delay</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
+							<h3>Accessors</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="vehiclestorage.html#status" class="tsd-kind-icon">status</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="vehiclestorage.html#convertresponse" class="tsd-kind-icon">convert<wbr>Response</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="vehiclestorage.html#fetch" class="tsd-kind-icon">fetch</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="vehiclestorage.html#fetchsuccessorthrow" class="tsd-kind-icon">fetch<wbr>Success<wbr>OrThrow</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="vehiclestorage.html#getvehicle" class="tsd-kind-icon">get<wbr>Vehicle</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="vehiclestorage.html#getvehiclebytripid" class="tsd-kind-icon">get<wbr>Vehicle<wbr>ByTrip<wbr>Id</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="vehiclestorage.html#getvehicles" class="tsd-kind-icon">get<wbr>Vehicles</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="vehiclestorage.html#updaterequired" class="tsd-kind-icon">update<wbr>Required</a></li>
 							</ul>
 						</section>
 					</div>
@@ -118,7 +126,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/908eb7c/src/vehicle.storage.ts#L34">vehicle.storage.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/8fba5f7/src/vehicle-storage.ts#L41">vehicle-storage.ts:41</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -138,32 +146,22 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="currentstatus" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> current<wbr>Status</h3>
-					<div class="tsd-signature tsd-kind-icon">current<wbr>Status<span class="tsd-signature-symbol">:</span> <a href="../globals.html#loadstatus" class="tsd-signature-type">LoadStatus</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/908eb7c/src/vehicle.storage.ts#L34">vehicle.storage.ts:34</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="lastupdate" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> last<wbr>Update</h3>
-					<div class="tsd-signature tsd-kind-icon">last<wbr>Update<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;-1</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/908eb7c/src/vehicle.storage.ts#L32">vehicle.storage.ts:32</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="lock" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> lock</h3>
 					<div class="tsd-signature tsd-kind-icon">lock<span class="tsd-signature-symbol">:</span> <a href="lockhandler.html" class="tsd-signature-type">LockHandler</a><span class="tsd-signature-symbol"> =&nbsp;new LockHandler(false)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/908eb7c/src/vehicle.storage.ts#L33">vehicle.storage.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/8fba5f7/src/vehicle-storage.ts#L40">vehicle-storage.ts:40</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="mstatus" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> m<wbr>Status</h3>
+					<div class="tsd-signature tsd-kind-icon">m<wbr>Status<span class="tsd-signature-symbol">:</span> <a href="../globals.html#loadstatus" class="tsd-signature-type">LoadStatus</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/8fba5f7/src/vehicle-storage.ts#L41">vehicle-storage.ts:41</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -173,7 +171,7 @@
 					<div class="tsd-signature tsd-kind-icon">trapeze<wbr>Client<span class="tsd-signature-symbol">:</span> <a href="trapezeapiclient.html" class="tsd-signature-type">TrapezeApiClient</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/908eb7c/src/vehicle.storage.ts#L35">vehicle.storage.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/8fba5f7/src/vehicle-storage.ts#L42">vehicle-storage.ts:42</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -183,13 +181,56 @@
 					<div class="tsd-signature tsd-kind-icon">update<wbr>Delay<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/908eb7c/src/vehicle.storage.ts#L35">vehicle.storage.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/8fba5f7/src/vehicle-storage.ts#L42">vehicle-storage.ts:42</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="status" class="tsd-anchor"></a>
+					<h3>status</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> status<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../globals.html#loadstatus" class="tsd-signature-type">LoadStatus</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/8fba5f7/src/vehicle-storage.ts#L53">vehicle-storage.ts:53</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="../globals.html#loadstatus" class="tsd-signature-type">LoadStatus</a></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="convertresponse" class="tsd-anchor"></a>
+					<h3>convert<wbr>Response</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">convert<wbr>Response<span class="tsd-signature-symbol">(</span>result<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IVehicleLocationList</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/isuccessstatus.html" class="tsd-signature-type">ISuccessStatus</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/8fba5f7/src/vehicle-storage.ts#L84">vehicle-storage.ts:84</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>result: <span class="tsd-signature-type">IVehicleLocationList</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/isuccessstatus.html" class="tsd-signature-type">ISuccessStatus</a></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="fetch" class="tsd-anchor"></a>
 					<h3>fetch</h3>
@@ -200,7 +241,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/908eb7c/src/vehicle.storage.ts#L39">vehicle.storage.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/8fba5f7/src/vehicle-storage.ts#L57">vehicle-storage.ts:57</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#loadstatus" class="tsd-signature-type">LoadStatus</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -208,25 +249,57 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getvehicle" class="tsd-anchor"></a>
-					<h3>get<wbr>Vehicle</h3>
+					<a name="fetchsuccessorthrow" class="tsd-anchor"></a>
+					<h3>fetch<wbr>Success<wbr>OrThrow</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Vehicle<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehicleLocation</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">fetch<wbr>Success<wbr>OrThrow<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/isuccessstatus.html" class="tsd-signature-type">ISuccessStatus</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/908eb7c/src/vehicle.storage.ts#L94">vehicle.storage.ts:94</a></li>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/8fba5f7/src/vehicle-storage.ts#L125">vehicle-storage.ts:125</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Fetches or throws if an error status is provided</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>2.0.0</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/isuccessstatus.html" class="tsd-signature-type">ISuccessStatus</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getvehicle" class="tsd-anchor"></a>
+					<h3>get<wbr>Vehicle</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Vehicle<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ivehiclelocationresponse.html" class="tsd-signature-type">IVehicleLocationResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/8fba5f7/src/vehicle-storage.ts#L141">vehicle-storage.ts:141</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the vehicle or rejects with undefined if not known</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>id: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehicleLocation</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ivehiclelocationresponse.html" class="tsd-signature-type">IVehicleLocationResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -234,22 +307,27 @@
 					<a name="getvehiclebytripid" class="tsd-anchor"></a>
 					<h3>get<wbr>Vehicle<wbr>ByTrip<wbr>Id</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Vehicle<wbr>ByTrip<wbr>Id<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehicleLocation</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Vehicle<wbr>ByTrip<wbr>Id<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ivehiclelocationresponse.html" class="tsd-signature-type">IVehicleLocationResponse</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/908eb7c/src/vehicle.storage.ts#L80">vehicle.storage.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/8fba5f7/src/vehicle-storage.ts#L109">vehicle-storage.ts:109</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the vehicle or rejects with undefined if not known</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>id: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehicleLocation</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/ivehiclelocationresponse.html" class="tsd-signature-type">IVehicleLocationResponse</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -257,15 +335,22 @@
 					<a name="getvehicles" class="tsd-anchor"></a>
 					<h3>get<wbr>Vehicles</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Vehicles<span class="tsd-signature-symbol">(</span>left<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, right<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, top<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, bottom<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehicleLocation</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Vehicles<span class="tsd-signature-symbol">(</span>left<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, right<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, top<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, bottom<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehicleLocationList</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/908eb7c/src/vehicle.storage.ts#L107">vehicle.storage.ts:107</a></li>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/8fba5f7/src/vehicle-storage.ts#L161">vehicle-storage.ts:161</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>2.0.0</p>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -279,9 +364,28 @@
 								</li>
 								<li>
 									<h5>bottom: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehicleLocation</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">IVehicleLocationList</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="updaterequired" class="tsd-anchor"></a>
+					<h3>update<wbr>Required</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">update<wbr>Required<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/donmahallem/TrapezeApiClientNode/blob/8fba5f7/src/vehicle-storage.ts#L44">vehicle-storage.ts:44</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -304,6 +408,9 @@
 						<a href="lockhandler.html" class="tsd-kind-icon">Lock<wbr>Handler</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="notfounderror.html" class="tsd-kind-icon">Not<wbr>Found<wbr>Error</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="trapezeapiclient.html" class="tsd-kind-icon">Trapeze<wbr>Api<wbr>Client</a>
 					</li>
 				</ul>
@@ -315,13 +422,10 @@
 								<a href="vehiclestorage.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="vehiclestorage.html#currentstatus" class="tsd-kind-icon">current<wbr>Status</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="vehiclestorage.html#lastupdate" class="tsd-kind-icon">last<wbr>Update</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="vehiclestorage.html#lock" class="tsd-kind-icon">lock</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="vehiclestorage.html#mstatus" class="tsd-kind-icon">m<wbr>Status</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="vehiclestorage.html#trapezeclient" class="tsd-kind-icon">trapeze<wbr>Client</a>
@@ -329,8 +433,17 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="vehiclestorage.html#updatedelay" class="tsd-kind-icon">update<wbr>Delay</a>
 							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="vehiclestorage.html#status" class="tsd-kind-icon">status</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="vehiclestorage.html#convertresponse" class="tsd-kind-icon">convert<wbr>Response</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="vehiclestorage.html#fetch" class="tsd-kind-icon">fetch</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="vehiclestorage.html#fetchsuccessorthrow" class="tsd-kind-icon">fetch<wbr>Success<wbr>OrThrow</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="vehiclestorage.html#getvehicle" class="tsd-kind-icon">get<wbr>Vehicle</a>
@@ -340,6 +453,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="vehiclestorage.html#getvehicles" class="tsd-kind-icon">get<wbr>Vehicles</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="vehiclestorage.html#updaterequired" class="tsd-kind-icon">update<wbr>Required</a>
 							</li>
 						</ul>
 					</li>
@@ -353,6 +469,9 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/isuccessstatus.html" class="tsd-kind-icon">ISuccess<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/ivehiclelocationresponse.html" class="tsd-kind-icon">IVehicle<wbr>Location<wbr>Response</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="../globals.html#loadstatus" class="tsd-kind-icon">Load<wbr>Status</a>
