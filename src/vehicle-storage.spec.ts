@@ -401,7 +401,60 @@ describe("vehicle-storage.ts", () => {
                         });
                 });
             });
-            it("needs to be implemented");
+            describe("refresh of data is required", () => {
+                let convertResponseStub: sinon.SinonStub;
+                let lockedSetterSpy: sinon.SinonSpy;
+                before(() => {
+                    lockedSetterSpy = sandbox.spy();
+                });
+                beforeEach(() => {
+                    updateStub.returns(true);
+                    lockedStub.get(() => false);
+                    lockedStub.set(lockedSetterSpy);
+                    convertResponseStub = sandbox.stub(instance, "convertResponse");
+                    convertResponseStub.returnsArg(0);
+                });
+                describe("getVehicleLocation resolves", () => {
+                    const testResponse: any = {
+                        data: "any",
+                        test: true,
+                    };
+                    beforeEach(() => {
+                        getVehicleLocationsStub.resolves(testResponse);
+                    });
+                    it("should resolve after file is unlocked", () => {
+                        return instance.fetch()
+                            .then((value: LoadStatus) => {
+                                expect(convertResponseStub.callCount).to.equal(1);
+                                expect(convertResponseStub.getCall(0).args).to.deep.equal([testResponse]);
+                                expect(getVehicleLocationsStub.callCount).to.equal(1);
+                                expect(value).to.deep.equal(testResponse);
+                            });
+                    });
+                });
+                describe("getVehicleLocation rejects", () => {
+                    const testError = new Error("test error");
+
+                    beforeEach(() => {
+                        getVehicleLocationsStub.rejects(testError);
+                    });
+                    it("should resolve after file is unlocked", () => {
+                        return instance.fetch()
+                            .then((value: LoadStatus) => {
+                                expect(convertResponseStub.callCount).to.equal(0);
+                                expect(getVehicleLocationsStub.callCount).to.equal(1);
+                                expect(value).to.deep.equal({
+                                    error: testError,
+                                    status: Status.ERROR,
+                                    timestamp: clockNowTimestamp,
+                                });
+
+                                expect(lockedSetterSpy.callCount).to.equal(2);
+                                expect(lockedSetterSpy.args).to.deep.equal([[true], [false]]);
+                            });
+                    });
+                });
+            });
         });
         describe("fetchSuccessOrThrow()", () => {
             let fetchStub: sinon.SinonStub;
