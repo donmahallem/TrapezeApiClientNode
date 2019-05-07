@@ -404,6 +404,7 @@ describe("vehicle-storage.ts", () => {
             describe("refresh of data is required", () => {
                 let convertResponseStub: sinon.SinonStub;
                 let lockedSetterSpy: sinon.SinonSpy;
+                const testError = new Error("test error");
                 before(() => {
                     lockedSetterSpy = sandbox.spy();
                 });
@@ -429,12 +430,28 @@ describe("vehicle-storage.ts", () => {
                                 expect(convertResponseStub.getCall(0).args).to.deep.equal([testResponse]);
                                 expect(getVehicleLocationsStub.callCount).to.equal(1);
                                 expect(value).to.deep.equal(testResponse);
+                                expect(lockedSetterSpy.callCount).to.equal(2);
+                                expect(lockedSetterSpy.args).to.deep.equal([[true], [false]]);
+                            });
+                    });
+                    it("should report error thrown inside convertResponse", () => {
+                        convertResponseStub.throws(testError);
+                        return instance.fetch()
+                            .then((value: LoadStatus) => {
+                                expect(convertResponseStub.callCount).to.equal(1);
+                                expect(convertResponseStub.getCall(0).args).to.deep.equal([testResponse]);
+                                expect(getVehicleLocationsStub.callCount).to.equal(1);
+                                expect(value).to.deep.equal({
+                                    error: testError,
+                                    status: Status.ERROR,
+                                    timestamp: clockNowTimestamp,
+                                });
+                                expect(lockedSetterSpy.callCount).to.equal(2);
+                                expect(lockedSetterSpy.args).to.deep.equal([[true], [false]]);
                             });
                     });
                 });
                 describe("getVehicleLocation rejects", () => {
-                    const testError = new Error("test error");
-
                     beforeEach(() => {
                         getVehicleLocationsStub.rejects(testError);
                     });
@@ -448,7 +465,6 @@ describe("vehicle-storage.ts", () => {
                                     status: Status.ERROR,
                                     timestamp: clockNowTimestamp,
                                 });
-
                                 expect(lockedSetterSpy.callCount).to.equal(2);
                                 expect(lockedSetterSpy.args).to.deep.equal([[true], [false]]);
                             });
