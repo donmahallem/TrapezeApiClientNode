@@ -115,7 +115,7 @@ export class VehicleStorage {
                 if (status.tripStorage.has(id)) {
                     return {
                         lastUpdate: status.lastUpdate,
-                        vehicle: status.tripStorage.get(id),
+                        vehicle: status.tripStorage.get(id) as IVehicleLocation,
                     };
                 }
                 throw new NotFoundError("Trip not found");
@@ -147,7 +147,7 @@ export class VehicleStorage {
                 if (status.storage.has(id)) {
                     return {
                         lastUpdate: status.lastUpdate,
-                        vehicle: status.storage.get(id),
+                        vehicle: status.storage.get(id) as IVehicleLocation,
                     };
                 }
                 throw new NotFoundError("Vehicle not found");
@@ -175,7 +175,7 @@ export class VehicleStorage {
                     vehicles: new Array(),
                 };
                 for (const key of Array.from(status.storage.keys())) {
-                    const vehicle: IVehicleLocation = status.storage.get(key);
+                    const vehicle: IVehicleLocation = status.storage.get(key) as IVehicleLocation;
                     if (vehicle.longitude < left || vehicle.longitude > right) {
                         continue;
                     } else if (vehicle.latitude > top || vehicle.latitude < bottom) {
