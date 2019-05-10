@@ -1,3 +1,7 @@
+/*!
+ * Source https://github.com/donmahallem/TrapezeApiClientNode
+ */
+
 import {
     IVehicleLocation,
     IVehicleLocationList,
@@ -42,7 +46,7 @@ export class VehicleStorage {
     constructor(private trapezeClient: TrapezeApiClient, private updateDelay: number = 10000) { }
 
     public updateRequired(): boolean {
-        if (this.status) {
+        if (this.status && this.status.timestamp !== undefined) {
             if (!isNaN(this.status.timestamp)) {
                 return this.status.timestamp + this.updateDelay < Date.now();
             }
@@ -63,9 +67,8 @@ export class VehicleStorage {
         }
         this.lock.locked = true;
         return this.trapezeClient.getVehicleLocations()
-            .then((result: IVehicleLocationList): ISuccessStatus => {
-                return this.convertResponse(result);
-            })
+            .then((result: IVehicleLocationList): ISuccessStatus =>
+                this.convertResponse(result))
             .catch((err: any): IErrorStatus => {
                 const errorStatus: IErrorStatus = {
                     error: err,

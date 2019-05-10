@@ -1,3 +1,7 @@
+/*!
+ * Source https://github.com/donmahallem/TrapezeApiClientNode
+ */
+
 import { expect } from "chai";
 import "mocha";
 import * as sinon from "sinon";
@@ -48,13 +52,10 @@ describe("lock-handler.ts", () => {
             });
             it("should work with multiple locks", (done) => {
                 instance.locked = true;
-                Promise.all([instance.promise().then(() => {
-                    return Date.now();
-                }), instance.promise().then(() => {
-                    return Date.now();
-                }), instance.promise().then(() => {
-                    return Date.now();
-                })]).then((values: number[]) => {
+                Promise.all([instance.promise().then(() =>
+                    Date.now()), instance.promise().then(() =>
+                    Date.now()), instance.promise().then(() =>
+                    Date.now())]).then((values: number[]) => {
                     const testTime: number = Date.now();
                     expect(values[0]).to.closeTo(testTime, 10);
                     expect(values[1]).to.closeTo(testTime, 10);

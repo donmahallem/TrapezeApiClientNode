@@ -1,3 +1,7 @@
+/*!
+ * Source https://github.com/donmahallem/TrapezeApiClientNode
+ */
+
 import { expect } from "chai";
 import "mocha";
 import * as sinon from "sinon";
