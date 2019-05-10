@@ -1,3 +1,7 @@
+/*!
+ * Source https://github.com/donmahallem/TrapezeApiClientNode
+ */
+
 export type LockListener = () => void;
 
 export class LockHandler {
@@ -8,7 +12,7 @@ export class LockHandler {
     }
 
     public addListener(lockListener: LockListener): void {
-        if (this.mLocked === false) {
+        if (!this.mLocked) {
             lockListener();
             return;
         }
@@ -16,10 +20,10 @@ export class LockHandler {
     }
 
     public set locked(l: boolean) {
-        if (l !== true) {
+        if (!l) {
             this.releaseLocks();
         }
-        this.mLocked = l === true;
+        this.mLocked = l;
     }
 
     public get locked(): boolean {

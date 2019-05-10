@@ -1,3 +1,7 @@
+/*!
+ * Source https://github.com/donmahallem/TrapezeApiClientNode
+ */
+
 import {
     IVehicleLocation,
     IVehicleLocationList,
@@ -42,7 +46,7 @@ export class VehicleStorage {
     constructor(private trapezeClient: TrapezeApiClient, private updateDelay: number = 10000) { }
 
     public updateRequired(): boolean {
-        if (this.status) {
+        if (this.status && this.status.timestamp !== undefined) {
             if (!isNaN(this.status.timestamp)) {
                 return this.status.timestamp + this.updateDelay < Date.now();
             }
@@ -63,9 +67,8 @@ export class VehicleStorage {
         }
         this.lock.locked = true;
         return this.trapezeClient.getVehicleLocations()
-            .then((result: IVehicleLocationList): ISuccessStatus => {
-                return this.convertResponse(result);
-            })
+            .then((result: IVehicleLocationList): ISuccessStatus =>
+                this.convertResponse(result))
             .catch((err: any): IErrorStatus => {
                 const errorStatus: IErrorStatus = {
                     error: err,
@@ -112,7 +115,7 @@ export class VehicleStorage {
                 if (status.tripStorage.has(id)) {
                     return {
                         lastUpdate: status.lastUpdate,
-                        vehicle: status.tripStorage.get(id),
+                        vehicle: status.tripStorage.get(id) as IVehicleLocation,
                     };
                 }
                 throw new NotFoundError("Trip not found");
@@ -144,7 +147,7 @@ export class VehicleStorage {
                 if (status.storage.has(id)) {
                     return {
                         lastUpdate: status.lastUpdate,
-                        vehicle: status.storage.get(id),
+                        vehicle: status.storage.get(id) as IVehicleLocation,
                     };
                 }
                 throw new NotFoundError("Vehicle not found");
@@ -172,7 +175,7 @@ export class VehicleStorage {
                     vehicles: new Array(),
                 };
                 for (const key of Array.from(status.storage.keys())) {
-                    const vehicle: IVehicleLocation = status.storage.get(key);
+                    const vehicle: IVehicleLocation = status.storage.get(key) as IVehicleLocation;
                     if (vehicle.longitude < left || vehicle.longitude > right) {
                         continue;
                     } else if (vehicle.latitude > top || vehicle.latitude < bottom) {
