@@ -2,6 +2,7 @@
  * Source https://github.com/donmahallem/TrapezeApiClientNode
  */
 
+import { TripId, VehicleId } from "@donmahallem/trapeze-api-types";
 import { expect } from "chai";
 import "mocha";
 import * as sinon from "sinon";
@@ -64,7 +65,7 @@ describe("trapeze-api-client.ts", () => {
             ["testId1", "testId2"].forEach((testId: string): void => {
                 it('should query the correct endpoint with id "' + testId + '"', () => {
                     postStub.resolves(testValue);
-                    return instance.getRouteByTripId(testId as any)
+                    return instance.getRouteByTripId(testId as TripId)
                         .then((result) => {
                             expect(result).to.deep.equal(testValue);
                             expect(postStub.callCount).to.equal(1);
@@ -83,7 +84,7 @@ describe("trapeze-api-client.ts", () => {
             ["testId1", "testId2"].forEach((testId: string): void => {
                 it('should query the correct endpoint with id "' + testId + '"', () => {
                     postStub.resolves(testValue);
-                    return instance.getRouteByVehicleId(testId as any)
+                    return instance.getRouteByVehicleId(testId as VehicleId)
                         .then((result) => {
                             expect(result).to.deep.equal(testValue);
                             expect(postStub.callCount).to.equal(1);
