@@ -17,7 +17,8 @@
             "security"
         ],
         "Others": [
-            "release"
+            "release",
+            "buildtool"
         ]
     }
 }
