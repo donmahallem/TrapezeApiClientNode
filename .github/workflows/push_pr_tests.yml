@@ -13,8 +13,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
-      - name: Npm Install
-        run: npm ci
+      - name: Install Dependencies
+        run: |
+          npm ci
+          npm install -g npm-install-peers
+          npm-install-peers
       - name: Run Lint
         run: npm run test:lint
       - name: Run Build
