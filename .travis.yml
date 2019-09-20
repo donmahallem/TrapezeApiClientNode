@@ -34,7 +34,7 @@ matrix:
       env: TEST_SUITE=build
 cache: npm
 before_script:
-- npm ci -g npm-install-peers
+- npm install -g npm-install-peers
 - npm-install-peers
 script:
 - npm run test:$TEST_SUITE
