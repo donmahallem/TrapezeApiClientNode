@@ -5,6 +5,8 @@ node_js:
   - "10"
   - "stable"
 env:
+  global:
+  - COVERALLS_PARALLEL=true
   matrix:
   - TEST_SUITE=lint
   - TEST_SUITE=build
@@ -32,7 +34,8 @@ matrix:
       env: TEST_SUITE=build
 cache: npm
 before_script:
-- npm install --no-save @donmahallem/trapeze-api-types
+- npm install -g npm-install-peers
+- npm-install-peers
 script:
 - npm run test:$TEST_SUITE
 after_success:
@@ -58,3 +61,5 @@ jobs:
         tags: true
         all_branches: true
         repo: donmahallem/TrapezeApiClientNode
+notifications:
+  webhooks: https://coveralls.io/webhook
