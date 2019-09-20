@@ -30,7 +30,7 @@ matrix:
       env: TEST_SUITE=docs
     - node_js: "10"
       env: TEST_SUITE=build
-cache: node
+cache: npm
 before_script:
 - npm install --no-save @donmahallem/trapeze-api-types
 script:
