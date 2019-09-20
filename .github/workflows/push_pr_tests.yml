@@ -6,15 +6,20 @@ jobs:
     strategy:
       matrix:
         node: [ '10', '8' ]
-    name: Node ${{ matrix.node }} sample
+    name: Node ${{ matrix.node }} Tests
     steps:
       - uses: actions/checkout@v1
       - name: Setup node
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
-      - run: npm ci
-      - run: npm test:lint
-      - run: npm test:build
-      - run: npm test:unit
-      - run: npm test:docs
+      - name: Npm Install
+        run: npm ci
+      - name: Run Lint
+        run: npm test:lint
+      - name: Run Build
+        run: npm test:build
+      - name: Run Unit Tests
+        run: npm test:unit
+      - name: Create Docs
+        run: npm test:docs
