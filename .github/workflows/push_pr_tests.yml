@@ -1,0 +1,20 @@
+on: [push,pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 'latest','10', '8' ]
+    name: Node ${{ matrix.node }} sample
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm ci
+      - run: npm test:lint
+      - run: npm test:build
+      - run: npm test:unit
+      - run: npm test:docs
