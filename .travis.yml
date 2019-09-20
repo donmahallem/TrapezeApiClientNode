@@ -3,6 +3,7 @@ node_js:
   - "8"
   - "9"
   - "10"
+  - "stable"
 env:
   matrix:
   - TEST_SUITE=lint
@@ -15,11 +16,21 @@ matrix:
       env: TEST_SUITE=lint
     - node_js: "8"
       env: TEST_SUITE=docs
+    - node_js: "8"
+      env: TEST_SUITE=build
     - node_js: "9"
       env: TEST_SUITE=lint
     - node_js: "9"
       env: TEST_SUITE=docs
-cache: node
+    - node_js: "9"
+      env: TEST_SUITE=build
+    - node_js: "10"
+      env: TEST_SUITE=lint
+    - node_js: "10"
+      env: TEST_SUITE=docs
+    - node_js: "10"
+      env: TEST_SUITE=build
+cache: npm
 before_script:
 - npm install --no-save @donmahallem/trapeze-api-types
 script:
@@ -29,7 +40,7 @@ after_success:
 jobs:
   include:
   - stage: Deployment
-    node_js: '10'
+    node_js: 'stable'
     script: npm run docs
     deploy:
     - provider: pages
