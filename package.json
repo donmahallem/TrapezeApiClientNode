@@ -1,6 +1,6 @@
 {
     "name": "@donmahallem/trapeze-api-client",
-    "version": "2.2.5",
+    "version": "2.2.6",
     "description": "",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -44,7 +44,7 @@
         "typescript": "~3.6.3"
     },
     "peerDependencies": {
-        "@donmahallem/trapeze-api-types": ">=1.2.0"
+        "@donmahallem/trapeze-api-types": ">=1.2.0 <2.0.0"
     },
     "nyc": {
         "include": [
