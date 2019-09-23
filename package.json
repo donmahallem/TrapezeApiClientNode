@@ -10,8 +10,6 @@
         "start": "npm run build:live",
         "build:live": "nodemon",
         "build": "tsc",
-        "build:doc": "node ./node_modules/typedoc/bin/typedoc --out ./tt2/ --mode modules --exclude /**/index ./src/",
-        "test-ci_old": "nyc ts-mocha -p tsconfig.json -- --opts mocha.opts",
         "test-ci": "nyc npm run test",
         "lint": "tslint -c tslint.json -p tsconfig-lint.json src/**/*.ts",
         "lint-fix": "tslint --fix -c tslint.json -p tsconfig-lint.json src/**/*.ts",
