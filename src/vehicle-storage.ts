@@ -66,7 +66,7 @@ export class VehicleStorage {
             return this.lock.promise().then(() => this.status);
         }
         this.lock.locked = true;
-        return this.trapezeClient.getVehicleLocations()
+        return this.trapezeClient.getVehicleLocations("RAW")
             .then((result: IVehicleLocationList): ISuccessStatus =>
                 this.convertResponse(result))
             .catch((err: any): IErrorStatus => {
