@@ -53,7 +53,7 @@ describe("trapeze-api-client.ts", () => {
                         const callArgs: any[] = getStub.getCall(0).args;
                         expect(callArgs).to.deep.equal([{
                             qs: {
-                                colorType: "ROUTE",
+                                colorType: "ROUTE_BASED",
                                 positionType: "CORRECTED",
                             },
                             url: testUrl + "/internetservice/geoserviceDispatcher/services/vehicleinfo/vehicles",
