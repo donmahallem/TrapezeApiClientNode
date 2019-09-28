@@ -54,6 +54,7 @@ describe("trapeze-api-client.ts", () => {
                         expect(callArgs).to.deep.equal([{
                             qs: {
                                 colorType: "ROUTE_BASED",
+                                lastUpdate: undefined,
                                 positionType: "CORRECTED",
                             },
                             url: testUrl + "/internetservice/geoserviceDispatcher/services/vehicleinfo/vehicles",

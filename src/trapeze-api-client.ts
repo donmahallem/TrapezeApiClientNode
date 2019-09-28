@@ -41,12 +41,15 @@ export class TrapezeApiClient {
     /**
      * Correct
      * @param positionType coordinate type
+     * @param lastUpdate timestamp of last update
      */
-    public getVehicleLocations(positionType: PositionType = "CORRECTED")
+    public getVehicleLocations(positionType: PositionType = "CORRECTED",
+                               lastUpdate?: string | number)
         : reqp.RequestPromise<IVehicleLocationList> {
         const options: req.OptionsWithUrl = {
             qs: {
                 colorType: "ROUTE_BASED",
+                lastUpdate,
                 positionType,
             },
             url: this.endpoint + "/internetservice/geoserviceDispatcher/services/vehicleinfo/vehicles",
