@@ -1,6 +1,7 @@
+name: Create Release Notes
 on:
   release:
-    types: ['created','prereleased']
+    types: ['created']
 
 jobs:
   create_release_notes:
