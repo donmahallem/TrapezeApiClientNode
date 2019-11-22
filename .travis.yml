@@ -42,24 +42,29 @@ after_success:
 - ./coveralls_upload.sh
 jobs:
   include:
-  - stage: Deployment
+  - stage: npm release
     node_js: 'stable'
-    script: npm run docs
+    script: npm run build
+    if: tag IS present
     deploy:
-    - provider: pages
-      skip-cleanup: true
-      local-dir: docs
-      github-token: $GITHUB_TOKEN
-      keep-history: true
-      on:
-        branch: master
-    - provider: npm
+      provider: npm
       skip_cleanup: true
       email: $npm_email
       api_key: $npm_api_key
       on:
         tags: true
-        all_branches: true
         repo: donmahallem/TrapezeApiClientNode
+  - stage: github pages release
+    node_js: 'stable'
+    script: npm run docs
+    if: branch = master
+    deploy:
+      provider: pages
+      skip-cleanup: true
+      local-dir: docs
+      github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+      keep-history: true
+      on:
+        branch: master
 notifications:
   webhooks: https://coveralls.io/webhook
