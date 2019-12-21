@@ -114,6 +114,28 @@ describe("vehicle-dataset.ts", () => {
                     ]);
 
                 });
+                it("should return all non expired", () => {
+                    expiredStub.callsFake((vehicle) => {
+                        return vehicle.lastUpdate % 2 !== 0;
+                    });
+                    const result = instance.getVehiclesInBox(1, 2, 2, 1);
+                    expect(expiredStub.callCount).to.equal(4, "should call the expire check for only the in box items");
+                    expect(result).to.deep.equal([
+                        {
+                            id: "11",
+                            lastUpdate: 123456,
+                            latitude: 1,
+                            longitude: 1,
+                        },
+                        {
+                            id: "21",
+                            lastUpdate: 123460,
+                            latitude: 2,
+                            longitude: 1,
+                        },
+                    ]);
+
+                });
             });
         });
         describe("getVehicleById(id)", () => {
