@@ -85,5 +85,18 @@ export class VehicleDataset {
             return !this.isExpired(value);
         });
     }
+    public getUpdatesSince(update: number): DatabaseEntry[] {
+        return this.mDataset
+            .filter((value: DatabaseEntry): boolean => {
+                return value.lastUpdate >= update;
+            });
+    }
+
+    public getVehicles(updatedSince: number = 0, ignoreTtl: boolean = false): DatabaseEntry[] {
+        return this.mDataset
+            .filter((value: DatabaseEntry): boolean => {
+                return (ignoreTtl ? true : !this.isExpired(value)) && value.lastUpdate >= updatedSince;
+            })
+    }
 
 }
