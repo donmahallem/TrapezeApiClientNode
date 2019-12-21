@@ -54,5 +54,45 @@ describe("vehicle-dataset.ts", () => {
                 expect(instance.isExpired(testObject)).to.eq(false);
             });
         });
+        describe("getVehicleById(id)", () => {
+            let expiredStub: sinon.SinonStub;
+            beforeEach(() => {
+                (instance as any).mDataset = [{ id: "1" }, { id: "2" }];
+                expiredStub = sandbox.stub(instance, "isExpired");
+            }); it("should return no entry for a unknown id", () => {
+                expect(instance.getVehicleById("-1")).to.be.undefined;
+                expect(expiredStub.callCount).to.equal(0, "Should not be called");
+            });
+            it("should return a entry for a known id that hasn't expired", () => {
+                expiredStub.returns(false);
+                expect(instance.getVehicleById("1")).to.deep.eq({ id: "1" });
+                expect(expiredStub.callCount).to.equal(1, "Should be called once");
+            });
+            it("should return no entry for a known id that expired", () => {
+                expiredStub.returns(true);
+                expect(instance.getVehicleById("1")).to.be.undefined;
+                expect(expiredStub.callCount).to.equal(1, "Should be called once");
+            });
+        });
+        describe("getVehicleByTripId(tripId)", () => {
+            let expiredStub: sinon.SinonStub;
+            beforeEach(() => {
+                (instance as any).mDataset = [{ tripId: "1" }, { tripId: "2" }];
+                expiredStub = sandbox.stub(instance, "isExpired");
+            }); it("should return no entry for a unknown id", () => {
+                expect(instance.getVehicleByTripId("-1")).to.be.undefined;
+                expect(expiredStub.callCount).to.equal(0, "Should not be called");
+            });
+            it("should return a entry for a known id that hasn't expired", () => {
+                expiredStub.returns(false);
+                expect(instance.getVehicleByTripId("1")).to.deep.eq({ tripId: "1" });
+                expect(expiredStub.callCount).to.equal(1, "Should be called once");
+            });
+            it("should return no entry for a known id that expired", () => {
+                expiredStub.returns(true);
+                expect(instance.getVehicleByTripId("1")).to.be.undefined;
+                expect(expiredStub.callCount).to.equal(1, "Should be called once");
+            });
+        });
     });
 });

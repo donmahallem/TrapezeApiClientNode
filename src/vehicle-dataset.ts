@@ -68,15 +68,15 @@ export class VehicleDataset {
         return entry.lastUpdate < Date.now() - this.mDataTTL;
     }
 
-    public getVehicleById(id: string, useTTL: boolean = true): DatabaseEntry | undefined {
+    public getVehicleById(id: string): DatabaseEntry | undefined {
         const idx: number = this.mDataset.findIndex((value: DatabaseEntry) => {
-            return value.id === id && (useTTL ? !this.isExpired(value) : true);
+            return value.id === id && !this.isExpired(value);
         });
         return idx >= 0 ? this.mDataset[idx] : undefined;
     }
-    public getVehicleByTripId(tripId: string, useTTL: boolean = true): DatabaseEntry | undefined {
+    public getVehicleByTripId(tripId: string): DatabaseEntry | undefined {
         const idx: number = this.mDataset.findIndex((value: DatabaseEntry) => {
-            return value.tripId === tripId && (useTTL ? !this.isExpired(value) : true);
+            return value.tripId === tripId && !this.isExpired(value);
         });
         return idx >= 0 ? this.mDataset[idx] : undefined;
     }
@@ -92,13 +92,13 @@ export class VehicleDataset {
             });
     }
 
-    public getVehicles(updatedSince: number = 0, ignoreTtl: boolean = false): DatabaseEntry[] {
+    public getVehicles(updatedSince: number = 0): DatabaseEntry[] {
         return this.mDataset
             .filter((value: DatabaseEntry): boolean => {
-                return (ignoreTtl ? true : !this.isExpired(value)) && value.lastUpdate >= updatedSince;
-            })
+                return !this.isExpired(value) && value.lastUpdate >= updatedSince;
+            });
     }
-    public getVehiclesInBox(left: number, right: number, top: number, bottom: number, updatedSince: number = 0, ignoreTtl: boolean = false): DatabaseEntry[] {
+    public getVehiclesInBox(left: number, right: number, top: number, bottom: number, updatedSince: number = 0): DatabaseEntry[] {
         if (left >= right) {
             throw new Error("left must be smaller than right");
         }
@@ -111,7 +111,7 @@ export class VehicleDataset {
                     return false;
                 } else if (vehicle.latitude > top || vehicle.latitude < bottom) {
                     return false;
-                } else if (!ignoreTtl && this.isExpired(vehicle)) {
+                } else if (this.isExpired(vehicle)) {
                     return false;
                 }
                 return vehicle.lastUpdate >= updatedSince;
