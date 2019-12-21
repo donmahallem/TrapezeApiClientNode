@@ -1,15 +1,19 @@
+/*!
+ * Source https://github.com/donmahallem/TrapezeApiClientNode
+ */
+
 import {
+    IVehicleLocation,
     IVehicleLocationList,
-    IVehicleLocation
 } from "@donmahallem/trapeze-api-types";
 type DatabaseEntry = IVehicleLocation & {
     lastUpdate: number;
-}
+};
 export class VehicleDataset {
     private mDataset: DatabaseEntry[] = [];
     private mDataTTL: number;
     /**
-     * 
+     *
      * @param ttl in miliseconds
      */
     public constructor(ttl: number = 300000) {
@@ -40,11 +44,10 @@ export class VehicleDataset {
                 }
                 return true;
             })
-            .map((value: IVehicleLocation): DatabaseEntry => {
-                return Object.assign(value, {
-                    lastUpdate: vehicleResponse.lastUpdate
-                });
-            });
+            .map((value: IVehicleLocation): DatabaseEntry =>
+                Object.assign(value, {
+                    lastUpdate: vehicleResponse.lastUpdate,
+                }));
 
     }
     public add(vehicleResponse: IVehicleLocationList): void {
@@ -59,8 +62,9 @@ export class VehicleDataset {
                     break;
                 }
             }
-            if (!inserted)
+            if (!inserted) {
                 this.mDataset.push(converted[fromIdx]);
+            }
         }
         this.purgeOldEntries();
     }
@@ -69,36 +73,35 @@ export class VehicleDataset {
     }
 
     public getVehicleById(id: string): DatabaseEntry | undefined {
-        const idx: number = this.mDataset.findIndex((value: DatabaseEntry) => {
-            return value.id === id && !this.isExpired(value);
-        });
+        const idx: number = this.mDataset.findIndex((value: DatabaseEntry) =>
+            value.id === id && !this.isExpired(value));
         return idx >= 0 ? this.mDataset[idx] : undefined;
     }
     public getVehicleByTripId(tripId: string): DatabaseEntry | undefined {
-        const idx: number = this.mDataset.findIndex((value: DatabaseEntry) => {
-            return value.tripId === tripId && !this.isExpired(value);
-        });
+        const idx: number = this.mDataset.findIndex((value: DatabaseEntry) =>
+            value.tripId === tripId && !this.isExpired(value));
         return idx >= 0 ? this.mDataset[idx] : undefined;
     }
     public purgeOldEntries(): void {
-        this.mDataset = this.mDataset.filter((value: DatabaseEntry): boolean => {
-            return !this.isExpired(value);
-        });
+        this.mDataset = this.mDataset.filter((value: DatabaseEntry): boolean =>
+            !this.isExpired(value));
     }
     public getUpdatesSince(update: number): DatabaseEntry[] {
         return this.mDataset
-            .filter((value: DatabaseEntry): boolean => {
-                return value.lastUpdate >= update;
-            });
+            .filter((value: DatabaseEntry): boolean =>
+                value.lastUpdate >= update);
     }
 
     public getVehicles(updatedSince: number = 0): DatabaseEntry[] {
         return this.mDataset
-            .filter((value: DatabaseEntry): boolean => {
-                return !this.isExpired(value) && value.lastUpdate >= updatedSince;
-            });
+            .filter((value: DatabaseEntry): boolean =>
+                !this.isExpired(value) && value.lastUpdate >= updatedSince);
     }
-    public getVehiclesInBox(left: number, right: number, top: number, bottom: number, updatedSince: number = 0): DatabaseEntry[] {
+    public getVehiclesInBox(left: number,
+                            right: number,
+                            top: number,
+                            bottom: number,
+                            updatedSince: number = 0): DatabaseEntry[] {
         if (left >= right) {
             throw new Error("left must be smaller than right");
         }
@@ -106,16 +109,13 @@ export class VehicleDataset {
             throw new Error("top must be greater than bottom");
         }
         return this.mDataset
-            .filter((vehicle: DatabaseEntry): boolean => {
-                if (vehicle.longitude < left || vehicle.longitude > right) {
-                    return false;
-                } else if (vehicle.latitude > top || vehicle.latitude < bottom) {
-                    return false;
-                } else if (this.isExpired(vehicle)) {
-                    return false;
-                }
-                return vehicle.lastUpdate >= updatedSince;
-            });
+            .filter((vehicle: DatabaseEntry): boolean =>
+                vehicle.longitude >= left &&
+                vehicle.longitude <= right &&
+                vehicle.latitude <= top &&
+                vehicle.latitude >= bottom &&
+                !this.isExpired(vehicle) &&
+                vehicle.lastUpdate >= updatedSince);
     }
 
 }
