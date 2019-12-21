@@ -70,13 +70,13 @@ export class VehicleDataset {
 
     public getVehicleById(id: string, useTTL: boolean = true): DatabaseEntry | undefined {
         const idx: number = this.mDataset.findIndex((value: DatabaseEntry) => {
-            return value.id === id;
+            return value.id === id && (useTTL ? !this.isExpired(value) : true);
         });
         return idx >= 0 ? this.mDataset[idx] : undefined;
     }
     public getVehicleByTripId(tripId: string, useTTL: boolean = true): DatabaseEntry | undefined {
         const idx: number = this.mDataset.findIndex((value: DatabaseEntry) => {
-            return value.tripId === tripId;
+            return value.tripId === tripId && (useTTL ? !this.isExpired(value) : true);
         });
         return idx >= 0 ? this.mDataset[idx] : undefined;
     }
