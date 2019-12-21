@@ -16,13 +16,13 @@ export class VehicleDataset {
         this.dataTTL = ttl;
     }
     public get dataTTL(): number {
-        return this.dataTTL;
+        return this.mDataTTL;
     }
     public set dataTTL(ttl: number) {
         if (ttl < 0) {
             throw new Error("ttl must be >=0");
         }
-        this.dataTTL = ttl;
+        this.mDataTTL = ttl;
     }
 
     public convertToDatabaseEntries(vehicleResponse: IVehicleLocationList): DatabaseEntry[] {
@@ -97,6 +97,25 @@ export class VehicleDataset {
             .filter((value: DatabaseEntry): boolean => {
                 return (ignoreTtl ? true : !this.isExpired(value)) && value.lastUpdate >= updatedSince;
             })
+    }
+    public getVehiclesInBox(left: number, right: number, top: number, bottom: number, updatedSince: number = 0, ignoreTtl: boolean = false): DatabaseEntry[] {
+        if (left >= right) {
+            throw new Error("left must be smaller than right");
+        }
+        if (top <= bottom) {
+            throw new Error("top must be greater than bottom");
+        }
+        return this.mDataset
+            .filter((vehicle: DatabaseEntry): boolean => {
+                if (vehicle.longitude < left || vehicle.longitude > right) {
+                    return false;
+                } else if (vehicle.latitude > top || vehicle.latitude < bottom) {
+                    return false;
+                } else if (!ignoreTtl && this.isExpired(vehicle)) {
+                    return false;
+                }
+                return vehicle.lastUpdate >= updatedSince;
+            });
     }
 
 }

@@ -99,9 +99,6 @@ export class VehicleStorage {
             if (entry.isDeleted === true) {
                 continue;
             }
-            if (entry.latitude === undefined || entry.longitude === undefined) {
-                continue;
-            }
             const vehicleLocation: IVehicleLocation = entry as IVehicleLocation;
             loadStatus.storage.set(vehicleLocation.id, vehicleLocation);
             loadStatus.tripStorage.set(vehicleLocation.tripId, vehicleLocation);
