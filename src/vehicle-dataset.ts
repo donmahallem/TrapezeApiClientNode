@@ -6,29 +6,30 @@ import {
     IVehicleLocation,
     IVehicleLocationList,
 } from "@donmahallem/trapeze-api-types";
+import * as Loki from "lokijs";
 type DatabaseEntry = IVehicleLocation & {
     lastUpdate: number;
 };
 export class VehicleDataset {
-    private mDataset: DatabaseEntry[] = [];
-    private mDataTTL: number;
+    private mLokiDb: Loki;
+    private mVehicleCollection: Loki.Collection<DatabaseEntry>;
     /**
      *
      * @param ttl in miliseconds
      */
-    public constructor(ttl: number = 300000) {
-        this.dataTTL = ttl;
+    public constructor() {
+        this.mLokiDb = new Loki("testloki", {
+            adapter: new Loki.LokiMemoryAdapter()
+        });
+        this.mVehicleCollection = this.mLokiDb
+            .addCollection("vehicle", {
+                clone: true,
+                indices: ["id", "tripId"],
+                ttl: 300000,
+                ttlInterval: 60000,
+                unique: ["id"],
+            });
     }
-    public get dataTTL(): number {
-        return this.mDataTTL;
-    }
-    public set dataTTL(ttl: number) {
-        if (ttl < 0) {
-            throw new Error("ttl must be >=0");
-        }
-        this.mDataTTL = ttl;
-    }
-
     public convertToDatabaseEntries(vehicleResponse: IVehicleLocationList): DatabaseEntry[] {
         return vehicleResponse
             .vehicles
@@ -52,70 +53,49 @@ export class VehicleDataset {
     }
     public add(vehicleResponse: IVehicleLocationList): void {
         const converted: DatabaseEntry[] = this.convertToDatabaseEntries(vehicleResponse);
-        let inserted: boolean = false;
-        for (let fromIdx: number = 0; fromIdx < converted.length; fromIdx++) {
-            inserted = false;
-            for (let toIdx: number = 0; toIdx < this.mDataset.length; toIdx++) {
-                if (converted[fromIdx].id === this.mDataset[toIdx].id) {
-                    this.mDataset[toIdx] = converted[fromIdx];
-                    inserted = true;
-                    break;
-                }
-            }
-            if (!inserted) {
-                this.mDataset.push(converted[fromIdx]);
-            }
+        converted.forEach((item: DatabaseEntry) => {
+            this.mVehicleCollection
+                .insert(item);
+        });
+    }
+    private removeLoki<T>(value: T): any {
+        if (value) {
+            const newObj: any = Object.assign({}, value);
+            delete newObj["$loki"];
+            delete newObj["meta"];
+            return newObj;
         }
-        this.purgeOldEntries();
+        return undefined;
     }
-    public isExpired(entry: DatabaseEntry): boolean {
-        return entry.lastUpdate < Date.now() - this.mDataTTL;
-    }
-
     public getVehicleById(id: string): DatabaseEntry | undefined {
-        const idx: number = this.mDataset.findIndex((value: DatabaseEntry) =>
-            value.id === id && !this.isExpired(value));
-        return idx >= 0 ? this.mDataset[idx] : undefined;
+        return this.removeLoki(this.mVehicleCollection.by("id", id));
     }
     public getVehicleByTripId(tripId: string): DatabaseEntry | undefined {
-        const idx: number = this.mDataset.findIndex((value: DatabaseEntry) =>
-            value.tripId === tripId && !this.isExpired(value));
-        return idx >= 0 ? this.mDataset[idx] : undefined;
-    }
-    public purgeOldEntries(): void {
-        this.mDataset = this.mDataset.filter((value: DatabaseEntry): boolean =>
-            !this.isExpired(value));
+        return this.removeLoki(this.mVehicleCollection.findOneUnindexed("tripId", tripId));
     }
     public getUpdatesSince(update: number): DatabaseEntry[] {
-        return this.mDataset
-            .filter((value: DatabaseEntry): boolean =>
-                value.lastUpdate >= update);
-    }
-
-    public getVehicles(updatedSince: number = 0): DatabaseEntry[] {
-        return this.mDataset
-            .filter((value: DatabaseEntry): boolean =>
-                !this.isExpired(value) && value.lastUpdate >= updatedSince);
+        return this.mVehicleCollection
+            .find({ 'lastUpdate': { '$gte': update } })
+            .map(this.removeLoki);
     }
     public getVehiclesInBox(left: number,
-                            right: number,
-                            top: number,
-                            bottom: number,
-                            updatedSince: number = 0): DatabaseEntry[] {
+        right: number,
+        top: number,
+        bottom: number,
+        updatedSince: number = 0): DatabaseEntry[] {
         if (left >= right) {
             throw new Error("left must be smaller than right");
         }
         if (top <= bottom) {
             throw new Error("top must be greater than bottom");
         }
-        return this.mDataset
-            .filter((vehicle: DatabaseEntry): boolean =>
-                vehicle.longitude >= left &&
-                vehicle.longitude <= right &&
-                vehicle.latitude <= top &&
-                vehicle.latitude >= bottom &&
-                !this.isExpired(vehicle) &&
-                vehicle.lastUpdate >= updatedSince);
+        return this.mVehicleCollection
+            .find({
+                'longitude': { '$between': [left, right] },
+                "latitude": { "$between": [bottom, top] },
+                "lastUpdate": { "$gte": updatedSince }
+            })
+            .map(this.removeLoki);;
     }
 
 }
