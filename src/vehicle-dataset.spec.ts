@@ -50,24 +50,49 @@ describe("vehicle-dataset.ts", () => {
             sandbox.restore();
             clock.restore();
         });
-        describe("addLocationResponse(vehicles,lastupdate)", () => {
+        describe("addLocationResponse(vehicles)", () => {
             let convertStub: sinon.SinonStub;
             let insertStub: sinon.SinonStub;
+            let updateStub: sinon.SinonStub;
+            let byStub: sinon.SinonStub;
+            const testItems: any = [1, 2, 3, 4, 5].map((val) =>
+                ({
+                    id: "id" + val,
+                }));
             beforeEach(() => {
                 convertStub = sandbox.stub(instance, "convertToDatabaseEntries");
                 insertStub = sandbox.stub((instance as any).mVehicleCollection, "insert");
+                updateStub = sandbox.stub((instance as any).mVehicleCollection, "update");
+                byStub = sandbox.stub((instance as any).mVehicleCollection, "by");
             });
-
-            it("should insert and convert all items correctly", () => {
-                const testItems: any = [1, 2, 3, 4, 5];
-                const convertedItems: any = testItems.map((value) => "v" + value);
+            it("should insert and convert all items correctly if previously unknown", () => {
+                const convertedItems: any = testItems.map((value) => Object
+                    .assign(value, { tripId: "tripId" + value.id }));
+                const testIds: string[] = testItems.map((val) => val.id);
+                byStub.returns(undefined);
                 convertStub.returns(convertedItems);
                 instance.addLocationResponse(testItems);
                 expect(convertStub.callCount).to.equal(1);
                 expect(convertStub.getCall(0).args).to.deep.equal([testItems]);
-                expect(insertStub.callCount).to.equal(1);
-                expect(insertStub.getCall(0).args).to.deep.equal([convertedItems]);
-
+                expect(insertStub.callCount).to.equal(5);
+                expect(byStub.callCount).to.equal(5);
+                expect(byStub.args).to.deep.equal(testIds.map((val) => ["id", val]));
+                expect(insertStub.args).to.deep.equal(convertedItems.map((val) => [val]));
+                expect(updateStub.callCount).to.equal(0);
+            });
+            it("should upsert duplicate entries", () => {
+                const byReturnObject: any = {
+                    key: 1,
+                    key2: "asdf",
+                };
+                byStub.returns(byReturnObject);
+                convertStub.returns(testItems);
+                instance.addLocationResponse(testItems);
+                expect(insertStub.callCount).to.equal(0);
+                expect(updateStub.callCount).to.equal(5);
+                expect(byStub.callCount).to.equal(5);
+                expect(updateStub.args).to.deep.equal(testItems
+                    .map((val) => [Object.assign(val, byReturnObject)]));
             });
         });
         describe("getVehiclesInBox(left, right, top, bottom, updatedSince)", () => {

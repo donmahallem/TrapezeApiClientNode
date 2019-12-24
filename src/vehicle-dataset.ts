@@ -53,8 +53,14 @@ export class VehicleDataset {
     }
     public addLocationResponse(vehicleResponse: IVehicleLocationList): void {
         const converted: DatabaseEntry[] = this.convertToDatabaseEntries(vehicleResponse);
-        this.mVehicleCollection
-            .insert(converted);
+        converted.forEach((val: DatabaseEntry) => {
+            const res: any = this.mVehicleCollection.by("id", val.id);
+            if (res) {
+                this.mVehicleCollection.update(Object.assign(res, val));
+            } else {
+                this.mVehicleCollection.insert(val);
+            }
+        });
     }
     public getVehicleById(id: string): DatabaseEntry | undefined {
         return this.removeLoki(this.mVehicleCollection.by("id", id));
