@@ -98,10 +98,14 @@ describe("vehicle-dataset.ts", () => {
         describe("getVehiclesInBox(left, right, top, bottom, updatedSince)", () => {
             describe("invalid parameter are provided", () => {
                 it("should reject if left is not smaller than right", () => {
-                    expect(instance.getVehiclesInBox.bind(1, 1, 1, 2)).to.throw("left must be smaller than right");
+                    expect(() => {
+                        instance.getVehiclesInBox(1, 1, 2, 1);
+                    }).to.throw("left must be smaller than right");
                 });
                 it("should reject if bottom is not smaller than top", () => {
-                    expect(instance.getVehiclesInBox.bind(1, 2, 2, 2)).to.throw("left must be smaller than right");
+                    expect(() => {
+                        instance.getVehiclesInBox(1, 2, 2, 2);
+                    }).to.throw("top must be greater than bottom");
                 });
             });
             describe("vehicles bounds are provided", () => {
