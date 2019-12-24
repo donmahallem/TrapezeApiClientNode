@@ -3,10 +3,10 @@
  */
 
 import { expect } from "chai";
+import * as Loki from "lokijs";
 import "mocha";
 import * as sinon from "sinon";
 import { VehicleDataset } from "./vehicle-dataset";
-import * as Loki from "lokijs";
 
 describe("vehicle-dataset.ts", () => {
     describe("VehicleDataset", () => {
@@ -49,6 +49,26 @@ describe("vehicle-dataset.ts", () => {
         after(() => {
             sandbox.restore();
             clock.restore();
+        });
+        describe("addLocationResponse(vehicles,lastupdate)", () => {
+            let convertStub: sinon.SinonStub;
+            let insertStub: sinon.SinonStub;
+            beforeEach(() => {
+                convertStub = sandbox.stub(instance, "convertToDatabaseEntries");
+                insertStub = sandbox.stub((instance as any).mVehicleCollection, "insert");
+            });
+
+            it("should insert and convert all items correctly", () => {
+                const testItems: any = [1, 2, 3, 4, 5];
+                const convertedItems: any = testItems.map((value) => "v" + value);
+                convertStub.returns(convertedItems);
+                instance.addLocationResponse(testItems);
+                expect(convertStub.callCount).to.equal(1);
+                expect(convertStub.getCall(0).args).to.deep.equal([testItems]);
+                expect(insertStub.callCount).to.equal(1);
+                expect(insertStub.getCall(0).args).to.deep.equal([convertedItems]);
+
+            });
         });
         describe("getVehiclesInBox(left, right, top, bottom, updatedSince)", () => {
             describe("invalid parameter are provided", () => {
@@ -121,7 +141,7 @@ describe("vehicle-dataset.ts", () => {
         });
         describe("getVehicleById(id)", () => {
             it("should return undefined for an unknown id", () => {
-                expect(instance.getVehicleById("-100")).to.be.undefined;
+                expect(instance.getVehicleById("-100")).to.be.equal(undefined);
             });
             it("should return undefined for an unknown id", () => {
                 const testVehicle: any = testVehicles[5];
@@ -130,7 +150,7 @@ describe("vehicle-dataset.ts", () => {
         });
         describe("getVehicleByTripId(tripId)", () => {
             it("should return undefined for an unknown id", () => {
-                expect(instance.getVehicleByTripId("-100")).to.be.undefined;
+                expect(instance.getVehicleByTripId("-100")).to.be.equal(undefined);
             });
             it("should return undefined for an unknown id", () => {
                 const testVehicle: any = testVehicles[6];

@@ -19,7 +19,7 @@ export class VehicleDataset {
      */
     public constructor() {
         this.mLokiDb = new Loki("testloki", {
-            adapter: new Loki.LokiMemoryAdapter()
+            adapter: new Loki.LokiMemoryAdapter(),
         });
         this.mVehicleCollection = this.mLokiDb
             .addCollection("vehicle", {
@@ -51,21 +51,10 @@ export class VehicleDataset {
                 }));
 
     }
-    public add(vehicleResponse: IVehicleLocationList): void {
+    public addLocationResponse(vehicleResponse: IVehicleLocationList): void {
         const converted: DatabaseEntry[] = this.convertToDatabaseEntries(vehicleResponse);
-        converted.forEach((item: DatabaseEntry) => {
-            this.mVehicleCollection
-                .insert(item);
-        });
-    }
-    private removeLoki<T>(value: T): any {
-        if (value) {
-            const newObj: any = Object.assign({}, value);
-            delete newObj["$loki"];
-            delete newObj["meta"];
-            return newObj;
-        }
-        return undefined;
+        this.mVehicleCollection
+            .insert(converted);
     }
     public getVehicleById(id: string): DatabaseEntry | undefined {
         return this.removeLoki(this.mVehicleCollection.by("id", id));
@@ -75,14 +64,14 @@ export class VehicleDataset {
     }
     public getUpdatesSince(update: number): DatabaseEntry[] {
         return this.mVehicleCollection
-            .find({ 'lastUpdate': { '$gte': update } })
+            .find({ lastUpdate: { $gte: update } })
             .map(this.removeLoki);
     }
     public getVehiclesInBox(left: number,
-        right: number,
-        top: number,
-        bottom: number,
-        updatedSince: number = 0): DatabaseEntry[] {
+                            right: number,
+                            top: number,
+                            bottom: number,
+                            updatedSince: number = 0): DatabaseEntry[] {
         if (left >= right) {
             throw new Error("left must be smaller than right");
         }
@@ -91,11 +80,20 @@ export class VehicleDataset {
         }
         return this.mVehicleCollection
             .find({
-                'longitude': { '$between': [left, right] },
-                "latitude": { "$between": [bottom, top] },
-                "lastUpdate": { "$gte": updatedSince }
+                lastUpdate: { $gte: updatedSince },
+                latitude: { $between: [bottom, top] },
+                longitude: { $between: [left, right] },
             })
-            .map(this.removeLoki);;
+            .map(this.removeLoki);
+    }
+    private removeLoki<T>(value: T): any {
+        if (value) {
+            const newObj: any = Object.assign({}, value);
+            delete newObj.$loki;
+            delete newObj.meta;
+            return newObj;
+        }
+        return undefined;
     }
 
 }
