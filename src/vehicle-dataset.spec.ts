@@ -138,6 +138,20 @@ describe("vehicle-dataset.ts", () => {
                     .equal(byStub.returnValues.map((val) => [Object.assign({ newKey: 55 }, val)]));
             });
         });
+        describe("getUpdatesSince(update)", () => {
+            it("should return only relevant items", () => {
+                const resultSet: any[] = instance.getUpdatesSince(123462);
+                expect(resultSet).to.deep.equal(testVehicles.slice(6));
+            });
+            it("should return no items", () => {
+                const resultSet: any[] = instance.getUpdatesSince(123492);
+                expect(resultSet).to.deep.equal([]);
+            });
+            it("should return no items", () => {
+                const resultSet: any[] = instance.getUpdatesSince(123412);
+                expect(resultSet).to.deep.equal(testVehicles);
+            });
+        });
         describe("getVehiclesInBox(left, right, top, bottom, updatedSince)", () => {
             describe("invalid parameter are provided", () => {
                 it("should reject if left is not smaller than right", () => {
