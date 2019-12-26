@@ -29,24 +29,27 @@ export class VehicleDataset {
             });
     }
     public convertToDatabaseEntries(vehicleResponse: IVehicleLocationList): IVehicleLocationExtended[] {
-        return vehicleResponse
-            .vehicles
-            .filter((value: IVehicleLocation): boolean => {
-                if (value === null || value === undefined) {
-                    return false;
-                }
-                if (value.isDeleted === true) {
-                    return false;
-                }
-                if (value.latitude === undefined || value.longitude === undefined) {
-                    return false;
-                }
-                return true;
-            })
-            .map((value: IVehicleLocation): IVehicleLocationExtended =>
-                Object.assign(value, {
-                    lastUpdate: vehicleResponse.lastUpdate,
-                }));
+        if (vehicleResponse && vehicleResponse.vehicles) {
+            return vehicleResponse
+                .vehicles
+                .filter((value: IVehicleLocation): boolean => {
+                    if (value === null || value === undefined) {
+                        return false;
+                    }
+                    if (value.isDeleted === true) {
+                        return false;
+                    }
+                    if (value.latitude === undefined || value.longitude === undefined) {
+                        return false;
+                    }
+                    return true;
+                })
+                .map((value: IVehicleLocation): IVehicleLocationExtended =>
+                    Object.assign(value, {
+                        lastUpdate: vehicleResponse.lastUpdate,
+                    }));
+        }
+        return [];
 
     }
     public addLocationResponse(vehicleResponse: IVehicleLocationList): void {

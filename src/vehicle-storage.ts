@@ -80,6 +80,7 @@ export class VehicleStorage {
                 const errorStatus: IErrorStatus = {
                     error: err,
                     status: Status.ERROR,
+                    timestamp: Date.now(),
                 };
                 return errorStatus;
             })
