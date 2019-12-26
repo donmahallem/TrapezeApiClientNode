@@ -2,17 +2,15 @@
  * Source https://github.com/donmahallem/TrapezeApiClientNode
  */
 
+import { IVehicleLocationExtended } from "@donmahallem/trapeze-api-client-types";
 import {
     IVehicleLocation,
     IVehicleLocationList,
 } from "@donmahallem/trapeze-api-types";
 import * as Loki from "lokijs";
-type DatabaseEntry = IVehicleLocation & {
-    lastUpdate: number;
-};
 export class VehicleDataset {
     private mLokiDb: Loki;
-    private mVehicleCollection: Loki.Collection<DatabaseEntry>;
+    private mVehicleCollection: Loki.Collection<IVehicleLocationExtended>;
     /**
      *
      * @param ttl in miliseconds
@@ -30,7 +28,7 @@ export class VehicleDataset {
                 unique: ["id"],
             });
     }
-    public convertToDatabaseEntries(vehicleResponse: IVehicleLocationList): DatabaseEntry[] {
+    public convertToDatabaseEntries(vehicleResponse: IVehicleLocationList): IVehicleLocationExtended[] {
         return vehicleResponse
             .vehicles
             .filter((value: IVehicleLocation): boolean => {
@@ -45,15 +43,15 @@ export class VehicleDataset {
                 }
                 return true;
             })
-            .map((value: IVehicleLocation): DatabaseEntry =>
+            .map((value: IVehicleLocation): IVehicleLocationExtended =>
                 Object.assign(value, {
                     lastUpdate: vehicleResponse.lastUpdate,
                 }));
 
     }
     public addLocationResponse(vehicleResponse: IVehicleLocationList): void {
-        const converted: DatabaseEntry[] = this.convertToDatabaseEntries(vehicleResponse);
-        converted.forEach((val: DatabaseEntry) => {
+        const converted: IVehicleLocationExtended[] = this.convertToDatabaseEntries(vehicleResponse);
+        converted.forEach((val: IVehicleLocationExtended) => {
             const res: any = this.mVehicleCollection.by("id", val.id);
             if (res) {
                 this.mVehicleCollection.update(Object.assign(res, val));
@@ -62,13 +60,13 @@ export class VehicleDataset {
             }
         });
     }
-    public getVehicleById(id: string): DatabaseEntry | undefined {
+    public getVehicleById(id: string): IVehicleLocationExtended | undefined {
         return this.removeLoki(this.mVehicleCollection.by("id", id));
     }
-    public getVehicleByTripId(tripId: string): DatabaseEntry | undefined {
+    public getVehicleByTripId(tripId: string): IVehicleLocationExtended | undefined {
         return this.removeLoki(this.mVehicleCollection.findOneUnindexed("tripId", tripId));
     }
-    public getUpdatesSince(update: number): DatabaseEntry[] {
+    public getUpdatesSince(update: number): IVehicleLocationExtended[] {
         return this.mVehicleCollection
             .find({ lastUpdate: { $gte: update } })
             .map(this.removeLoki);
@@ -77,7 +75,7 @@ export class VehicleDataset {
                             right: number,
                             top: number,
                             bottom: number,
-                            updatedSince: number = 0): DatabaseEntry[] {
+                            updatedSince: number = 0): IVehicleLocationExtended[] {
         if (left >= right) {
             throw new Error("left must be smaller than right");
         }

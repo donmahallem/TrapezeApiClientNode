@@ -26,8 +26,9 @@
         "request-promise-native": "~1.0.8"
     },
     "devDependencies": {
-        "@donmahallem/trapeze-api-client-types": "^1.0.1",
+        "@donmahallem/trapeze-api-client-types": "^1.0.2",
         "@types/chai": "~4.2.7",
+        "@types/lokijs": "^1.5.2",
         "@types/mocha": "~5.2.7",
         "@types/node": "~12.12.21",
         "@types/request": "~2.48.4",

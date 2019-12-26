@@ -2,13 +2,14 @@
  * Source https://github.com/donmahallem/TrapezeApiClientNode
  */
 
+import { IVehicleLocationExtended } from "@donmahallem/trapeze-api-client-types";
 import {
     IVehicleLocation,
     IVehicleLocationList,
 } from "@donmahallem/trapeze-api-types";
 import { LockHandler } from "./lock-handler";
 import { NotFoundError } from "./not-found-error";
-import { TrapezeApiClient, PositionType } from "./trapeze-api-client";
+import { PositionType, TrapezeApiClient } from "./trapeze-api-client";
 import { VehicleDataset } from "./vehicle-dataset";
 
 export enum Status {
@@ -72,7 +73,7 @@ export class VehicleStorage {
                 return {
                     lastUpdate: value.lastUpdate,
                     status: Status.SUCCESS,
-                    timestamp: Date.now()
+                    timestamp: Date.now(),
                 };
             })
             .catch((err: any): IErrorStatus => {
@@ -93,7 +94,8 @@ export class VehicleStorage {
     public getVehicleByTripId(id: string): Promise<IVehicleLocation> {
         return this.fetchSuccessOrThrow()
             .then((status: ISuccessStatus): IVehicleLocation => {
-                const vehicle: DatabaseEntry = this.mVehicleDatabase.getVehicleByTripId(id);
+                const vehicle: IVehicleLocationExtended | undefined
+                    = this.mVehicleDatabase.getVehicleByTripId(id);
                 if (vehicle) {
                     return vehicle;
                 }
@@ -120,27 +122,31 @@ export class VehicleStorage {
     /**
      * Gets the vehicle or rejects with undefined if not known
      */
-    public getVehicle(id: string): Promise<IVehicleLocationResponse> {
+    public getVehicle(id: string): Promise<IVehicleLocation> {
         return this.fetchSuccessOrThrow()
-            .then((status: ISuccessStatus): IVehicleLocationResponse => {
-                if (status.storage.has(id)) {
-                    return {
-                        lastUpdate: status.lastUpdate,
-                        vehicle: status.storage.get(id) as IVehicleLocation,
-                    };
+            .then((status: ISuccessStatus): IVehicleLocation => {
+                const vehicle: IVehicleLocationExtended | undefined
+                    = this.mVehicleDatabase.getVehicleById(id);
+                if (vehicle) {
+                    return vehicle;
                 }
                 throw new NotFoundError("Vehicle not found");
             });
     }
 
     /**
-     * @since 2.0.0
+     * @since 3.0.0
      * @param left
      * @param right
      * @param top
      * @param bottom
+     * @param lastUpdate
      */
-    public getVehicles(left: number, right: number, top: number, bottom: number): Promise<IVehicleLocationList> {
+    public getVehicles(left: number,
+                       right: number,
+                       top: number,
+                       bottom: number,
+                       lastUpdate: number = 0): Promise<IVehicleLocationList> {
         if (left >= right) {
             return Promise.reject(new Error("left must be smaller than right"));
         }
@@ -149,21 +155,14 @@ export class VehicleStorage {
         }
         return this.fetchSuccessOrThrow()
             .then((status: ISuccessStatus): IVehicleLocationList => {
-                const vehicleList: IVehicleLocationList = {
-                    lastUpdate: status.lastUpdate,
-                    vehicles: new Array(),
+                const vehicles: IVehicleLocationExtended[] = this.mVehicleDatabase
+                    .getVehiclesInBox(left, right, top, bottom, lastUpdate);
+                return {
+                    lastUpdate: vehicles
+                        .map((value: IVehicleLocationExtended): number => value.lastUpdate)
+                        .reduce((prevValue: number, curValue: number) => Math.max(prevValue, curValue)),
+                    vehicles,
                 };
-                for (const key of Array.from(status.storage.keys())) {
-                    const vehicle: IVehicleLocation = status.storage.get(key) as IVehicleLocation;
-                    if (vehicle.longitude < left || vehicle.longitude > right) {
-                        continue;
-                    } else if (vehicle.latitude > top || vehicle.latitude < bottom) {
-                        continue;
-                    } else {
-                        vehicleList.vehicles.push(vehicle);
-                    }
-                }
-                return vehicleList;
             });
     }
 
