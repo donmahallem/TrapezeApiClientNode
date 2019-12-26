@@ -8,7 +8,8 @@ import {
 } from "@donmahallem/trapeze-api-types";
 import { LockHandler } from "./lock-handler";
 import { NotFoundError } from "./not-found-error";
-import { TrapezeApiClient } from "./trapeze-api-client";
+import { TrapezeApiClient, PositionType } from "./trapeze-api-client";
+import { VehicleDataset } from "./vehicle-dataset";
 
 export enum Status {
     SUCCESS = 1,
@@ -27,8 +28,6 @@ export interface IErrorStatus extends IBaseStatus {
 
 export interface ISuccessStatus extends IBaseStatus {
     status: Status.SUCCESS;
-    storage: Map<string, IVehicleLocation>;
-    tripStorage: Map<string, IVehicleLocation>;
     lastUpdate: number;
 }
 
@@ -43,6 +42,7 @@ export class VehicleStorage {
 
     private lock: LockHandler = new LockHandler(false);
     private mStatus: LoadStatus;
+    private mVehicleDatabase: VehicleDataset = new VehicleDataset();
     constructor(private trapezeClient: TrapezeApiClient, private updateDelay: number = 10000) { }
 
     public updateRequired(): boolean {
@@ -58,7 +58,7 @@ export class VehicleStorage {
         return this.mStatus;
     }
 
-    public fetch(): Promise<LoadStatus> {
+    public fetch(accuracy: PositionType = "RAW"): Promise<LoadStatus> {
         if (!this.updateRequired()) {
             return Promise.resolve(this.status);
         }
@@ -66,9 +66,15 @@ export class VehicleStorage {
             return this.lock.promise().then(() => this.status);
         }
         this.lock.locked = true;
-        return this.trapezeClient.getVehicleLocations("RAW")
-            .then((result: IVehicleLocationList): ISuccessStatus =>
-                this.convertResponse(result))
+        return this.trapezeClient.getVehicleLocations(accuracy)
+            .then((value: IVehicleLocationList): ISuccessStatus => {
+                this.mVehicleDatabase.addLocationResponse(value);
+                return {
+                    lastUpdate: value.lastUpdate,
+                    status: Status.SUCCESS,
+                    timestamp: Date.now()
+                };
+            })
             .catch((err: any): IErrorStatus => {
                 const errorStatus: IErrorStatus = {
                     error: err,
@@ -76,47 +82,20 @@ export class VehicleStorage {
                 };
                 return errorStatus;
             })
-            .then((loadStatus: LoadStatus): LoadStatus => {
-                loadStatus.timestamp = Date.now();
-                this.mStatus = loadStatus;
+            .finally(() => {
                 this.lock.locked = false;
-                return loadStatus;
             });
-    }
-
-    public convertResponse(result: IVehicleLocationList): ISuccessStatus {
-        const loadStatus: ISuccessStatus = {
-            lastUpdate: result.lastUpdate,
-            status: Status.SUCCESS,
-            storage: new Map(),
-            timestamp: Date.now(),
-            tripStorage: new Map(),
-        };
-        for (const entry of result.vehicles) {
-            if (entry === null || entry === undefined) {
-                continue;
-            }
-            if (entry.isDeleted === true) {
-                continue;
-            }
-            const vehicleLocation: IVehicleLocation = entry as IVehicleLocation;
-            loadStatus.storage.set(vehicleLocation.id, vehicleLocation);
-            loadStatus.tripStorage.set(vehicleLocation.tripId, vehicleLocation);
-        }
-        return loadStatus;
     }
 
     /**
      * Gets the vehicle or rejects with undefined if not known
      */
-    public getVehicleByTripId(id: string): Promise<IVehicleLocationResponse> {
+    public getVehicleByTripId(id: string): Promise<IVehicleLocation> {
         return this.fetchSuccessOrThrow()
-            .then((status: ISuccessStatus): IVehicleLocationResponse => {
-                if (status.tripStorage.has(id)) {
-                    return {
-                        lastUpdate: status.lastUpdate,
-                        vehicle: status.tripStorage.get(id) as IVehicleLocation,
-                    };
+            .then((status: ISuccessStatus): IVehicleLocation => {
+                const vehicle: DatabaseEntry = this.mVehicleDatabase.getVehicleByTripId(id);
+                if (vehicle) {
+                    return vehicle;
                 }
                 throw new NotFoundError("Trip not found");
             });
