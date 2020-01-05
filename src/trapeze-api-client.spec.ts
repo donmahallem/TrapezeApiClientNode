@@ -417,5 +417,15 @@ describe("trapeze-api-client.ts", () => {
                 });
             });
         });
+        it("should throw an error if no valid data is provided", () => {
+            expect(() => {
+                SettingsBodyTransformMethod("{breaks!}");
+            }).to.throw("Unexpected token b in JSON at position 1");
+        });
+        it("should throw an error if no valid data is provided", () => {
+            expect(() => {
+                SettingsBodyTransformMethod("invalid data");
+            }).to.throw("non valid response body");
+        });
     });
 });
