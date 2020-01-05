@@ -7,12 +7,20 @@ node_js:
 env:
   global:
   - COVERALLS_PARALLEL=true
-  matrix:
+  jobs:
   - TEST_SUITE=lint
   - TEST_SUITE=build
   - TEST_SUITE=unit
   - TEST_SUITE=docs
-matrix:
+cache: npm
+before_script:
+- npm install -g npm-install-peers
+- npm-install-peers
+script:
+- npm run test:$TEST_SUITE
+after_success:
+- ./coveralls_upload.sh
+jobs:
   exclude:
     - node_js: "8"
       env: TEST_SUITE=lint
@@ -32,15 +40,6 @@ matrix:
       env: TEST_SUITE=docs
     - node_js: "10"
       env: TEST_SUITE=build
-cache: npm
-before_script:
-- npm install -g npm-install-peers
-- npm-install-peers
-script:
-- npm run test:$TEST_SUITE
-after_success:
-- ./coveralls_upload.sh
-jobs:
   include:
   - stage: npm release
     node_js: 'stable'
@@ -48,9 +47,10 @@ jobs:
     if: tag IS present
     deploy:
       provider: npm
-      skip_cleanup: true
+      edge: true
+      cleanup: false
       email: $npm_email
-      api_key: $npm_api_key
+      api_token: $npm_api_key
       on:
         tags: true
         repo: donmahallem/TrapezeApiClientNode
@@ -60,11 +60,10 @@ jobs:
     if: branch = master
     deploy:
       provider: pages
-      skip-cleanup: true
-      local-dir: docs
-      github-token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-      keep-history: true
+      skip_cleanup: true
+      local_dir: docs
+      token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+      keep_history: true
       on:
-        branch: master
 notifications:
   webhooks: https://coveralls.io/webhook

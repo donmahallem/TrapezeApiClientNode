@@ -6,7 +6,7 @@ import { TripId, VehicleId } from "@donmahallem/trapeze-api-types";
 import { expect } from "chai";
 import "mocha";
 import * as sinon from "sinon";
-import { SettingsBodyTransformMethod, TrapezeApiClient } from "./trapeze-api-client";
+import { SettingsBodyTransformMethod, StopMode, TrapezeApiClient } from "./trapeze-api-client";
 
 describe("trapeze-api-client.ts", () => {
     describe("TrapezeApiClient", () => {
@@ -61,6 +61,45 @@ describe("trapeze-api-client.ts", () => {
                         }]);
                     });
             });
+            it("should query the correct endpoint with provided parameters", () => {
+                getStub.resolves(testValue);
+                return instance.getVehicleLocations("RAW", 12345)
+                    .then((result) => {
+                        expect(result).to.deep.equal(testValue);
+                        expect(getStub.callCount).to.equal(1);
+                        const callArgs: any[] = getStub.getCall(0).args;
+                        expect(callArgs).to.deep.equal([{
+                            qs: {
+                                colorType: "ROUTE_BASED",
+                                lastUpdate: 12345,
+                                positionType: "RAW",
+                            },
+                            url: testUrl + "/internetservice/geoserviceDispatcher/services/vehicleinfo/vehicles",
+                        }]);
+                    });
+            });
+        });
+        describe("getRouteByRouteId(vehicleId: string)", () => {
+            ["testId1", "testId2"].forEach((testId: string): void => {
+                ["testDirection1", "testDirection2"].forEach((testDirection: string): void => {
+                    it('should query the correct endpoint with id "' + testId + '" and direction "' + testDirection + '"', () => {
+                        postStub.resolves(testValue);
+                        return instance.getRouteByRouteId(testId as TripId, testDirection)
+                            .then((result) => {
+                                expect(result).to.deep.equal(testValue);
+                                expect(postStub.callCount).to.equal(1);
+                                const callArgs: any[] = postStub.getCall(0).args;
+                                expect(callArgs).to.deep.equal([{
+                                    qs: {
+                                        direction: testDirection,
+                                        id: testId,
+                                    },
+                                    url: testUrl + "/internetservice/geoserviceDispatcher/services/pathinfo/route",
+                                }]);
+                            });
+                    });
+                });
+            });
         });
         describe("getRouteByTripId(vehicleId: string)", () => {
             ["testId1", "testId2"].forEach((testId: string): void => {
@@ -81,6 +120,113 @@ describe("trapeze-api-client.ts", () => {
                 });
             });
         });
+        describe("getStopLocations(top, bottom, left, right)", () => {
+            it("should query the correct endpoint with", () => {
+                postStub.resolves(testValue);
+                return instance.getStopLocations(1, 2, 3, 4)
+                    .then((result) => {
+                        expect(result).to.deep.equal(testValue);
+                        expect(postStub.callCount).to.equal(1);
+                        const callArgs: any[] = postStub.getCall(0).args;
+                        expect(callArgs).to.deep.equal([{
+                            qs: {
+                                bottom: 2,
+                                left: 3,
+                                right: 4,
+                                top: 1,
+                            },
+                            url: testUrl +
+                                "/internetservice/geoserviceDispatcher/services/stopinfo/stops",
+                        }]);
+                    });
+            });
+            it("should use the default parameters", () => {
+                postStub.resolves(testValue);
+                return instance.getStopLocations()
+                    .then((result) => {
+                        expect(result).to.deep.equal(testValue);
+                        expect(postStub.callCount).to.equal(1);
+                        const callArgs: any[] = postStub.getCall(0).args;
+                        expect(callArgs).to.deep.equal([{
+                            qs: {
+                                bottom: -324000000,
+                                left: -648000000,
+                                right: 648000000,
+                                top: 324000000,
+                            },
+                            url: testUrl +
+                                "/internetservice/geoserviceDispatcher/services/stopinfo/stops",
+                        }]);
+                    });
+            });
+        });
+        describe("getStopPointLocations(top, bottom, left, right)", () => {
+            it("should query the correct endpoint with", () => {
+                postStub.resolves(testValue);
+                return instance.getStopPointLocations(1, 2, 3, 4)
+                    .then((result) => {
+                        expect(result).to.deep.equal(testValue);
+                        expect(postStub.callCount).to.equal(1);
+                        const callArgs: any[] = postStub.getCall(0).args;
+                        expect(callArgs).to.deep.equal([{
+                            qs: {
+                                bottom: 2,
+                                left: 3,
+                                right: 4,
+                                top: 1,
+                            },
+                            url: testUrl +
+                                "/internetservice/geoserviceDispatcher/services/stopinfo/stopPoints",
+                        }]);
+                    });
+            });
+            it("should use the default parameters", () => {
+                postStub.resolves(testValue);
+                return instance.getStopPointLocations()
+                    .then((result) => {
+                        expect(result).to.deep.equal(testValue);
+                        expect(postStub.callCount).to.equal(1);
+                        const callArgs: any[] = postStub.getCall(0).args;
+                        expect(callArgs).to.deep.equal([{
+                            qs: {
+                                bottom: -324000000,
+                                left: -648000000,
+                                right: 648000000,
+                                top: 324000000,
+                            },
+                            url: testUrl +
+                                "/internetservice/geoserviceDispatcher/services/stopinfo/stopPoints",
+                        }]);
+                    });
+            });
+
+        });
+        describe("getTripPassages(tripId, mode)", () => {
+            ["testId1", "testId2"].forEach((testId: string): void => {
+                ["arrival", "departure"].forEach((testMode: string): void => {
+                    it('should query the correct endpoint with id "' + testId + '" and mode "'
+                        + testMode + '"', () => {
+                            postStub.resolves(testValue);
+                            return instance.getTripPassages(testId as VehicleId,
+                                testMode as StopMode)
+                                .then((result) => {
+                                    expect(result).to.deep.equal(testValue);
+                                    expect(postStub.callCount).to.equal(1);
+                                    const callArgs: any[] = postStub.getCall(0).args;
+                                    expect(callArgs).to.deep.equal([{
+                                        form: {
+                                            mode: testMode,
+                                            tripId: testId,
+                                        },
+                                        method: "POST",
+                                        url: testUrl +
+                                            "/internetservice/services/tripInfo/tripPassages",
+                                    }]);
+                                });
+                        });
+                });
+            });
+        });
         describe("getRouteByVehicleId(vehicleId: string)", () => {
             ["testId1", "testId2"].forEach((testId: string): void => {
                 it('should query the correct endpoint with id "' + testId + '"', () => {
@@ -96,6 +242,235 @@ describe("trapeze-api-client.ts", () => {
                                 },
                                 url: testUrl + "/internetservice/geoserviceDispatcher/services/pathinfo/vehicle",
                             }]);
+                        });
+                });
+            });
+        });
+
+        describe("getStopPassages(stopId, mode, startTime, timeFrame)", () => {
+            ["testId1", "testId2"].forEach((testId: string): void => {
+                it('should query the correct endpoint with id "' + testId + '"', () => {
+                    postStub.resolves(testValue);
+                    return instance.getStopPassages(testId as VehicleId)
+                        .then((result) => {
+                            expect(result).to.deep.equal(testValue);
+                            expect(postStub.callCount).to.equal(1);
+                            const callArgs: any[] = postStub.getCall(0).args;
+                            expect(callArgs).to.deep.equal([{
+                                form: {
+                                    mode: "departure",
+                                    stop: testId,
+                                },
+                                url: testUrl + "/internetservice/services/passageInfo/stopPassages/stop",
+                            }]);
+                        });
+                });
+
+                ["arrival", "departure"].forEach((testDepartureMode: string): void => {
+
+                    it('should query the correct endpoint with id "' + testId + '" and  "'
+                        + testDepartureMode + '"', () => {
+                            postStub.resolves(testValue);
+                            return instance.getStopPassages(testId as VehicleId,
+                                testDepartureMode as StopMode)
+                                .then((result) => {
+                                    expect(result).to.deep.equal(testValue);
+                                    expect(postStub.callCount).to.equal(1);
+                                    const callArgs: any[] = postStub.getCall(0).args;
+                                    expect(callArgs).to.deep.equal([{
+                                        form: {
+                                            mode: testDepartureMode,
+                                            stop: testId,
+                                        },
+                                        url: testUrl + "/internetservice/services/passageInfo/stopPassages/stop",
+                                    }]);
+                                });
+                        });
+                    [1234, 5678].forEach((testStartTime: number): void => {
+                        [9876, 5432].forEach((testTimeFrame: number): void => {
+                            it('should query the correct endpoint with id "' + testId + '" and  "'
+                                + testDepartureMode + '"'
+                                + ' startTime: "' + testStartTime + '"'
+                                + ' timeFrame: "' + testTimeFrame + '"', () => {
+                                    postStub.resolves(testValue);
+                                    return instance.getStopPassages(testId as VehicleId,
+                                        testDepartureMode as StopMode,
+                                        testStartTime,
+                                        testTimeFrame)
+                                        .then((result) => {
+                                            expect(result).to.deep.equal(testValue);
+                                            expect(postStub.callCount).to.equal(1);
+                                            const callArgs: any[] = postStub.getCall(0).args;
+                                            expect(callArgs).to.deep.equal([{
+                                                form: {
+                                                    mode: testDepartureMode,
+                                                    startTime: testStartTime,
+                                                    stop: testId,
+                                                    timeFrame: testTimeFrame,
+                                                },
+                                                url: testUrl +
+                                                    "/internetservice/services/passageInfo/stopPassages/stop",
+                                            }]);
+                                        });
+                                });
+                        });
+                    });
+                });
+            });
+        });
+
+        describe("getStopPointPassages(stopId, mode, startTime, timeFrame)", () => {
+            ["testId1", "testId2"].forEach((testId: string): void => {
+                it('should query the correct endpoint with id "' + testId + '"', () => {
+                    postStub.resolves(testValue);
+                    return instance.getStopPointPassages(testId as VehicleId)
+                        .then((result) => {
+                            expect(result).to.deep.equal(testValue);
+                            expect(postStub.callCount).to.equal(1);
+                            const callArgs: any[] = postStub.getCall(0).args;
+                            expect(callArgs).to.deep.equal([{
+                                form: {
+                                    mode: "departure",
+                                    stop: testId,
+                                },
+                                url: testUrl + "/internetservice/services/passageInfo/stopPassages/stopPoint",
+                            }]);
+                        });
+                });
+
+                ["arrival", "departure"].forEach((testDepartureMode: string): void => {
+
+                    it('should query the correct endpoint with id "' + testId + '" and  "'
+                        + testDepartureMode + '"', () => {
+                            postStub.resolves(testValue);
+                            return instance.getStopPointPassages(testId as VehicleId,
+                                testDepartureMode as StopMode)
+                                .then((result) => {
+                                    expect(result).to.deep.equal(testValue);
+                                    expect(postStub.callCount).to.equal(1);
+                                    const callArgs: any[] = postStub.getCall(0).args;
+                                    expect(callArgs).to.deep.equal([{
+                                        form: {
+                                            mode: testDepartureMode,
+                                            stop: testId,
+                                        },
+                                        url: testUrl + "/internetservice/services/passageInfo/stopPassages/stopPoint",
+                                    }]);
+                                });
+                        });
+                    [1234, 5678].forEach((testStartTime: number): void => {
+                        [9876, 5432].forEach((testTimeFrame: number): void => {
+                            it('should query the correct endpoint with id "' + testId + '" and  "'
+                                + testDepartureMode + '"'
+                                + ' startTime: "' + testStartTime + '"'
+                                + ' timeFrame: "' + testTimeFrame + '"', () => {
+                                    postStub.resolves(testValue);
+                                    return instance.getStopPointPassages(testId as VehicleId,
+                                        testDepartureMode as StopMode,
+                                        testStartTime,
+                                        testTimeFrame)
+                                        .then((result) => {
+                                            expect(result).to.deep.equal(testValue);
+                                            expect(postStub.callCount).to.equal(1);
+                                            const callArgs: any[] = postStub.getCall(0).args;
+                                            expect(callArgs).to.deep.equal([{
+                                                form: {
+                                                    mode: testDepartureMode,
+                                                    startTime: testStartTime,
+                                                    stop: testId,
+                                                    timeFrame: testTimeFrame,
+                                                },
+                                                url: testUrl +
+                                                    "/internetservice/services/passageInfo/stopPassages/stopPoint",
+                                            }]);
+                                        });
+                                });
+                        });
+                    });
+                });
+            });
+        });
+
+        describe("getStopPointInfo(stopPointId, mode)", () => {
+            ["testId1", "testId2"].forEach((testId: string): void => {
+                it('should query the correct endpoint with id "' + testId + '"', () => {
+                    postStub.resolves(testValue);
+                    return instance.getStopPointInfo(testId as VehicleId)
+                        .then((result) => {
+                            expect(result).to.deep.equal(testValue);
+                            expect(postStub.callCount).to.equal(1);
+                            const callArgs: any[] = postStub.getCall(0).args;
+                            expect(callArgs).to.deep.equal([{
+                                form: {
+                                    mode: "departure",
+                                    stopPoint: testId,
+                                },
+                                url: testUrl + "/internetservice/services/stopInfo/stopPoint",
+                            }]);
+                        });
+                });
+
+                ["arrival", "departure"].forEach((testDepartureMode: string): void => {
+
+                    it('should query the correct endpoint with id "' + testId + '" and  "'
+                        + testDepartureMode + '"', () => {
+                            postStub.resolves(testValue);
+                            return instance.getStopPointInfo(testId as VehicleId,
+                                testDepartureMode as StopMode)
+                                .then((result) => {
+                                    expect(result).to.deep.equal(testValue);
+                                    expect(postStub.callCount).to.equal(1);
+                                    const callArgs: any[] = postStub.getCall(0).args;
+                                    expect(callArgs).to.deep.equal([{
+                                        form: {
+                                            mode: testDepartureMode,
+                                            stopPoint: testId,
+                                        },
+                                        url: testUrl + "/internetservice/services/stopInfo/stopPoint",
+                                    }]);
+                                });
+                        });
+                });
+            });
+        });
+        describe("getStopInfo(stopId, mode)", () => {
+            ["testId1", "testId2"].forEach((testId: string): void => {
+                it('should query the correct endpoint with id "' + testId + '"', () => {
+                    postStub.resolves(testValue);
+                    return instance.getStopInfo(testId as VehicleId)
+                        .then((result) => {
+                            expect(result).to.deep.equal(testValue);
+                            expect(postStub.callCount).to.equal(1);
+                            const callArgs: any[] = postStub.getCall(0).args;
+                            expect(callArgs).to.deep.equal([{
+                                form: {
+                                    mode: "departure",
+                                    stop: testId,
+                                },
+                                url: testUrl + "/internetservice/services/stopInfo/stop",
+                            }]);
+                        });
+                });
+
+                ["arrival", "departure"].forEach((testDepartureMode: string): void => {
+
+                    it('should query the correct endpoint with id "' + testId + '" and  "'
+                        + testDepartureMode + '"', () => {
+                            postStub.resolves(testValue);
+                            return instance.getStopInfo(testId as VehicleId,
+                                testDepartureMode as StopMode)
+                                .then((result) => {
+                                    expect(result).to.deep.equal(testValue);
+                                    expect(postStub.callCount).to.equal(1);
+                                    const callArgs: any[] = postStub.getCall(0).args;
+                                    expect(callArgs).to.deep.equal([{
+                                        form: {
+                                            mode: testDepartureMode,
+                                            stop: testId,
+                                        },
+                                        url: testUrl + "/internetservice/services/stopInfo/stop",
+                                    }]);
+                                });
                         });
                 });
             });
@@ -148,6 +523,16 @@ describe("trapeze-api-client.ts", () => {
                     });
                 });
             });
+        });
+        it("should throw an error if no valid data is provided", () => {
+            expect(() => {
+                SettingsBodyTransformMethod("{breaks!}");
+            }).to.throw("Unexpected token b in JSON at position 1");
+        });
+        it("should throw an error if no valid data is provided", () => {
+            expect(() => {
+                SettingsBodyTransformMethod("invalid data");
+            }).to.throw("non valid response body");
         });
     });
 });

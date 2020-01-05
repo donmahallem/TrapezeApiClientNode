@@ -7,9 +7,11 @@ import {
     IStopInfo,
     IStopLocations,
     IStopPassage,
+    IStopPointLocations,
     ITripPassages,
     IVehicleLocationList,
     IVehiclePathInfo,
+    RouteId,
     StopId,
     TripId,
     VehicleId,
@@ -90,19 +92,21 @@ export class TrapezeApiClient {
 
     /**
      *
-     * @param top
-     * @param bottom
-     * @param left
-     * @param right
-     * @since 1.3.0
-     * @deprecated
+     * @param routeId
+     * @since 3.0.0
      */
-    public getStationLocations(top: number = 324000000,
-                               bottom: number = -324000000,
-                               left: number = -648000000,
-                               right: number = 648000000): reqp.RequestPromise<IStopLocations> {
-        return this.getStopLocations(top, bottom, left, right);
+    public getRouteByRouteId(routeId: RouteId, direction: string): reqp.RequestPromise<IVehiclePathInfo> {
+        const options: req.OptionsWithUrl = {
+            qs: {
+                direction,
+                id: routeId,
+            },
+            url: this.endpoint + "/internetservice/geoserviceDispatcher/services/pathinfo/route",
+        };
+        return this.httpClient
+            .post(options);
     }
+
     /**
      *
      * @param top
@@ -123,6 +127,30 @@ export class TrapezeApiClient {
                 top,
             },
             url: this.endpoint + "/internetservice/geoserviceDispatcher/services/stopinfo/stops",
+        };
+        return this.httpClient.post(options);
+    }
+
+    /**
+     *
+     * @param top
+     * @param bottom
+     * @param left
+     * @param right
+     * @since 1.4.0
+     */
+    public getStopPointLocations(top: number = 324000000,
+                                 bottom: number = -324000000,
+                                 left: number = -648000000,
+                                 right: number = 648000000): reqp.RequestPromise<IStopPointLocations> {
+        const options: req.OptionsWithUrl = {
+            qs: {
+                bottom,
+                left,
+                right,
+                top,
+            },
+            url: this.endpoint + "/internetservice/geoserviceDispatcher/services/stopinfo/stopPoints",
         };
         return this.httpClient.post(options);
     }
@@ -149,11 +177,15 @@ export class TrapezeApiClient {
     /**
      *
      * @param stopId
-     * @param departure
+     * @param mode
+     * @param startTime milliseconds since epoch. now if undefined
+     * @param timeFrame time frame from startTime in minutes
      * @since 2.3.0
      */
     public getStopPassages(stopId: StopId,
-                           mode: StopMode = "departure"): reqp.RequestPromise<IStopPassage> {
+                           mode: StopMode = "departure",
+                           startTime?: number,
+                           timeFrame?: number): reqp.RequestPromise<IStopPassage> {
         const options: req.OptionsWithUrl = {
             form: {
                 mode,
@@ -161,6 +193,41 @@ export class TrapezeApiClient {
             },
             url: this.endpoint + "/internetservice/services/passageInfo/stopPassages/stop",
         };
+        if (startTime) {
+            Object.assign(options.form, { startTime });
+        }
+        if (timeFrame) {
+            Object.assign(options.form, { timeFrame });
+        }
+        return this.httpClient
+            .post(options);
+    }
+
+    /**
+     *
+     * @param stopId
+     * @param mode
+     * @param startTime milliseconds since epoch. now if undefined
+     * @param timeFrame time frame from startTime in minutes
+     * @since 3.0.0
+     */
+    public getStopPointPassages(stopId: StopId,
+                                mode: StopMode = "departure",
+                                startTime?: number,
+                                timeFrame?: number): reqp.RequestPromise<IStopPassage> {
+        const options: req.OptionsWithUrl = {
+            form: {
+                mode,
+                stop: stopId,
+            },
+            url: this.endpoint + "/internetservice/services/passageInfo/stopPassages/stopPoint",
+        };
+        if (startTime) {
+            Object.assign(options.form, { startTime });
+        }
+        if (timeFrame) {
+            Object.assign(options.form, { timeFrame });
+        }
         return this.httpClient
             .post(options);
     }
