@@ -120,6 +120,32 @@ describe("trapeze-api-client.ts", () => {
                 });
             });
         });
+        describe("getTripPassages(tripId, mode)", () => {
+            ["testId1", "testId2"].forEach((testId: string): void => {
+                ["arrival", "departure"].forEach((testMode: string): void => {
+                    it('should query the correct endpoint with id "' + testId + '" and mode "'
+                        + testMode + '"', () => {
+                            postStub.resolves(testValue);
+                            return instance.getTripPassages(testId as VehicleId,
+                                testMode as StopMode)
+                                .then((result) => {
+                                    expect(result).to.deep.equal(testValue);
+                                    expect(postStub.callCount).to.equal(1);
+                                    const callArgs: any[] = postStub.getCall(0).args;
+                                    expect(callArgs).to.deep.equal([{
+                                        form: {
+                                            mode: testMode,
+                                            tripId: testId,
+                                        },
+                                        method: "POST",
+                                        url: testUrl +
+                                            "/internetservice/services/tripInfo/tripPassages",
+                                    }]);
+                                });
+                        });
+                });
+            });
+        });
         describe("getRouteByVehicleId(vehicleId: string)", () => {
             ["testId1", "testId2"].forEach((testId: string): void => {
                 it('should query the correct endpoint with id "' + testId + '"', () => {
