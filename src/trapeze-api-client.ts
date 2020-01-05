@@ -7,13 +7,14 @@ import {
     IStopInfo,
     IStopLocations,
     IStopPassage,
+    IStopPointLocations,
     ITripPassages,
     IVehicleLocationList,
     IVehiclePathInfo,
+    RouteId,
     StopId,
     TripId,
     VehicleId,
-    RouteId
 } from "@donmahallem/trapeze-api-types";
 import * as req from "request";
 import * as reqp from "request-promise-native";
@@ -45,7 +46,7 @@ export class TrapezeApiClient {
      * @param lastUpdate timestamp of last update
      */
     public getVehicleLocations(positionType: PositionType = "CORRECTED",
-        lastUpdate?: string | number)
+                               lastUpdate?: string | number)
         : reqp.RequestPromise<IVehicleLocationList> {
         const options: req.OptionsWithUrl = {
             qs: {
@@ -98,7 +99,7 @@ export class TrapezeApiClient {
         const options: req.OptionsWithUrl = {
             qs: {
                 direction,
-                id: routeId
+                id: routeId,
             },
             url: this.endpoint + "/internetservice/geoserviceDispatcher/services/pathinfo/route",
         };
@@ -115,9 +116,9 @@ export class TrapezeApiClient {
      * @since 1.4.0
      */
     public getStopLocations(top: number = 324000000,
-        bottom: number = -324000000,
-        left: number = -648000000,
-        right: number = 648000000): reqp.RequestPromise<IStopLocations> {
+                            bottom: number = -324000000,
+                            left: number = -648000000,
+                            right: number = 648000000): reqp.RequestPromise<IStopLocations> {
         const options: req.OptionsWithUrl = {
             qs: {
                 bottom,
@@ -139,9 +140,9 @@ export class TrapezeApiClient {
      * @since 1.4.0
      */
     public getStopPointLocations(top: number = 324000000,
-        bottom: number = -324000000,
-        left: number = -648000000,
-        right: number = 648000000): reqp.RequestPromise<IStopLocations> {
+                                 bottom: number = -324000000,
+                                 left: number = -648000000,
+                                 right: number = 648000000): reqp.RequestPromise<IStopPointLocations> {
         const options: req.OptionsWithUrl = {
             qs: {
                 bottom,
@@ -160,7 +161,7 @@ export class TrapezeApiClient {
      * @since 1.0.0
      */
     public getTripPassages(tripId: TripId,
-        mode: StopMode): reqp.RequestPromise<ITripPassages> {
+                           mode: StopMode): reqp.RequestPromise<ITripPassages> {
         const options: req.OptionsWithUrl = {
             form: {
                 mode,
@@ -174,23 +175,23 @@ export class TrapezeApiClient {
     }
 
     /**
-     * 
-     * @param stopId 
-     * @param mode 
+     *
+     * @param stopId
+     * @param mode
      * @param startTime milliseconds since epoch. now if undefined
      * @param timeFrame time frame from startTime in minutes
      * @since 2.3.0
      */
     public getStopPassages(stopId: StopId,
-        mode: StopMode = "departure",
-        startTime?: number,
-        timeFrame?: number): reqp.RequestPromise<IStopPassage> {
+                           mode: StopMode = "departure",
+                           startTime?: number,
+                           timeFrame?: number): reqp.RequestPromise<IStopPassage> {
         const options: req.OptionsWithUrl = {
             form: {
                 mode,
                 startTime,
                 stop: stopId,
-                timeFrame
+                timeFrame,
             },
             url: this.endpoint + "/internetservice/services/passageInfo/stopPassages/stop",
         };
@@ -199,23 +200,23 @@ export class TrapezeApiClient {
     }
 
     /**
-     * 
-     * @param stopId 
-     * @param mode 
+     *
+     * @param stopId
+     * @param mode
      * @param startTime milliseconds since epoch. now if undefined
      * @param timeFrame time frame from startTime in minutes
      * @since 3.0.0
      */
     public getStopPointPassages(stopId: StopId,
-        mode: StopMode = "departure",
-        startTime?: number,
-        timeFrame?: number): reqp.RequestPromise<IStopPassage> {
+                                mode: StopMode = "departure",
+                                startTime?: number,
+                                timeFrame?: number): reqp.RequestPromise<IStopPassage> {
         const options: req.OptionsWithUrl = {
             form: {
                 mode,
                 startTime,
                 stop: stopId,
-                timeFrame
+                timeFrame,
             },
             url: this.endpoint + "/internetservice/services/passageInfo/stopPassages/stopPoint",
         };
@@ -230,7 +231,7 @@ export class TrapezeApiClient {
      * @since 1.0.0
      */
     public getStopInfo(stopId: StopId,
-        mode: StopMode = "departure"): reqp.RequestPromise<IStopInfo> {
+                       mode: StopMode = "departure"): reqp.RequestPromise<IStopInfo> {
         const options: req.OptionsWithUrl = {
             form: {
                 mode,
@@ -248,7 +249,7 @@ export class TrapezeApiClient {
      * @since 1.0.0
      */
     public getStopPointInfo(stopPointId: string,
-        mode: StopMode = "departure"): reqp.RequestPromise<any> {
+                            mode: StopMode = "departure"): reqp.RequestPromise<any> {
         const options: req.OptionsWithUrl = {
             form: {
                 mode,
