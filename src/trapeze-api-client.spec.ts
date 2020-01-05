@@ -120,6 +120,87 @@ describe("trapeze-api-client.ts", () => {
                 });
             });
         });
+        describe("getStopLocations(top, bottom, left, right)", () => {
+            it("should query the correct endpoint with", () => {
+                postStub.resolves(testValue);
+                return instance.getStopLocations(1, 2, 3, 4)
+                    .then((result) => {
+                        expect(result).to.deep.equal(testValue);
+                        expect(postStub.callCount).to.equal(1);
+                        const callArgs: any[] = postStub.getCall(0).args;
+                        expect(callArgs).to.deep.equal([{
+                            qs: {
+                                bottom: 2,
+                                left: 3,
+                                right: 4,
+                                top: 1,
+                            },
+                            url: testUrl +
+                                "/internetservice/geoserviceDispatcher/services/stopinfo/stops",
+                        }]);
+                    });
+            });
+            it("should use the default parameters", () => {
+                postStub.resolves(testValue);
+                return instance.getStopLocations()
+                    .then((result) => {
+                        expect(result).to.deep.equal(testValue);
+                        expect(postStub.callCount).to.equal(1);
+                        const callArgs: any[] = postStub.getCall(0).args;
+                        expect(callArgs).to.deep.equal([{
+                            qs: {
+                                bottom: -324000000,
+                                left: -648000000,
+                                right: 648000000,
+                                top: 324000000,
+                            },
+                            url: testUrl +
+                                "/internetservice/geoserviceDispatcher/services/stopinfo/stops",
+                        }]);
+                    });
+            });
+        });
+        describe("getStopPointLocations(top, bottom, left, right)", () => {
+            it("should query the correct endpoint with", () => {
+                postStub.resolves(testValue);
+                return instance.getStopPointLocations(1, 2, 3, 4)
+                    .then((result) => {
+                        expect(result).to.deep.equal(testValue);
+                        expect(postStub.callCount).to.equal(1);
+                        const callArgs: any[] = postStub.getCall(0).args;
+                        expect(callArgs).to.deep.equal([{
+                            qs: {
+                                bottom: 2,
+                                left: 3,
+                                right: 4,
+                                top: 1,
+                            },
+                            url: testUrl +
+                                "/internetservice/geoserviceDispatcher/services/stopinfo/stopPoints",
+                        }]);
+                    });
+            });
+            it("should use the default parameters", () => {
+                postStub.resolves(testValue);
+                return instance.getStopPointLocations()
+                    .then((result) => {
+                        expect(result).to.deep.equal(testValue);
+                        expect(postStub.callCount).to.equal(1);
+                        const callArgs: any[] = postStub.getCall(0).args;
+                        expect(callArgs).to.deep.equal([{
+                            qs: {
+                                bottom: -324000000,
+                                left: -648000000,
+                                right: 648000000,
+                                top: 324000000,
+                            },
+                            url: testUrl +
+                                "/internetservice/geoserviceDispatcher/services/stopinfo/stopPoints",
+                        }]);
+                    });
+            });
+
+        });
         describe("getTripPassages(tripId, mode)", () => {
             ["testId1", "testId2"].forEach((testId: string): void => {
                 ["arrival", "departure"].forEach((testMode: string): void => {
