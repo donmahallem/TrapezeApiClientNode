@@ -189,12 +189,16 @@ export class TrapezeApiClient {
         const options: req.OptionsWithUrl = {
             form: {
                 mode,
-                startTime,
                 stop: stopId,
-                timeFrame,
             },
             url: this.endpoint + "/internetservice/services/passageInfo/stopPassages/stop",
         };
+        if (startTime) {
+            Object.assign(options.form, { startTime });
+        }
+        if (timeFrame) {
+            Object.assign(options.form, { timeFrame });
+        }
         return this.httpClient
             .post(options);
     }
@@ -214,12 +218,16 @@ export class TrapezeApiClient {
         const options: req.OptionsWithUrl = {
             form: {
                 mode,
-                startTime,
                 stop: stopId,
-                timeFrame,
             },
             url: this.endpoint + "/internetservice/services/passageInfo/stopPassages/stopPoint",
         };
+        if (startTime) {
+            Object.assign(options.form, { startTime });
+        }
+        if (timeFrame) {
+            Object.assign(options.form, { timeFrame });
+        }
         return this.httpClient
             .post(options);
     }
