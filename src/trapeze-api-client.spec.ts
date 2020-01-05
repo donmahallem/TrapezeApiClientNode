@@ -160,22 +160,66 @@ describe("trapeze-api-client.ts", () => {
 
                 ["arrival", "departure"].forEach((testDepartureMode: string): void => {
 
-                    it('should query the correct endpoint with id "' + testId + '" and  "' + testDepartureMode + '"', () => {
-                        postStub.resolves(testValue);
-                        return instance.getStopPointInfo(testId as VehicleId, testDepartureMode as StopMode)
-                            .then((result) => {
-                                expect(result).to.deep.equal(testValue);
-                                expect(postStub.callCount).to.equal(1);
-                                const callArgs: any[] = postStub.getCall(0).args;
-                                expect(callArgs).to.deep.equal([{
-                                    form: {
-                                        mode: testDepartureMode,
-                                        stopPoint: testId,
-                                    },
-                                    url: testUrl + "/internetservice/services/stopInfo/stopPoint",
-                                }]);
-                            });
-                    });
+                    it('should query the correct endpoint with id "' + testId + '" and  "'
+                        + testDepartureMode + '"', () => {
+                            postStub.resolves(testValue);
+                            return instance.getStopPointInfo(testId as VehicleId,
+                                testDepartureMode as StopMode)
+                                .then((result) => {
+                                    expect(result).to.deep.equal(testValue);
+                                    expect(postStub.callCount).to.equal(1);
+                                    const callArgs: any[] = postStub.getCall(0).args;
+                                    expect(callArgs).to.deep.equal([{
+                                        form: {
+                                            mode: testDepartureMode,
+                                            stopPoint: testId,
+                                        },
+                                        url: testUrl + "/internetservice/services/stopInfo/stopPoint",
+                                    }]);
+                                });
+                        });
+                });
+            });
+        });
+        describe("getStopInfo(stopId, mode)", () => {
+            ["testId1", "testId2"].forEach((testId: string): void => {
+                it('should query the correct endpoint with id "' + testId + '"', () => {
+                    postStub.resolves(testValue);
+                    return instance.getStopInfo(testId as VehicleId)
+                        .then((result) => {
+                            expect(result).to.deep.equal(testValue);
+                            expect(postStub.callCount).to.equal(1);
+                            const callArgs: any[] = postStub.getCall(0).args;
+                            expect(callArgs).to.deep.equal([{
+                                form: {
+                                    mode: "departure",
+                                    stop: testId,
+                                },
+                                url: testUrl + "/internetservice/services/stopInfo/stop",
+                            }]);
+                        });
+                });
+
+                ["arrival", "departure"].forEach((testDepartureMode: string): void => {
+
+                    it('should query the correct endpoint with id "' + testId + '" and  "'
+                        + testDepartureMode + '"', () => {
+                            postStub.resolves(testValue);
+                            return instance.getStopInfo(testId as VehicleId,
+                                testDepartureMode as StopMode)
+                                .then((result) => {
+                                    expect(result).to.deep.equal(testValue);
+                                    expect(postStub.callCount).to.equal(1);
+                                    const callArgs: any[] = postStub.getCall(0).args;
+                                    expect(callArgs).to.deep.equal([{
+                                        form: {
+                                            mode: testDepartureMode,
+                                            stop: testId,
+                                        },
+                                        url: testUrl + "/internetservice/services/stopInfo/stop",
+                                    }]);
+                                });
+                        });
                 });
             });
         });
