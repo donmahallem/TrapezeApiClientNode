@@ -61,6 +61,45 @@ describe("trapeze-api-client.ts", () => {
                         }]);
                     });
             });
+            it("should query the correct endpoint with provided parameters", () => {
+                getStub.resolves(testValue);
+                return instance.getVehicleLocations("RAW", 12345)
+                    .then((result) => {
+                        expect(result).to.deep.equal(testValue);
+                        expect(getStub.callCount).to.equal(1);
+                        const callArgs: any[] = getStub.getCall(0).args;
+                        expect(callArgs).to.deep.equal([{
+                            qs: {
+                                colorType: "ROUTE_BASED",
+                                lastUpdate: 12345,
+                                positionType: "RAW",
+                            },
+                            url: testUrl + "/internetservice/geoserviceDispatcher/services/vehicleinfo/vehicles",
+                        }]);
+                    });
+            });
+        });
+        describe("getRouteByRouteId(vehicleId: string)", () => {
+            ["testId1", "testId2"].forEach((testId: string): void => {
+                ["testDirection1", "testDirection2"].forEach((testDirection: string): void => {
+                    it('should query the correct endpoint with id "' + testId + '" and direction "' + testDirection + '"', () => {
+                        postStub.resolves(testValue);
+                        return instance.getRouteByRouteId(testId as TripId, testDirection)
+                            .then((result) => {
+                                expect(result).to.deep.equal(testValue);
+                                expect(postStub.callCount).to.equal(1);
+                                const callArgs: any[] = postStub.getCall(0).args;
+                                expect(callArgs).to.deep.equal([{
+                                    qs: {
+                                        direction: testDirection,
+                                        id: testId,
+                                    },
+                                    url: testUrl + "/internetservice/geoserviceDispatcher/services/pathinfo/route",
+                                }]);
+                            });
+                    });
+                });
+            });
         });
         describe("getRouteByTripId(vehicleId: string)", () => {
             ["testId1", "testId2"].forEach((testId: string): void => {
