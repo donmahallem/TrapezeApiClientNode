@@ -1,6 +1,6 @@
 {
     "name": "@donmahallem/trapeze-api-client",
-    "version": "3.0.0",
+    "version": "3.0.1",
     "description": "Node Client to consume the Trapeze Api",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
@@ -35,7 +35,7 @@
         "mocha": "~7.0.0",
         "nodemon": "~2.0.2",
         "nyc": "~15.0.0",
-        "sinon": "~8.0.2",
+        "sinon": "~8.0.4",
         "ts-node": "~8.5.4",
         "tslint": "~5.20.1",
         "typedoc": "~0.15.6",
