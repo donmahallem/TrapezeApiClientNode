@@ -17,7 +17,9 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Install Deps
-        run: npm ci
+        run: |
+          npm ci
+          npm install --no-save @donmahallem/trapeze-api-types
       - name: Run Build
         run: npm run build
       - name: Run Test
