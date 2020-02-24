@@ -24,15 +24,32 @@ jobs:
         run: npm run build
       - name: Run Test
         run: npm run test:ci
-      - uses: actions/upload-artifact@v1
-        with:
-          name: coverage-data-${{ matrix.os }}-${{ matrix.node }}
-          path: ./coverage
       - name: Run Lint
         run: npm run lint
       - name: Run Docs
         run: npm run docs
-      - uses: actions/upload-artifact@v1
+      - name: Coveralls Coverage Upload
+        uses: coverallsapp/github-action@master
         with:
-          name: docs-data
-          path: ./docs
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel: true
+          path-to-lcov: ./coverage/lcov.info
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        if: ${{ matrix.os }} == "ubuntu-latest" && ${{ matrix.node }} == 12
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: docs
+  finish_coverage:
+    name: Finish Coverage Upload
+    runs-on: "ubuntu-latest"
+    needs: "test_suite"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
