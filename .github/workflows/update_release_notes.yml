@@ -1,19 +1,20 @@
 name: Create Release Notes
 on:
   release:
-    types: ['created']
+    types: ['created','published']
 
 jobs:
   create_release_notes:
     runs-on: ubuntu-latest
     name: Update Release Notes via GREN
+    if: github.action == 'created'
     steps:
       - name: Checkout
         uses: actions/checkout@v1 
       - name: Setup Node
         uses: actions/setup-node@v1
         with:
-          node-version: '10.x'
+          node-version: 12
       - name: Install GREN
         run: |
           npm install github-release-notes -g
