@@ -1,0 +1,59 @@
+name: Test and Publish
+on: [push,pull_request]
+
+jobs:
+  test_suite:
+    runs-on: ubuntu-latest
+    name: Test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Install Deps
+        run: npm ci
+      - name: Run Build
+        run: npm run build
+      - name: Run Test
+        run: npm run test:ci
+      - uses: actions/upload-artifact@v1
+        with:
+          name: coverage-data
+          path: ./coverage/sudokuNg
+      - name: Run Lint
+        run: npm run lint
+      - name: Run Docs
+        run: npm run docs
+      - name: Coveralls Coverage Upload
+        uses: coverallsapp/github-action@master
+        if: success()
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./coverage/lcov.info
+  publish_suite:
+    runs-on: ubuntu-latest
+    name: Publish
+    needs: test_suite
+    if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev') && github.event_name == 'push'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Install Deps
+        run: npm ci
+      - name: Run Build
+        run: |
+          npm run prerender:githubpages
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: dist/browser # The folder the action should deploy.
