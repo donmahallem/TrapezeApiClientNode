@@ -28,19 +28,11 @@ jobs:
         run: npm run lint
       - name: Run Docs
         run: npm run docs
-      - name: Coveralls Coverage Upload
-        uses: coverallsapp/github-action@master
+      - name: Upload Coverage Artifact
+        uses: actions/upload-artifact@v1
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel: true
-          path-to-lcov: ./coverage/lcov.info
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v3
-        if: matrix.os == 'ubuntu-latest' && matrix.node == 12
-        with:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: docs
+          name:  coverage_${{ matrix.os }}_${{ matrix.node }}
+          path: ./coverage/lcov.info
   finish_coverage:
     name: Finish Coverage Upload
     runs-on: ubuntu-latest
@@ -48,6 +40,19 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Run Docs
+        run: npm run docs
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        if: matrix.os == 'ubuntu-latest' && matrix.node == 12
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: docs
       - name: Coveralls Finished
         uses: coverallsapp/github-action@master
         with:
