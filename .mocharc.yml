@@ -26,7 +26,7 @@ inline-diffs: false
 opts: './test/.mocha.opts'
 package: './package.json'
 recursive: true
-reporter: spec
+reporter: nyan
 require: 'ts-node/register'
 retries: 1
 slow: 75
