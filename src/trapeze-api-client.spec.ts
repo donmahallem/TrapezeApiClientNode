@@ -4,6 +4,7 @@
 
 import {
     IStopLocations,
+    IStopPointInfo,
     IStopPointLocations,
     IVehicleLocationList,
 } from '@donmahallem/trapeze-api-types';
@@ -121,7 +122,7 @@ describe('trapeze-api-client.ts', (): void => {
                                     .post('/internetservice/services/stopInfo/stopPoint', 'mode=' + mode + '&stopPoint=' + testId)
                                     .reply(200, testSuccessResponse);
                                 return instance.getStopPointInfo(testId, mode)
-                                    .then((val: any): void => {
+                                    .then((val: IStopPointInfo): void => {
                                         expect(val).to.deep.equal(testSuccessResponse);
                                         expect(scope.isDone()).to.eq(true, 'scope should be done');
                                     });
