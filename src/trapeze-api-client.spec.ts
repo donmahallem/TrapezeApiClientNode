@@ -132,7 +132,7 @@ describe('trapeze-api-client.ts', (): void => {
                     ['id1', 'id2'].forEach((testId: string): void => {
                         it('should query stop info "' + testId + '" with default parameters', (): Promise<void> => {
                             const scope: nock.Scope = nock(testDomain)
-                                .post('/internetservice/services/stopInfo/stop', 'mode=departure&stop=' + testId)
+                                .post('/internetservice/services/stopInfo/stop', 'stop=' + testId)
                                 .reply(200, testSuccessResponse);
                             return instance.getStopInfo(testId)
                                 .then((val: any): void => {

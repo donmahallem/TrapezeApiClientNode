@@ -1,6 +1,6 @@
 {
     "name": "@donmahallem/trapeze-api-client",
-    "version": "4.0.0",
+    "version": "4.1.0",
     "description": "Node Client to consume the Trapeze Api",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
