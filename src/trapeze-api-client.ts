@@ -7,6 +7,7 @@ import {
     IStopInfo,
     IStopLocations,
     IStopPassage,
+    IStopPointInfo,
     IStopPointLocations,
     ITripPassages,
     IVehicleLocationList,
@@ -253,11 +254,9 @@ export class TrapezeApiClient {
      *
      * @since 1.0.0
      */
-    public getStopInfo(stopId: StopId,
-        mode: StopMode = 'departure'): reqp.RequestPromise<IStopInfo> {
+    public getStopInfo(stopId: StopId): reqp.RequestPromise<IStopInfo> {
         const options: req.OptionsWithUri = {
             form: {
-                mode,
                 stop: stopId,
             },
             method: 'POST',
@@ -270,11 +269,9 @@ export class TrapezeApiClient {
      *
      * @since 1.0.0
      */
-    public getStopPointInfo(stopPointId: string,
-        mode: StopMode = 'departure'): reqp.RequestPromise<any> {
+    public getStopPointInfo(stopPointId: string): reqp.RequestPromise<IStopPointInfo> {
         const options: req.OptionsWithUri = {
             form: {
-                mode,
                 stopPoint: stopPointId,
             },
             method: 'POST',
