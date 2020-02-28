@@ -41,7 +41,7 @@
         "typescript": "~3.8.2"
     },
     "peerDependencies": {
-        "@donmahallem/trapeze-api-types": ">=2.0.0"
+        "@donmahallem/trapeze-api-types": ">=2.2.0"
     },
     "nyc": {
         "include": [
