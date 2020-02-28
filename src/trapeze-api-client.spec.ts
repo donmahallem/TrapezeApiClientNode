@@ -116,24 +116,12 @@ describe('trapeze-api-client.ts', (): void => {
             describe('api methods', (): void => {
                 describe('getStopPointInfo', (): void => {
                     ['id1', 'id2'].forEach((testId: string): void => {
-                        STOP_MODES.forEach((mode: StopMode): void => {
-                            it('should query stop point info with mode: "' + mode + '" and id "' + testId + '"', (): Promise<void> => {
-                                const scope: nock.Scope = nock(testDomain)
-                                    .post('/internetservice/services/stopInfo/stopPoint', 'mode=' + mode + '&stopPoint=' + testId)
-                                    .reply(200, testSuccessResponse);
-                                return instance.getStopPointInfo(testId, mode)
-                                    .then((val: IStopPointInfo): void => {
-                                        expect(val).to.deep.equal(testSuccessResponse);
-                                        expect(scope.isDone()).to.eq(true, 'scope should be done');
-                                    });
-                            });
-                        });
-                        it('should query stop point info "' + testId + '" with default parameters', (): Promise<void> => {
+                        it('should query stop point info with id "' + testId + '"', (): Promise<void> => {
                             const scope: nock.Scope = nock(testDomain)
-                                .post('/internetservice/services/stopInfo/stopPoint', 'mode=departure&stopPoint=' + testId)
+                                .post('/internetservice/services/stopInfo/stopPoint', 'stopPoint=' + testId)
                                 .reply(200, testSuccessResponse);
                             return instance.getStopPointInfo(testId)
-                                .then((val: any): void => {
+                                .then((val: IStopPointInfo): void => {
                                     expect(val).to.deep.equal(testSuccessResponse);
                                     expect(scope.isDone()).to.eq(true, 'scope should be done');
                                 });
@@ -142,18 +130,6 @@ describe('trapeze-api-client.ts', (): void => {
                 });
                 describe('getStopInfo', (): void => {
                     ['id1', 'id2'].forEach((testId: string): void => {
-                        STOP_MODES.forEach((mode: StopMode): void => {
-                            it('should query stop info with mode: "' + mode + '" and id "' + testId + '"', (): Promise<void> => {
-                                const scope: nock.Scope = nock(testDomain)
-                                    .post('/internetservice/services/stopInfo/stop', 'mode=' + mode + '&stop=' + testId)
-                                    .reply(200, testSuccessResponse);
-                                return instance.getStopInfo(testId, mode)
-                                    .then((val: any): void => {
-                                        expect(val).to.deep.equal(testSuccessResponse);
-                                        expect(scope.isDone()).to.eq(true, 'scope should be done');
-                                    });
-                            });
-                        });
                         it('should query stop info "' + testId + '" with default parameters', (): Promise<void> => {
                             const scope: nock.Scope = nock(testDomain)
                                 .post('/internetservice/services/stopInfo/stop', 'mode=departure&stop=' + testId)
