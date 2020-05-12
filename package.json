@@ -38,7 +38,7 @@
         "ts-node": "~8.6.2",
         "tslint": "~6.0.0",
         "typedoc": "~0.16.11",
-        "typescript": "~3.8.2"
+        "typescript": "~3.9.2"
     },
     "peerDependencies": {
         "@donmahallem/trapeze-api-types": ">=2.2.0"
